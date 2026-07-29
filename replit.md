@@ -52,9 +52,9 @@ All endpoints accept an `Authorization: Bearer <key>` header (or use `/try` for 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `PORT` | 3400 | HTTP port (set to 5000 for Replit) |
-| `SMTP_HOST` | mail.runflix.name.ng | SMTP server |
+| `SMTP_HOST` | mail.devafeez.name.ng | SMTP server |
 | `SMTP_PORT` | 587 | SMTP port |
-| `SMTP_USER` | support@runflix.name.ng | SMTP username |
+| `SMTP_USER` | support@devafeez.name.ng | SMTP username |
 | `SMTP_PASS` | *(empty)* | SMTP password — set as a secret |
 | `PROXY_LIST` | *(none)* | Comma-separated proxy URLs for outbound requests |
 | `CF_WORKER_URL` | *(none)* | Cloudflare Worker relay URL |

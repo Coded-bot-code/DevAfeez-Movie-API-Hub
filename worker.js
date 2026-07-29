@@ -3,7 +3,6 @@
 // Allowed origins - only these will be allowed
 const ALLOWED_ORIGINS = [
     "https://devafeez.name.ng",
-    "https://*.runconnect.name.ng",
     "https://*.devafeez.name.ng",
     "https://movieapi.devafeez.name.ng",
     // Development — Replit preview domains for internal relay & testing
@@ -1891,7 +1890,7 @@ async function sendSmtpNotification(env, data) {
 
         const lines = [
             `From: DevAfeez API <${smtp.user}>`,
-            `To: RunFlix Entertainment <${smtp.to}>`,
+            `To: DevAfeez <${smtp.to}>`,
             `Subject: New API Key Request — ${data.name}`,
             `MIME-Version: 1.0`,
             `Content-Type: text/plain; charset=UTF-8`,
