@@ -338,15 +338,15 @@ let testing      = false;
 let testWorker   = null;
 let sfFilter     = '';          // status filter
 let listOpen     = true;        // mobile list toggle — starts open
-let concurrency  = parseInt(localStorage.getItem('runflix_cc') || '2', 10);
+let concurrency  = parseInt(localStorage.getItem('devafeez_cc') || '2', 10);
 const AUTO_STALE = 2 * 60 * 60 * 1000;  // auto-test if batch is older than this
-const LS_BATCH   = 'runflix_batch_at_v1';
-const LS_AUTO    = 'runflix_auto_v1';
+const LS_BATCH   = 'devafeez_batch_at_v1';
+const LS_AUTO    = 'devafeez_auto_v1';
 
 /* ─── localStorage persistence ──────────────────────── */
-const LS_CH = 'runflix_ch_v1';
-const LS_ST = 'runflix_st_v1';
-const LS_AT = 'runflix_at_v1';
+const LS_CH = 'devafeez_ch_v1';
+const LS_ST = 'devafeez_st_v1';
+const LS_AT = 'devafeez_at_v1';
 const CACHE_TTL = 2 * 60 * 60 * 1000; // 2 hours
 
 function persistChannels() {
@@ -920,7 +920,7 @@ function _finishTest(completed = false) {
 /* ─── Concurrency + auto-test settings ──────────────── */
 function setConcurrency(n) {
   concurrency = n;
-  try { localStorage.setItem('runflix_cc', String(n)); } catch {}
+  try { localStorage.setItem('devafeez_cc', String(n)); } catch {}
   [1, 2, 3, 5].forEach(v => {
     const el = document.getElementById('cc-' + v);
     if (el) el.classList.toggle('on', v === n);
@@ -1058,7 +1058,7 @@ function exportM3U() {
   const a       = document.createElement('a');
   const ts      = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
   a.href        = url;
-  a.download    = `runflix-working-${ts}.m3u`;
+  a.download    = `devafeez-working-${ts}.m3u`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -1088,7 +1088,7 @@ function exportReport() {
   const a    = document.createElement('a');
   const ts   = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
   a.href     = url;
-  a.download = `runflix-channels-${ts}.csv`;
+  a.download = `devafeez-channels-${ts}.csv`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

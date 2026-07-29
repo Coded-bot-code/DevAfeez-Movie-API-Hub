@@ -577,11 +577,11 @@ app.post("/internal/v3proxy", async (req, res) => {
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function ok(res, results, extra = {}) {
-    res.json({ status: 200, success: true, creator: "DaraTech", results, ...extra });
+    res.json({ status: 200, success: true, creator: "DevAfeez", results, ...extra });
 }
 
 function err(res, message, status = 500) {
-    res.status(status).json({ status, success: false, creator: "DaraTech", message });
+    res.status(status).json({ status, success: false, creator: "DevAfeez", message });
 }
 
 function serveFile(filename, res) {
@@ -912,7 +912,7 @@ app.get("/try-search/:query", async (req, res) => {
 
     if (used >= DAILY_LIMIT) {
         return res.status(429).json({
-            status: 429, success: false, creator: "DaraTech",
+            status: 429, success: false, creator: "DevAfeez",
             message: `Free tier daily limit (${DAILY_LIMIT} searches) reached. Request a full API key at /request-key.`
         });
     }
@@ -927,7 +927,7 @@ app.get("/try-search/:query", async (req, res) => {
         });
         const items = (v3Data?.results?.[0]?.subjects || v3Data?.items || []).map(normaliseItem);
         return res.json({
-            status: 200, success: true, creator: "DaraTech",
+            status: 200, success: true, creator: "DevAfeez",
             freeTier: true,
             remaining: DAILY_LIMIT - used - 1,
             results: { items: items.slice(0, 10), query }
@@ -1633,7 +1633,7 @@ app.get("/api/v3/anime/sources/:id", async (req, res) => {
             subjectId:    d.subjectId || ""
         }));
 
-        res.json({ status: 200, success: true, creator: "DaraTech", results: sources, subtitles, audioTracks });
+        res.json({ status: 200, success: true, creator: "DevAfeez", results: sources, subtitles, audioTracks });
     } catch (e) {
         err(res, "Failed to fetch anime sources: " + e.message);
     }
@@ -1733,7 +1733,7 @@ app.get("/api/v3/sources/:id", async (req, res) => {
                     subjectId:    d.subjectId || ""
                 }));
             } catch {}
-            return res.json({ status:200, success:true, creator:"DaraTech", results:sources, subtitles, audioTracks });
+            return res.json({ status:200, success:true, creator:"DevAfeez", results:sources, subtitles, audioTracks });
         }
 
         // ── Fallback: old h5-bff mirrors (kept as safety net) ──────────────────
@@ -1801,7 +1801,7 @@ app.get("/api/v3/sources/:id", async (req, res) => {
         }
 
         if (sources.length === 0) return err(res, "No sources found via v3 or legacy mirrors");
-        res.json({ status:200, success:true, creator:"DaraTech", usedFallback:true, results:sources, subtitles:captions, audioTracks });
+        res.json({ status:200, success:true, creator:"DevAfeez", usedFallback:true, results:sources, subtitles:captions, audioTracks });
     } catch (e) {
         err(res, "Failed to fetch sources: " + e.message);
     }

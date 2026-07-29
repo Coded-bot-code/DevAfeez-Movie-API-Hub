@@ -20,7 +20,7 @@ const CHANGELOG_FALLBACK = [{"id":"cl_014","version":"v1.5.3","date":"2026-06-20
 // API Keys mapped to their authorized domains
 // Each key only works from its registered domain - prevents stolen key abuse
 const API_KEY_MAP = {
-    "runflix_.....": { owner: "DaraTech", domains: ["runflix.name.ng"] },
+    "runflix_.....": { owner: "DevAfeez", domains: ["runflix.name.ng"] },
     // Internal relay key — used by the Replit local server to proxy geo-blocked endpoints
     // through the CF Worker edge IPs. Works from server-side (no Origin) and *.workers.dev,
     // *.replit.dev origins. Rotate this key if compromised.
@@ -728,7 +728,7 @@ function createPermissionDeniedResponse(request) {
         JSON.stringify({
             status: 403,
             success: false,
-            creator: "DaraTech",
+            creator: "DevAfeez",
             message: "Permission Denied, Unauthorized Access. Please Request for Access via: https://wa.me/message/OCSOK3IUFPWWA1"
         }, null, 2),
         {
@@ -754,7 +754,7 @@ function createApiKeyRequiredResponse(request) {
         JSON.stringify({
             status: 403,
             success: false,
-            creator: "DaraTech",
+            creator: "DevAfeez",
             message: "API Key Required. Please provide a valid Bearer token in Authorization header. Purchase one via: https://wa.me/message/OCSOK3IUFPWWA1"
         }, null, 2),
         {
@@ -888,7 +888,7 @@ function createSuccessResponse(results, message = 'Success', request) {
     return createJsonResponse({
         status: 200,
         success: true,
-        creator: 'DaraTech',
+        creator: 'DevAfeez',
         results: results
     }, 200, true, request);
 }
@@ -897,7 +897,7 @@ function createErrorResponse(message, status = 500, request) {
     return createJsonResponse({
         status: status,
         success: false,
-        creator: 'DaraTech',
+        creator: 'DevAfeez',
         message: message
     }, status, false, request);
 }
@@ -1622,7 +1622,7 @@ async function handleSources(movieId, url, request) {
         return new Response(JSON.stringify({
             status: 200,
             success: true,
-            creator: 'DaraTech',
+            creator: 'DevAfeez',
             results: sources,
             subtitles: captions
         }, null, 2), {
@@ -1734,7 +1734,7 @@ async function handleSources(movieId, url, request) {
                 } catch {}
 
                 return new Response(JSON.stringify({
-                    status: 200, success: true, creator: 'DaraTech',
+                    status: 200, success: true, creator: 'DevAfeez',
                     results: sources, subtitles, audioTracks
                 }, null, 2), { headers: { 'Content-Type': 'application/json', ...corsHeaders(request) } });
             }
@@ -2004,7 +2004,7 @@ async function serveFile(filename, contentType, request, env) {
             return new Response(JSON.stringify({
                 status: 404,
                 success: false,
-                creator: 'DaraTech',
+                creator: 'DevAfeez',
                 message: `File ${filename} not found in KV store. Please upload it using: wrangler kv:key put --binding=KV_STORE "${filename}" --path ./${filename}`
             }), {
                 status: 404,
@@ -2050,7 +2050,7 @@ async function serveFile(filename, contentType, request, env) {
         return new Response(JSON.stringify({
             status: 500,
             success: false,
-            creator: 'DaraTech',
+            creator: 'DevAfeez',
             message: `Error loading ${filename}: ${error.message}`
         }), {
             status: 500,
@@ -2367,7 +2367,7 @@ async function handleFetchInner(request, env, ctx, url) {
                 return createJsonResponse({
                     status: 429,
                     success: false,
-                    creator: 'DaraTech',
+                    creator: 'DevAfeez',
                     message: `Free tier daily limit (${DAILY_LIMIT} searches) reached. Request a full API key at /request-key.`
                 }, 429, false, request);
             }
@@ -2379,7 +2379,7 @@ async function handleFetchInner(request, env, ctx, url) {
             return createJsonResponse({
                 status: 200,
                 success: true,
-                creator: 'DaraTech',
+                creator: 'DevAfeez',
                 freeTier: true,
                 remaining: DAILY_LIMIT - used - 1,
                 results: { items: items.slice(0, 10) }
@@ -2400,9 +2400,9 @@ async function handleFetchInner(request, env, ctx, url) {
                     if (item.stills?.url && !item.thumbnail) item.thumbnail = item.stills.url;
                     return item;
                 });
-                return createJsonResponse({ status: 200, success: true, creator: 'DaraTech', results: { items } }, 200, false, request);
+                return createJsonResponse({ status: 200, success: true, creator: 'DevAfeez', results: { items } }, 200, false, request);
             } catch (e) {
-                return createJsonResponse({ status: 500, success: false, creator: 'DaraTech', message: 'Failed to fetch trending' }, 500, false, request);
+                return createJsonResponse({ status: 500, success: false, creator: 'DevAfeez', message: 'Failed to fetch trending' }, 500, false, request);
             }
         }
 
@@ -2530,7 +2530,7 @@ async function handleFetchInner(request, env, ctx, url) {
                 return createJsonResponse({
                     status: 429,
                     success: false,
-                    creator: 'DaraTech',
+                    creator: 'DevAfeez',
                     message: 'Rate limit exceeded. Max 300 requests per minute per API key.'
                 }, 429, false, request);
             }
