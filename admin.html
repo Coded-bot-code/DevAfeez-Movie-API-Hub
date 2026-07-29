@@ -157,8 +157,11 @@
             <div class="login-icon"><i class="fas fa-key"></i></div>
             <div class="login-title">Admin Access</div>
             <div class="login-desc">Enter your admin password to manage API keys.<br>Set via <code style="font-size:10px;color:#a78bfa;">ADMIN_SECRET</code> Worker secret.</div>
-            <div class="field-row" style="margin-bottom:0.5rem;">
-                <input type="password" id="pwdInput" placeholder="Admin password" autocomplete="current-password">
+            <div class="field-row" style="margin-bottom:0.5rem;position:relative;">
+                <input type="password" id="pwdInput" placeholder="Admin password" autocomplete="current-password" style="padding-right:2.5rem;" onkeydown="if(event.key==='Enter')login()">
+                <button type="button" onclick="togglePwd()" title="Show/hide password" style="position:absolute;right:0.6rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#475569;padding:0;display:flex;align-items:center;font-size:13px;transition:color 0.15s;" onmouseover="this.style.color='#a78bfa'" onmouseout="this.style.color='#475569'">
+                    <i class="fas fa-eye" id="pwdEyeIcon"></i>
+                </button>
             </div>
             <button class="btn btn-violet btn-full" onclick="login()">
                 <i class="fas fa-unlock text-xs"></i> Unlock
@@ -192,7 +195,7 @@
                 <div>
                     <div class="field-label">Key String</div>
                     <div class="field-row">
-                        <input type="text" id="inputKey" placeholder="runflix_abc123…" autocomplete="off" spellcheck="false">
+                        <input type="text" id="inputKey" placeholder="devafeez-movieapi_…" autocomplete="off" spellcheck="false">
                         <button class="btn btn-ghost" onclick="generateKey()" title="Generate random key"><i class="fas fa-dice"></i></button>
                     </div>
                 </div>
@@ -361,6 +364,18 @@
 
         function authHeaders() {
             return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminPwd}` };
+        }
+
+        function togglePwd() {
+            const inp = document.getElementById('pwdInput');
+            const icon = document.getElementById('pwdEyeIcon');
+            if (inp.type === 'password') {
+                inp.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                inp.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
         }
 
         async function login() {

@@ -12,11 +12,11 @@ const PORT = process.env.PORT || 3400;
 
 // ─── SMTP email helper ──────────────────────────────────────────────────────────
 const smtpTransport = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'mail.runflix.name.ng',
+    host: process.env.SMTP_HOST || 'mail.devafeez.name.ng',
     port: parseInt(process.env.SMTP_PORT || '587'),
     secure: false,
     auth: {
-        user: process.env.SMTP_USER || 'support@runflix.name.ng',
+        user: process.env.SMTP_USER || 'support@devafeez.name.ng',
         pass: process.env.SMTP_PASS || ''
     },
     tls: { rejectUnauthorized: false }
@@ -25,7 +25,7 @@ const smtpTransport = nodemailer.createTransport({
 async function sendRequestEmail({ name, email, website, useCase }) {
     try {
         await smtpTransport.sendMail({
-            from: '"RUNFLIX API" <support@runflix.name.ng>',
+            from: '"DevAfeez API" <support@devafeez.name.ng>',
             to: 'adtelecom.info@gmail.com',
             subject: `New API Key Request — ${name}`,
             text: [
@@ -561,8 +561,8 @@ function processApiResponse(data) {
 // exact bootstrapped identity. This server runs on Replit IPs (where bootstrap
 // succeeds), so the CF Worker forwards its v3 calls here instead of hitting the
 // upstream directly. Shared secret is internal (server-to-server), not user-facing.
-const V3_PROXY_KEY = process.env.V3_PROXY_KEY || "runflix_v3_proxy_relay_9f3a7c2e";
-app.post("/internal/v3proxy", async (req, res) => {
+const V3_PROXY_KEY = process.env.V3_PROXY_KEY || "devafeez-movieapi_v1_proxy_relay_9f3a7c2e";
+app.post("/internal/v1proxy", async (req, res) => {
     if (req.headers["x-proxy-key"] !== V3_PROXY_KEY) return res.status(403).json({ error: "forbidden" });
     const { method, path: p, body } = req.body || {};
     if (!method || !p) return res.status(400).json({ error: "method and path required" });
@@ -571,7 +571,7 @@ app.post("/internal/v3proxy", async (req, res) => {
         const text = await upstreamRes.text();
         res.status(200).set("Content-Type", "application/json").send(text);
     } catch (e) {
-        res.status(502).json({ error: "v3proxy fetch failed", message: e.message });
+        res.status(502).json({ error: "v1proxy fetch failed", message: e.message });
     }
 });
 
@@ -778,7 +778,7 @@ app.post("/admin/api/generate", (req, res) => {
     if (!checkLocalAdmin(req)) return res.status(401).json({ error: "Unauthorized" });
     const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
     const rand = Array.from({ length: 20 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
-    res.json({ key: `runflix_${rand}` });
+    res.json({ key: `devafeez-movieapi_${rand}` });
 });
 
 // ─── GET /api/changelog — public changelog feed ────────────────────────────────
@@ -861,6 +861,32 @@ app.post("/admin/api/changelog/push-to-worker", async (req, res) => {
     }
 });
 
+// ─── GET /api/stats — real uptime, latency, endpoint count ────────────────────
+const SERVER_START = Date.now();
+app.get("/api/stats", (req, res) => {
+    const uptimeSec = Math.floor((Date.now() - SERVER_START) / 1000);
+    const d = Math.floor(uptimeSec / 86400);
+    const h = Math.floor((uptimeSec % 86400) / 3600);
+    const m = Math.floor((uptimeSec % 3600) / 60);
+    const uptimeStr = d > 0 ? `${d}d ${h}h` : h > 0 ? `${h}h ${m}m` : `${m}m`;
+    // Compute average latency from recent request log
+    const recent = requestLog.slice(0, 50);
+    const avgMs = recent.length > 0
+        ? Math.round(recent.reduce((s, r) => s + r.ms, 0) / recent.length)
+        : null;
+    const latencyStr = avgMs !== null ? (avgMs < 1000 ? `${avgMs}ms` : `${(avgMs/1000).toFixed(1)}s`) : "<100ms";
+    // Count public API endpoints
+    const endpointCount = app._router.stack
+        .filter(l => l.route && l.route.path && l.route.path.startsWith("/api/v1/"))
+        .length;
+    res.json({
+        uptime: uptimeStr,
+        latency: latencyStr,
+        endpoints: endpointCount,
+        version: "v1"
+    });
+});
+
 // ─── POST /api/request-key — submit key request + send email ───────────────────
 app.post("/api/request-key", async (req, res) => {
     const { name, email, website, useCase } = req.body || {};
@@ -887,7 +913,7 @@ app.get("/relay-search/:query", async (req, res) => {
             perPage: req.query.perPage || 24,
             type: req.query.type || 0
         });
-        const r = await fetch(`${workerUrl}/api/v3/search/${encodeURIComponent(query)}?${qs}`, {
+        const r = await fetch(`${workerUrl}/api/v1/search/${encodeURIComponent(query)}?${qs}`, {
             headers: { "Authorization": `Bearer ${CF_WORKER_API_KEY}` }
         });
         const data = await r.json();
@@ -938,7 +964,7 @@ app.get("/try-search/:query", async (req, res) => {
 });
 
 // ─── Homepage ──────────────────────────────────────────────────────────────────
-app.get("/api/v3/homepage", async (req, res) => {
+app.get("/api/v1/homepage", async (req, res) => {
     try {
         const data = await v3Get("/wefeed-mobile-bff/tab-operating", { page: 1, tabId: 0, version: "" });
         const sections = (data?.items || [])
@@ -956,7 +982,7 @@ app.get("/api/v3/homepage", async (req, res) => {
 });
 
 // ─── Trending ──────────────────────────────────────────────────────────────────
-app.get("/api/v3/trending", async (req, res) => {
+app.get("/api/v1/trending", async (req, res) => {
     try {
         const page     = parseInt(req.query.page)    || 1;
         const perPage  = parseInt(req.query.perPage) || 30;
@@ -990,7 +1016,7 @@ app.get("/api/v3/trending", async (req, res) => {
 });
 
 // ─── Search ────────────────────────────────────────────────────────────────────
-app.get("/api/v3/search/:query", async (req, res) => {
+app.get("/api/v1/search/:query", async (req, res) => {
     try {
         const query = decodeURIComponent(req.params.query).trim();
         const page = parseInt(req.query.page) || 1;
@@ -1050,7 +1076,7 @@ app.get("/api/v3/search/:query", async (req, res) => {
 });
 
 // ─── Filter (platform / genre / section) ──────────────────────────────────────
-app.get("/api/v3/filter", async (req, res) => {
+app.get("/api/v1/filter", async (req, res) => {
     try {
         const platform = (req.query.platform || "").toLowerCase().trim();
         const genre    = (req.query.genre    || "").trim();
@@ -1138,7 +1164,7 @@ app.get("/api/v3/filter", async (req, res) => {
 });
 
 // ─── Schedule (anime via AniList, other genres via upstream search) ────────────
-app.get("/api/v3/schedule", async (req, res) => {
+app.get("/api/v1/schedule", async (req, res) => {
     try {
         const period = (req.query.period || "daily").toLowerCase();
         const genre  = (req.query.genre  || "").toLowerCase().trim();
@@ -1244,7 +1270,7 @@ app.get("/api/v3/schedule", async (req, res) => {
 // ?genre=action                   (client-side genre filter)
 // ?limit=1-25                     (default: 25)
 // ?page=N                         (default: 1)
-app.get("/api/v3/schedule/popular", async (req, res) => {
+app.get("/api/v1/schedule/popular", async (req, res) => {
     try {
         const limit = Math.min(Math.max(parseInt(req.query.limit) || 25, 1), 25);
         const page  = Math.max(parseInt(req.query.page)  || 1, 1);
@@ -1295,7 +1321,7 @@ app.get("/api/v3/schedule/popular", async (req, res) => {
 // ?genre=action   (client-side genre filter on results)
 // ?perPage=N      (default: 20, max: 50)
 // ?page=N         (default: 1)
-app.get("/api/v3/anime", async (req, res) => {
+app.get("/api/v1/anime", async (req, res) => {
     try {
         const page    = Math.max(parseInt(req.query.page)    || 1, 1);
         const perPage = Math.min(parseInt(req.query.perPage) || 20, 50);
@@ -1304,7 +1330,7 @@ app.get("/api/v3/anime", async (req, res) => {
         // strict=true → only items whose corner field is exactly "Anime" (excludes generic animated films)
         const strict  = req.query.strict === "true" || req.query.strict === "1";
 
-        // Pull homepage sections (same upstream call as /api/v3/homepage and trending)
+        // Pull homepage sections (same upstream call as /api/v1/homepage and trending)
         const data     = await v3Get("/wefeed-mobile-bff/tab-operating", { page: 1, tabId: 0, version: "" });
         const sections = (data?.items || []).filter(s => Array.isArray(s.subjects) && s.subjects.length > 0);
 
@@ -1370,7 +1396,7 @@ app.get("/api/v3/anime", async (req, res) => {
 // ?genre=action  (client-side genre filter on results)
 // ?page=N        (default: 1)
 // ?perPage=N     (default: 20, max: 50)
-app.get("/api/v3/anime/search/:query", async (req, res) => {
+app.get("/api/v1/anime/search/:query", async (req, res) => {
     try {
         const query   = decodeURIComponent(req.params.query).trim();
         const page    = Math.max(parseInt(req.query.page)    || 1, 1);
@@ -1448,7 +1474,7 @@ app.get("/api/v3/anime/search/:query", async (req, res) => {
 // ?type=tv|movie|ova|special|ona  (optional, omit for all types)
 // ?genre=romance                  (client-side genre filter)
 // ?page=N                         (default: 1)
-app.get("/api/v3/seasons/upcoming", async (req, res) => {
+app.get("/api/v1/seasons/upcoming", async (req, res) => {
     try {
         const page  = Math.max(parseInt(req.query.page) || 1, 1);
         const genre = (req.query.genre || "").toLowerCase().trim();
@@ -1505,7 +1531,7 @@ async function fetchSeasonDetails(movieId) {
 }
 
 // ─── Info ──────────────────────────────────────────────────────────────────────
-app.get("/api/v3/info/:id", async (req, res) => {
+app.get("/api/v1/info/:id", async (req, res) => {
     try {
         const movieId = req.params.id;
         const [data, seasonDetails] = await Promise.all([
@@ -1532,7 +1558,7 @@ app.get("/api/v3/info/:id", async (req, res) => {
 // ─── Anime Info ────────────────────────────────────────────────────────────────
 // Same as /info/:id but validates the title is anime/animation before returning.
 // Returns 404 with a clear message if the ID belongs to a non-anime title.
-app.get("/api/v3/anime/info/:id", async (req, res) => {
+app.get("/api/v1/anime/info/:id", async (req, res) => {
     try {
         const movieId = req.params.id;
         const [data, seasonDetails] = await Promise.all([
@@ -1544,7 +1570,7 @@ app.get("/api/v3/anime/info/:id", async (req, res) => {
         const ANIME_KW = ["anime", "animation"];
         const hasAnimeKw = (str) => { const s = (str || "").toLowerCase(); return ANIME_KW.some(k => s.includes(k)); };
         const isAnime = hasAnimeKw(item.genre) || hasAnimeKw(item.corner) || hasAnimeKw(item.category);
-        if (!isAnime) return err(res, `Title "${item.title || movieId}" is not an anime/animation title. Use /api/v3/info/${movieId} for general info.`, 404);
+        if (!isAnime) return err(res, `Title "${item.title || movieId}" is not an anime/animation title. Use /api/v1/info/${movieId} for general info.`, 404);
         if (seasonDetails) {
             item.seasonDetails = seasonDetails;
             const total = seasonDetails.reduce((n, s) => n + (s.totalEpisodes || 0), 0);
@@ -1563,7 +1589,7 @@ app.get("/api/v3/anime/info/:id", async (req, res) => {
 // Same as /sources/:id but validates the title is anime/animation first.
 // Fetches info + resource in parallel; returns 404 if the title is not anime.
 // ?season=N  ?episode=N  (for series episodes)
-app.get("/api/v3/anime/sources/:id", async (req, res) => {
+app.get("/api/v1/anime/sources/:id", async (req, res) => {
     try {
         const movieId = req.params.id;
         const season  = parseInt(req.query.season)  || 0;
@@ -1585,7 +1611,7 @@ app.get("/api/v3/anime/sources/:id", async (req, res) => {
         const ANIME_KW = ["anime", "animation"];
         const hasAnimeKw = (str) => { const s = (str || "").toLowerCase(); return ANIME_KW.some(k => s.includes(k)); };
         if (!hasAnimeKw(item.genre) && !hasAnimeKw(item.corner) && !hasAnimeKw(item.category)) {
-            return err(res, `Title "${item.title || movieId}" is not an anime/animation title. Use /api/v3/sources/${movieId} for general sources.`, 404);
+            return err(res, `Title "${item.title || movieId}" is not an anime/animation title. Use /api/v1/sources/${movieId} for general sources.`, 404);
         }
 
         const videoList = resourceData?.list || [];
@@ -1605,8 +1631,8 @@ app.get("/api/v3/anime/sources/:id", async (req, res) => {
                 _qualityBase:      label,
                 quality:           label,
                 url:               f.resourceLink,
-                download_url:      `${baseUrl}/api/v3/download?${dl}`,
-                stream_url:        `${baseUrl}/api/v3/stream?url=${encodeURIComponent(f.resourceLink)}`,
+                download_url:      `${baseUrl}/api/v1/download?${dl}`,
+                stream_url:        `${baseUrl}/api/v1/stream?url=${encodeURIComponent(f.resourceLink)}`,
                 size:              f.size     || 0,
                 codec,
                 duration:          f.duration  || 0,
@@ -1674,7 +1700,7 @@ function dedupeAndSortSources(sources) {
 }
 
 // ─── Sources ───────────────────────────────────────────────────────────────────
-app.get("/api/v3/sources/:id", async (req, res) => {
+app.get("/api/v1/sources/:id", async (req, res) => {
     try {
         const movieId = req.params.id;
         const season = parseInt(req.query.season) || 0;
@@ -1703,8 +1729,8 @@ app.get("/api/v3/sources/:id", async (req, res) => {
                     _qualityBase:      label,
                     quality:           label,
                     url:               f.resourceLink,
-                    download_url:      `${baseUrl}/api/v3/download?${dl}`,
-                    stream_url:        `${baseUrl}/api/v3/stream?url=${encodeURIComponent(f.resourceLink)}`,
+                    download_url:      `${baseUrl}/api/v1/download?${dl}`,
+                    stream_url:        `${baseUrl}/api/v1/stream?url=${encodeURIComponent(f.resourceLink)}`,
                     size:              f.size || 0,
                     codec,
                     duration:          f.duration  || 0,
@@ -1855,7 +1881,7 @@ async function fetchCaptionsForStream(subjectId, resourceId = null) {
     return [];
 }
 
-app.get("/api/v3/captions/:subjectId/:streamId", async (req, res) => {
+app.get("/api/v1/captions/:subjectId/:streamId", async (req, res) => {
     try {
         const { subjectId, streamId } = req.params;
         const format = req.query.format || null;
@@ -1956,8 +1982,8 @@ async function getLiveData() {
     return _liveCache;
 }
 
-// GET /api/v3/live — paginated channel list with optional filters
-app.get("/api/v3/live", async (req, res) => {
+// GET /api/v1/live — paginated channel list with optional filters
+app.get("/api/v1/live", async (req, res) => {
     try {
         let channels = await getLiveData();
         const { category, country, lang, q, page = 1, limit = 50 } = req.query;
@@ -1973,8 +1999,8 @@ app.get("/api/v3/live", async (req, res) => {
     } catch (e) { err(res, "Live channels unavailable: " + e.message); }
 });
 
-// GET /api/v3/live/categories — distinct category list
-app.get("/api/v3/live/categories", async (req, res) => {
+// GET /api/v1/live/categories — distinct category list
+app.get("/api/v1/live/categories", async (req, res) => {
     try {
         const channels = await getLiveData();
         const catCount = {};
@@ -1984,8 +2010,8 @@ app.get("/api/v3/live/categories", async (req, res) => {
     } catch (e) { err(res, "Could not fetch categories: " + e.message); }
 });
 
-// GET /api/v3/live/search/:query — search channels by name
-app.get("/api/v3/live/search/:query", async (req, res) => {
+// GET /api/v1/live/search/:query — search channels by name
+app.get("/api/v1/live/search/:query", async (req, res) => {
     try {
         let channels = await getLiveData();
         const q = decodeURIComponent(req.params.query).trim().toLowerCase();
@@ -1995,8 +2021,8 @@ app.get("/api/v3/live/search/:query", async (req, res) => {
     } catch (e) { err(res, "Search failed: " + e.message); }
 });
 
-// GET /api/v3/live/stream/:id — single channel by exact ID
-app.get("/api/v3/live/stream/:id", async (req, res) => {
+// GET /api/v1/live/stream/:id — single channel by exact ID
+app.get("/api/v1/live/stream/:id", async (req, res) => {
     try {
         const channelId = decodeURIComponent(req.params.id).trim();
         if (!channelId) return res.status(400).json({ success: false, message: "Channel ID is required" });
@@ -2007,10 +2033,10 @@ app.get("/api/v3/live/stream/:id", async (req, res) => {
     } catch (e) { err(res, "Could not fetch channel: " + e.message); }
 });
 
-// GET /api/v3/live/proxy — proxy an HLS manifest through the server to bypass geo-blocks.
+// GET /api/v1/live/proxy — proxy an HLS manifest through the server to bypass geo-blocks.
 // The proxy rewrites all relative and absolute segment/sub-playlist URLs so every
 // subsequent request also passes through this endpoint.
-app.get("/api/v3/live/proxy", async (req, res) => {
+app.get("/api/v1/live/proxy", async (req, res) => {
     try {
         const rawUrl = req.query.url;
         if (!rawUrl) return res.status(400).json({ success: false, message: "?url= query parameter is required" });
@@ -2049,7 +2075,7 @@ app.get("/api/v3/live/proxy", async (req, res) => {
         if (isM3U) {
             // Rewrite every non-comment line so segment/sub-playlist URLs also proxy through us
             const baseUrl = rawUrl.substring(0, rawUrl.lastIndexOf("/") + 1);
-            const proxyBase = `${req.protocol}://${req.get("host")}/api/v3/live/proxy?url=`;
+            const proxyBase = `${req.protocol}://${req.get("host")}/api/v1/live/proxy?url=`;
             const rewritten = body.split("\n").map(line => {
                 const t = line.trim();
                 if (!t || t.startsWith("#")) return line;
@@ -2072,7 +2098,7 @@ app.get("/api/v3/live/proxy", async (req, res) => {
 
 // ─── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-    console.log(`\n✅ RUNFLIX Movie API — Local Dev Server`);
+    console.log(`\n✅ DevAfeez Movie API — Local Dev Server`);
     console.log(`   Running on http://localhost:${PORT}`);
     console.log(`   Mirrors: ${MIRROR_HOSTS.length} hosts (rotating per-request)`);
     console.log(`   IP pool: ${IP_POOL.length} X-Forwarded-For addresses (random per-request)`);
@@ -2087,25 +2113,21 @@ app.listen(PORT, () => {
     console.log(`\n   ── Sample data ─────────────────────────────────────────`);
     console.log(`   GET /sample-{homepage|trending|search|info|sources|captions}-data`);
     console.log(`\n   ── Core API ─────────────────────────────────────────────`);
-    console.log(`   GET /api/v3/homepage               → Homepage sections (v3 tab-operating)`);
-    console.log(`   GET /api/v3/trending               → Trending (all types)`);
-    console.log(`   GET /api/v3/trending?type=1        → Trending movies only`);
-    console.log(`   GET /api/v3/trending?type=2        → Trending series only`);
-    console.log(`   GET /api/v3/search/:query          → Keyword search`);
-    console.log(`   GET /api/v3/filter?platform=...    → Filter by platform/genre/region`);
-    console.log(`   GET /api/v3/schedule               → Anime airing schedule (Jikan/MAL)`);
-    console.log(`   GET /api/v3/schedule?genre=action  → Schedule filtered by genre`);
-    console.log(`   GET /api/v3/schedule/popular       → Top airing anime by MAL score`);
-    console.log(`   GET /api/v3/schedule/popular?type=movie → Top airing movies`);
-    console.log(`   GET /api/v3/anime                  → Anime catalog (series + movies)`);
-    console.log(`   GET /api/v3/anime?type=1           → Anime movies only`);
-    console.log(`   GET /api/v3/anime?type=2           → Anime series only`);
-    console.log(`   GET /api/v3/anime/search/:query    → Anime-only keyword search`);
-    console.log(`   GET /api/v3/anime/info/:id         → Anime info (validates anime genre)`);
-    console.log(`   GET /api/v3/anime/sources/:id      → Anime sources (validates anime genre)`);
-    console.log(`   GET /api/v3/seasons/upcoming       → Upcoming anime season lineup`);
-    console.log(`   GET /api/v3/info/:id               → Full title info`);
-    console.log(`   GET /api/v3/sources/:id            → Stream/download links`);
-    console.log(`   GET /api/v3/sources/:id?season=1&episode=3 → Episode sources`);
-    console.log(`   GET /api/v3/captions/:sid/:strmId  → Subtitle tracks\n`);
+    console.log(`   GET /api/v1/homepage               → Homepage sections`);
+    console.log(`   GET /api/v1/trending               → Trending (all types)`);
+    console.log(`   GET /api/v1/trending?type=1        → Trending movies only`);
+    console.log(`   GET /api/v1/trending?type=2        → Trending series only`);
+    console.log(`   GET /api/v1/search/:query          → Keyword search`);
+    console.log(`   GET /api/v1/filter?platform=...    → Filter by platform/genre/region`);
+    console.log(`   GET /api/v1/schedule               → Anime airing schedule (Jikan/MAL)`);
+    console.log(`   GET /api/v1/schedule/popular       → Top airing anime by MAL score`);
+    console.log(`   GET /api/v1/anime                  → Anime catalog (series + movies)`);
+    console.log(`   GET /api/v1/anime/search/:query    → Anime-only keyword search`);
+    console.log(`   GET /api/v1/anime/info/:id         → Anime info`);
+    console.log(`   GET /api/v1/anime/sources/:id      → Anime sources`);
+    console.log(`   GET /api/v1/seasons/upcoming       → Upcoming anime season lineup`);
+    console.log(`   GET /api/v1/info/:id               → Full title info`);
+    console.log(`   GET /api/v1/sources/:id            → Stream/download links`);
+    console.log(`   GET /api/v1/sources/:id?season=1&episode=3 → Episode sources`);
+    console.log(`   GET /api/v1/captions/:sid/:strmId  → Subtitle tracks\n`);
 });

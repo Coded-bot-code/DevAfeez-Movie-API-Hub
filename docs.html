@@ -520,14 +520,10 @@
                 <a href="/request-key" class="nav-link">
                     <span>Request Key</span>
                 </a>
-                <a href="https://movieapi.devafeez.name.ng" target="_blank" class="nav-link">
-                    <span>More APIs</span>
-                    <i class="fas fa-external-link-alt text-[10px] opacity-60"></i>
-                </a>
             </nav>
 
             <div class="flex items-center gap-3">
-                <a href="https://wa.me/+2348029214393" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-edge hover:border-emerald-500/30 text-slate-400 hover:text-emerald-400 transition-all text-xs font-medium">
+                <a href="https://whatsapp.com/channel/0029VbD02FF3WHTa3xbICy1i" target="_blank" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-edge hover:border-emerald-500/30 text-slate-400 hover:text-emerald-400 transition-all text-xs font-medium">
                     <i class="fab fa-whatsapp"></i>
                     <span>Support</span>
                 </a>
@@ -630,12 +626,7 @@
                 <i class="fas fa-key w-5 text-center text-xs"></i>
                 <span>Request API Key</span>
             </a>
-            <a href="https://movieapi.devafeez.name.ng" target="_blank" class="mobile-link">
-                <i class="fas fa-external-link-alt w-5 text-center text-xs"></i>
-                <span>More APIs</span>
-            </a>
-
-            <a href="https://wa.me/+2348029214393" target="_blank" class="mobile-link text-emerald-400">
+            <a href="https://whatsapp.com/channel/0029VbD02FF3WHTa3xbICy1i" target="_blank" class="mobile-link text-emerald-400">
                 <i class="fab fa-whatsapp w-5 text-center text-xs"></i>
                 <span>WhatsApp Support</span>
             </a>
@@ -739,7 +730,7 @@
                     </div>
                     <div class="endpoint-card rounded-lg p-4 border-t-2 border-emerald-500/30">
                         <div class="mono-label text-slate-500 mb-1">Endpoints</div>
-                        <div class="text-white font-mono text-sm font-semibold">15 Endpoints</div>
+                        <div class="text-white font-mono text-sm font-semibold">20 Endpoints</div>
                     </div>
                     <div class="endpoint-card rounded-lg p-4 border-t-2 border-amber-500/30">
                         <div class="mono-label text-slate-500 mb-1">Auth</div>
@@ -755,7 +746,7 @@
                         <span class="ml-2 text-xs text-slate-500 font-mono">Base URL</span>
                     </div>
                     <div class="p-4 flex items-center justify-between gap-4">
-                        <code class="font-mono text-sm text-slate-300 break-all">https://moviemovieapi.devafeez.name.ng/api/v3/</code>
+                        <code class="font-mono text-sm text-slate-300 break-all" id="baseUrlText">https://movieapi.devafeez.name.ng/api/v1/</code>
                         <button onclick="copyUrl()" id="copyBaseBtn" class="text-slate-500 hover:text-cyan-400 transition-colors shrink-0">
                             <i class="fas fa-copy"></i>
                         </button>
@@ -857,7 +848,7 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/homepage</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/homepage</code>
                             </div>
                         </div>
 
@@ -870,7 +861,7 @@
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/homepage" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/homepage" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -880,7 +871,7 @@
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/homepage",
+  "https://movieapi.devafeez.name.ng/api/v1/homepage",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -902,12 +893,12 @@ console.log(data.results);</code></pre>
                                 <a href="#search" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Search</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/search/:query</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/search/:query</code>
                                 </a>
                                 <a href="#trending" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Trending</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/trending</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/trending</code>
                                 </a>
                             </div>
                         </div>
@@ -924,7 +915,7 @@ console.log(data.results);</code></pre>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/trending</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/trending</code>
                             </div>
                         </div>
 
@@ -937,7 +928,7 @@ console.log(data.results);</code></pre>
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/trending" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/trending" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -947,7 +938,7 @@ console.log(data.results);</code></pre>
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/trending",
+  "https://movieapi.devafeez.name.ng/api/v1/trending",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -969,12 +960,12 @@ console.log(data.results);</code></pre>
                                 <a href="#info" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Info</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/info/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/info/:id</code>
                                 </a>
                                 <a href="#sources" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Sources</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/sources/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/sources/:id</code>
                                 </a>
                             </div>
                         </div>
@@ -991,7 +982,7 @@ console.log(data.results);</code></pre>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/search/{query}</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/search/{query}</code>
                             </div>
                         </div>
 
@@ -1028,7 +1019,7 @@ console.log(data.results);</code></pre>
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/search/Black%20panther?page=1" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/search/Black%20panther?page=1" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1039,7 +1030,7 @@ console.log(data.results);</code></pre>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const query = encodeURIComponent("Black Panther");
 const response = await fetch(
-  `https://moviemovieapi.devafeez.name.ng/api/v3/search/${query}?page=1`,
+  `https://movieapi.devafeez.name.ng/api/v1/search/${query}?page=1`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1061,12 +1052,12 @@ console.log(data.results);</code></pre>
                                 <a href="#info" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Info</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/info/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/info/:id</code>
                                 </a>
                                 <a href="#sources" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Sources</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/sources/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/sources/:id</code>
                                 </a>
                             </div>
                         </div>
@@ -1083,7 +1074,7 @@ console.log(data.results);</code></pre>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/filter</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/filter</code>
                             </div>
                         </div>
 
@@ -1136,15 +1127,15 @@ console.log(data.results);</code></pre>
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># Regional section filter (curated, most accurate)
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/filter?platform=bollywood&type=1" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/filter?platform=bollywood&type=1" \
      -H "Authorization: Bearer YourApiKey"
 
 # Streaming platform filter (keyword-based)
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/filter?platform=netflix" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/filter?platform=netflix" \
      -H "Authorization: Bearer YourApiKey"
 
 # Genre-only filter
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/filter?genre=action&type=2" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/filter?genre=action&type=2" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1154,7 +1145,7 @@ curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/filter?genre=action&t
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/filter?platform=bollywood&type=1",
+  "https://movieapi.devafeez.name.ng/api/v1/filter?platform=bollywood&type=1",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1179,12 +1170,12 @@ console.log(data.results.items);</code></pre>
                                 <a href="#info" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Info</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/info/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/info/:id</code>
                                 </a>
                                 <a href="#sources" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Sources</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/sources/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/sources/:id</code>
                                 </a>
                             </div>
                         </div>
@@ -1201,7 +1192,7 @@ console.log(data.results.items);</code></pre>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/schedule</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/schedule</code>
                             </div>
                         </div>
 
@@ -1211,12 +1202,12 @@ console.log(data.results.items);</code></pre>
                             <div class="space-y-2">
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/schedule</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/schedule</code>
                                     <span class="text-xs text-slate-500">Airing schedule by period — daily, weekly, or monthly</span>
                                 </div>
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/schedule/popular</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/schedule/popular</code>
                                     <span class="text-xs text-slate-500">Top currently-airing anime ranked by MAL score</span>
                                 </div>
                             </div>
@@ -1266,15 +1257,15 @@ console.log(data.results.items);</code></pre>
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># Today's anime airing schedule (Jikan/MAL)
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/schedule" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/schedule" \
      -H "Authorization: Bearer YourApiKey"
 
 # Weekly anime schedule starting from a specific date
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/schedule?period=weekly&date=2026-06-15" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/schedule?period=weekly&date=2026-06-15" \
      -H "Authorization: Bearer YourApiKey"
 
 # Monthly schedule filtered to action anime
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/schedule?period=monthly&genre=action" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/schedule?period=monthly&genre=action" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1284,7 +1275,7 @@ curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/schedule?period=month
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/schedule?period=weekly",
+  "https://movieapi.devafeez.name.ng/api/v1/schedule?period=weekly",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1318,12 +1309,12 @@ for (const day of data.results.schedule) {
                                 <a href="#info" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Info</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/info/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/info/:id</code>
                                 </a>
                                 <a href="#schedule-popular" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Popular Airing</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/schedule/popular</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/schedule/popular</code>
                                 </a>
                             </div>
                         </div>
@@ -1340,7 +1331,7 @@ for (const day of data.results.schedule) {
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/schedule/popular</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/schedule/popular</code>
                             </div>
                         </div>
 
@@ -1388,11 +1379,11 @@ for (const day of data.results.schedule) {
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># Top airing TV anime by MAL score
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/schedule/popular" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/schedule/popular" \
      -H "Authorization: Bearer YourApiKey"
 
 # Top airing action movies
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/schedule/popular?type=movie&genre=action&limit=10" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/schedule/popular?type=movie&genre=action&limit=10" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1402,7 +1393,7 @@ curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/schedule/popular?type
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/schedule/popular?limit=10",
+  "https://movieapi.devafeez.name.ng/api/v1/schedule/popular?limit=10",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1429,12 +1420,12 @@ for (const anime of data.results.items) {
                                 <a href="#schedule" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Airing Schedule</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/schedule</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/schedule</code>
                                 </a>
                                 <a href="#anime" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Anime Catalog</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/anime</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/anime</code>
                                 </a>
                             </div>
                         </div>
@@ -1451,7 +1442,7 @@ for (const anime of data.results.items) {
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/anime</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/anime</code>
                             </div>
                         </div>
 
@@ -1461,22 +1452,22 @@ for (const anime of data.results.items) {
                             <div class="space-y-2">
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/anime</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/anime</code>
                                     <span class="text-xs text-slate-500">Paginated anime catalog filtered from upstream</span>
                                 </div>
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/anime/search/:query</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/anime/search/:query</code>
                                     <span class="text-xs text-slate-500">Keyword search filtered to anime genre only</span>
                                 </div>
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/anime/info/:id</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/anime/info/:id</code>
                                     <span class="text-xs text-slate-500">Full metadata for an anime title with genre validation</span>
                                 </div>
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/anime/sources/:id</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/anime/sources/:id</code>
                                     <span class="text-xs text-slate-500">Episode stream sources with anime genre validation</span>
                                 </div>
                             </div>
@@ -1531,19 +1522,19 @@ for (const anime of data.results.items) {
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># All anime and animation (series + movies)
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/anime" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/anime" \
      -H "Authorization: Bearer YourApiKey"
 
 # Anime series only with action genre filter
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/anime?type=2&genre=action" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/anime?type=2&genre=action" \
      -H "Authorization: Bearer YourApiKey"
 
 # Anime movies only
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/anime?type=1" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/anime?type=1" \
      -H "Authorization: Bearer YourApiKey"
 
 # Page 2, 30 results per page
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/anime?page=2&perPage=30" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/anime?page=2&perPage=30" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1553,7 +1544,7 @@ curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/anime?page=2&perPage=
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/anime?type=2&genre=action",
+  "https://movieapi.devafeez.name.ng/api/v1/anime?type=2&genre=action",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1587,12 +1578,12 @@ for (const anime of data.results.items) {
                                 <a href="#seasons-upcoming" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Upcoming Season</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/seasons/upcoming</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/seasons/upcoming</code>
                                 </a>
                                 <a href="#schedule-popular" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Popular Airing</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/schedule/popular</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/schedule/popular</code>
                                 </a>
                             </div>
                         </div>
@@ -1609,7 +1600,7 @@ for (const anime of data.results.items) {
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/seasons/upcoming</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/seasons/upcoming</code>
                             </div>
                         </div>
 
@@ -1652,15 +1643,15 @@ for (const anime of data.results.items) {
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># Full upcoming season lineup
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/seasons/upcoming" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/seasons/upcoming" \
      -H "Authorization: Bearer YourApiKey"
 
 # Upcoming TV series only
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/seasons/upcoming?type=tv" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/seasons/upcoming?type=tv" \
      -H "Authorization: Bearer YourApiKey"
 
 # Upcoming fantasy anime
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/seasons/upcoming?genre=fantasy" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/seasons/upcoming?genre=fantasy" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1670,7 +1661,7 @@ curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/seasons/upcoming?genr
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/seasons/upcoming?type=tv",
+  "https://movieapi.devafeez.name.ng/api/v1/seasons/upcoming?type=tv",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1697,12 +1688,12 @@ for (const anime of data.results.items) {
                                 <a href="#anime" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Anime Catalog</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/anime</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/anime</code>
                                 </a>
                                 <a href="#schedule-popular" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Popular Airing</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/schedule/popular</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/schedule/popular</code>
                                 </a>
                             </div>
                         </div>
@@ -1719,7 +1710,7 @@ for (const anime of data.results.items) {
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/info/{id}</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/info/{id}</code>
                             </div>
                         </div>
 
@@ -1751,7 +1742,7 @@ for (const anime of data.results.items) {
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/info/5099284245269335848" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/info/5099284245269335848" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1762,7 +1753,7 @@ for (const anime of data.results.items) {
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const id = "5099284245269335848";
 const response = await fetch(
-  `https://moviemovieapi.devafeez.name.ng/api/v3/info/${id}`,
+  `https://movieapi.devafeez.name.ng/api/v1/info/${id}`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1784,12 +1775,12 @@ console.log(data.results);</code></pre>
                                 <a href="#sources" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Sources</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/sources/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/sources/:id</code>
                                 </a>
                                 <a href="#captions" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Captions</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/captions/:sid/:streamId</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/captions/:sid/:streamId</code>
                                 </a>
                             </div>
                         </div>
@@ -1806,7 +1797,7 @@ console.log(data.results);</code></pre>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/sources/{id}</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/sources/{id}</code>
                             </div>
                         </div>
 
@@ -1848,14 +1839,14 @@ console.log(data.results);</code></pre>
                                 <div class="code-window mb-3">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — Movie</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/sources/5099284245269335848" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/sources/5099284245269335848" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — TV Series Episode</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/sources/9028867555875774472?season=1&episode=1" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/sources/9028867555875774472?season=1&episode=1" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1865,7 +1856,7 @@ console.log(data.results);</code></pre>
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — Movie</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/sources/5099284245269335848",
+  "https://movieapi.devafeez.name.ng/api/v1/sources/5099284245269335848",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1886,7 +1877,7 @@ for (const src of data.results) {
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — TV Series Episode</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/sources/9028867555875774472?season=1&episode=1",
+  "https://movieapi.devafeez.name.ng/api/v1/sources/9028867555875774472?season=1&episode=1",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1911,7 +1902,7 @@ for (const src of data.results) {
                                 <a href="#captions" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Captions</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/captions/:sid/:streamId</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/captions/:sid/:streamId</code>
                                 </a>
                                 <a href="#audio-dubs" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
@@ -1933,7 +1924,7 @@ for (const src of data.results) {
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/captions/{subjectId}/{streamId}</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/captions/{subjectId}/{streamId}</code>
                             </div>
                         </div>
 
@@ -1975,7 +1966,7 @@ for (const src of data.results) {
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/captions/5099284245269335848/6511282988071157728?format=MP4" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/captions/5099284245269335848/6511282988071157728?format=MP4" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1987,7 +1978,7 @@ for (const src of data.results) {
                                         <pre class="font-mono text-xs text-slate-300"><code>const subjectId = "5099284245269335848";
 const streamId  = "6511282988071157728";
 const response = await fetch(
-  `https://moviemovieapi.devafeez.name.ng/api/v3/captions/${subjectId}/${streamId}?format=MP4`,
+  `https://movieapi.devafeez.name.ng/api/v1/captions/${subjectId}/${streamId}?format=MP4`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -2040,7 +2031,7 @@ console.log(data.results.captions);</code></pre>
                                 <a href="#sources" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Sources</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/sources/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/sources/:id</code>
                                 </a>
                                 <a href="#audio-dubs" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
@@ -2062,7 +2053,7 @@ console.log(data.results.captions);</code></pre>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/live</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/live</code>
                             </div>
                         </div>
 
@@ -2072,22 +2063,22 @@ console.log(data.results.captions);</code></pre>
                             <div class="space-y-2">
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/live</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/live</code>
                                     <span class="text-xs text-slate-500">Paginated channel list with optional filters</span>
                                 </div>
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/live/categories</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/live/categories</code>
                                     <span class="text-xs text-slate-500">All category names with channel counts</span>
                                 </div>
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/live/search/:query</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/live/search/:query</code>
                                     <span class="text-xs text-slate-500">Search channels by name (up to 100 results)</span>
                                 </div>
                                 <div class="flex items-center gap-3 flex-wrap">
                                     <span class="method-badge method-get text-[10px]">GET</span>
-                                    <code class="font-mono text-xs text-cyan-400">/api/v3/live/stream/:id</code>
+                                    <code class="font-mono text-xs text-cyan-400">/api/v1/live/stream/:id</code>
                                     <span class="text-xs text-slate-500">Fetch a single channel and its stream URLs by channel ID</span>
                                 </div>
                             </div>
@@ -2148,28 +2139,28 @@ console.log(data.results.captions);</code></pre>
                                 <div class="code-window mb-3">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — Kids channels (page 1)</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/live?category=kids&limit=20" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/live?category=kids&limit=20" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
                                 <div class="code-window mb-3">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — Search Nickelodeon</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/live/search/nickelodeon" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/live/search/nickelodeon" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
                                 <div class="code-window mb-3">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — All categories</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/live/categories" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/live/categories" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — Stream by channel ID</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/live/stream/Nickelodeon.de" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.name.ng/api/v1/live/stream/Nickelodeon.de" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -2180,7 +2171,7 @@ console.log(data.results.captions);</code></pre>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>// Search for Nickelodeon channels
 const res = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/live/search/nickelodeon",
+  "https://movieapi.devafeez.name.ng/api/v1/live/search/nickelodeon",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await res.json();
@@ -2193,7 +2184,7 @@ for (const channel of data.results.results) {
 
 // Filter Nigerian channels
 const ng = await fetch(
-  "https://moviemovieapi.devafeez.name.ng/api/v3/live?country=NG&limit=50",
+  "https://movieapi.devafeez.name.ng/api/v1/live?country=NG&limit=50",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const ngData = await ng.json();
@@ -2206,7 +2197,7 @@ console.log(ngData.results.total, "Nigerian channels");</code></pre>
                                         <pre class="font-mono text-xs text-slate-300"><code>// Fetch a single channel's HLS stream URLs by ID
 const channelId = "Nickelodeon.de";
 const res = await fetch(
-  `https://moviemovieapi.devafeez.name.ng/api/v3/live/stream/${encodeURIComponent(channelId)}`,
+  `https://movieapi.devafeez.name.ng/api/v1/live/stream/${encodeURIComponent(channelId)}`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await res.json();
@@ -2223,7 +2214,7 @@ console.log(channel.name, channel.country);
                         <!-- Response shape -->
                         <div class="code-window mt-3">
                             <div class="code-window-header">
-                                <span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Sample Response — /api/v3/live?q=nickelodeon</span>
+                                <span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Sample Response — /api/v1/live?q=nickelodeon</span>
                             </div>
                             <div class="p-4 overflow-x-auto">
                                 <pre class="font-mono text-xs text-slate-300"><code>{
@@ -2263,7 +2254,7 @@ console.log(channel.name, channel.country);
                         <!-- Stream by ID response -->
                         <div class="code-window mt-3">
                             <div class="code-window-header">
-                                <span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Sample Response — /api/v3/live/stream/:id</span>
+                                <span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">Sample Response — /api/v1/live/stream/:id</span>
                             </div>
                             <div class="p-4 overflow-x-auto">
                                 <pre class="font-mono text-xs text-slate-300"><code>{
@@ -2316,7 +2307,7 @@ console.log(channel.name, channel.country);
                             </div>
                             <div class="flex items-center gap-2">
                                 <span class="method-badge method-get">GET</span>
-                                <code class="font-mono text-xs text-slate-500">/api/v3/sources/{id}</code>
+                                <code class="font-mono text-xs text-slate-500">/api/v1/sources/{id}</code>
                             </div>
                         </div>
 
@@ -2324,7 +2315,7 @@ console.log(channel.name, channel.country);
                             <i class="fas fa-info-circle text-violet-400 mt-0.5 shrink-0"></i>
                             <div class="space-y-2">
                                 <p class="text-xs text-slate-400 leading-relaxed">
-                                    Dubbed versions are treated as separate subjects. The <code class="font-mono text-slate-300 text-[11px]">audioTracks[]</code> array tells you which dubbed <code class="font-mono text-slate-300 text-[11px]">subjectId</code> values exist — use each one to call <code class="font-mono text-slate-300 text-[11px]">/api/v3/sources/{dubSubjectId}</code> to get that language's stream URLs.
+                                    Dubbed versions are treated as separate subjects. The <code class="font-mono text-slate-300 text-[11px]">audioTracks[]</code> array tells you which dubbed <code class="font-mono text-slate-300 text-[11px]">subjectId</code> values exist — use each one to call <code class="font-mono text-slate-300 text-[11px]">/api/v1/sources/{dubSubjectId}</code> to get that language's stream URLs.
                                 </p>
                                 <p class="text-xs text-slate-500 leading-relaxed">
                                     <i class="fas fa-exclamation-triangle text-yellow-500/70 mr-1 text-[10px]"></i>
@@ -2361,7 +2352,7 @@ console.log(channel.name, channel.country);
                                     <tr>
                                         <td><code class="font-mono text-violet-400 text-xs">subjectId</code></td>
                                         <td><span class="font-mono text-slate-500 text-xs">string</span></td>
-                                        <td>Subject ID for this dubbed version — pass to <code class="font-mono text-slate-300 text-[11px]">/api/v3/sources/</code> to get its streams.</td>
+                                        <td>Subject ID for this dubbed version — pass to <code class="font-mono text-slate-300 text-[11px]">/api/v1/sources/</code> to get its streams.</td>
                                     </tr>
                                     <tr>
                                         <td><code class="font-mono text-violet-400 text-xs">detailPath</code></td>
@@ -2378,14 +2369,14 @@ console.log(channel.name, channel.country);
                             </div>
                             <div class="p-4 overflow-x-auto">
                                 <pre class="font-mono text-xs text-slate-300"><code># Step 1: Get sources for the original movie (audioTracks[] is included in response)
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/sources/5099284245269335848" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/sources/5099284245269335848" \
      -H "Authorization: Bearer YourApiKey"
 
 # Response includes audioTracks[]:
 # { "language": "French", "isOriginal": false, "subjectId": "5099284245269335849", ... }
 
 # Step 2: Get the French dub streams using that subjectId
-curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/sources/5099284245269335849" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v1/sources/5099284245269335849" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                             </div>
                         </div>
@@ -2397,12 +2388,12 @@ curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/sources/5099284245269
                                 <a href="#sources" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Sources</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/sources/:id</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/sources/:id</code>
                                 </a>
                                 <a href="#captions" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface border border-edge text-xs text-slate-400 hover:text-cyan-400 hover:border-cyan-400/40 transition-colors">
                                     <i class="fas fa-arrow-right text-[9px]"></i>
                                     <span>Captions</span>
-                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v3/captions/:sid/:streamId</code>
+                                    <code class="font-mono text-[10px] text-slate-500 ml-1">/api/v1/captions/:sid/:streamId</code>
                                 </a>
                             </div>
                         </div>
@@ -2428,7 +2419,7 @@ curl -X GET "https://moviemovieapi.devafeez.name.ng/api/v3/sources/5099284245269
                             <pre class="font-mono text-[11px] text-slate-300 leading-relaxed"><code>// Search for movies
 async function searchMovies(query) {
   const response = await fetch(
-    `https://moviemovieapi.devafeez.name.ng/api/v3/search/${encodeURIComponent(query)}?page=1`,
+    `https://movieapi.devafeez.name.ng/api/v1/search/${encodeURIComponent(query)}?page=1`,
     {
       headers: {
         'Authorization': 'Bearer YourApiKey'
@@ -2442,7 +2433,7 @@ async function searchMovies(query) {
 // Get movie info
 async function getMovieInfo(movieId) {
   const response = await fetch(
-    `https://moviemovieapi.devafeez.name.ng/api/v3/info/${movieId}`,
+    `https://movieapi.devafeez.name.ng/api/v1/info/${movieId}`,
     {
       headers: {
         'Authorization': 'Bearer YourApiKey'
@@ -2455,7 +2446,7 @@ async function getMovieInfo(movieId) {
 
 // Get download sources
 async function getDownloadSources(movieId, season, episode) {
-  let url = `https://moviemovieapi.devafeez.name.ng/api/v3/sources/${movieId}`;
+  let url = `https://movieapi.devafeez.name.ng/api/v1/sources/${movieId}`;
   if (season) {
     url += `?season=${season}`;
     if (episode) url += `&episode=${episode}`;
@@ -2473,7 +2464,7 @@ async function getLiveChannels({ category, country, q, page = 1 } = {}) {
   if (country)  params.set('country',  country);
   if (q)        params.set('q',        q);
   const response = await fetch(
-    `https://moviemovieapi.devafeez.name.ng/api/v3/live?${params}`,
+    `https://movieapi.devafeez.name.ng/api/v1/live?${params}`,
     { headers: { 'Authorization': 'Bearer YourApiKey' } }
   );
   const data = await response.json();
@@ -2485,7 +2476,7 @@ async function getLiveChannels({ category, country, q, page = 1 } = {}) {
 // Search live channels by name
 async function searchLive(query) {
   const response = await fetch(
-    `https://moviemovieapi.devafeez.name.ng/api/v3/live/search/${encodeURIComponent(query)}`,
+    `https://movieapi.devafeez.name.ng/api/v1/live/search/${encodeURIComponent(query)}`,
     { headers: { 'Authorization': 'Bearer YourApiKey' } }
   );
   return await response.json();
@@ -2503,7 +2494,7 @@ async function searchLive(query) {
 import json
 
 API_KEY = "YourApiKey"
-BASE_URL = "https://moviemovieapi.devafeez.name.ng/api/v3"
+BASE_URL = "https://movieapi.devafeez.name.ng/api/v1"
 HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 # Search for movies
@@ -2575,26 +2566,15 @@ print(json.dumps(sources, indent=2))</code></pre>
                         <p class="text-sm text-slate-400 mb-6">Have integration challenges or wish to request key updates? Contact our lead engineers.</p>
 
                         <div class="space-y-4">
-                            <a href="https://whatsapp.com/channel/0029Vb8esUv3GJP6ymXaNF3g" target="_blank" class="flex items-center gap-3 p-3 rounded-lg border border-edge hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all group">
+                            <a href="https://whatsapp.com/channel/0029VbD02FF3WHTa3xbICy1i" target="_blank" class="flex items-center gap-3 p-3 rounded-lg border border-edge hover:border-emerald-500/30 hover:bg-emerald-500/5 transition-all group">
                                 <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:text-emerald-300">
                                     <i class="fab fa-whatsapp text-sm"></i>
                                 </div>
                                 <div>
-                                    <div class="text-sm font-semibold text-white">WhatsApp Live Channel</div>
-                                    <div class="text-xs text-slate-500">Live logs, release bulletins, and system notices.</div>
+                                    <div class="text-sm font-semibold text-white">WhatsApp Channel</div>
+                                    <div class="text-xs text-slate-500">Live updates, release bulletins, and system notices.</div>
                                 </div>
                                 <i class="fas fa-arrow-right text-xs text-slate-600 group-hover:text-emerald-400 ml-auto"></i>
-                            </a>
-
-                            <a href="https://movieapi.devafeez.name.ng" target="_blank" class="flex items-center gap-3 p-3 rounded-lg border border-edge hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all group">
-                                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:text-cyan-300">
-                                    <i class="fas fa-globe text-sm"></i>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold text-white">Gateway Web API Portal</div>
-                                    <div class="text-xs text-slate-500">Review global system schemas and related endpoints.</div>
-                                </div>
-                                <i class="fas fa-arrow-right text-xs text-slate-600 group-hover:text-cyan-400 ml-auto"></i>
                             </a>
                         </div>
                     </div>
@@ -2625,91 +2605,91 @@ print(json.dumps(sources, indent=2))</code></pre>
                                 <div class="step-number">3</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Homepage Data Feed</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/homepage</code> — curated carousels and catalog tags for the home view.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/homepage</code> — curated carousels and catalog tags for the home view.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">4</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Trending Catalog</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/trending</code> — filter by <code class="font-mono text-cyan-400 text-[11px]">?type=1</code> (movies) or <code class="font-mono text-cyan-400 text-[11px]">?type=2</code> (series).</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/trending</code> — filter by <code class="font-mono text-cyan-400 text-[11px]">?type=1</code> (movies) or <code class="font-mono text-cyan-400 text-[11px]">?type=2</code> (series).</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">5</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Search Films &amp; Shows</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/search/{query}?page=1</code> — keyword search with pagination.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/search/{query}?page=1</code> — keyword search with pagination.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">6</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Platform &amp; Genre Filter</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/filter?platform=netflix&amp;genre=action</code> — browse by platform, region, or genre.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/filter?platform=netflix&amp;genre=action</code> — browse by platform, region, or genre.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">7</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Airing Schedule</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/schedule</code> and <code class="font-mono text-cyan-400 text-[11px]">/api/v3/schedule/popular</code> — weekly airing schedule and top-ranked anime by MAL score.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/schedule</code> and <code class="font-mono text-cyan-400 text-[11px]">/api/v1/schedule/popular</code> — weekly airing schedule and top-ranked anime by MAL score.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">8</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Anime Catalog</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/anime</code> — paginated anime catalog with dedicated search, info, and sources sub-routes for anime-specific workflows.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/anime</code> — paginated anime catalog with dedicated search, info, and sources sub-routes for anime-specific workflows.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">9</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Upcoming Season</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/seasons/upcoming</code> — upcoming anime season lineup with air dates, genres, and MAL/AniList links.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/seasons/upcoming</code> — upcoming anime season lineup with air dates, genres, and MAL/AniList links.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">10</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Full Metadata</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/info/{id}</code> — cast, rating, poster, and episode list for a title.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/info/{id}</code> — cast, rating, poster, and episode list for a title.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">11</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Streaming &amp; Download Sources</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/sources/{id}</code> — multi-quality stream URLs plus audio dub tracks.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/sources/{id}</code> — multi-quality stream URLs plus audio dub tracks.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">12</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Captions &amp; Subtitles</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/captions/{subjectId}/{streamId}</code> — SRT subtitle URLs in all available languages.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/captions/{subjectId}/{streamId}</code> — SRT subtitle URLs in all available languages.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">13</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Audio Dubs</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/sources/{dubSubjectId}</code> — use <code class="font-mono text-cyan-400 text-[11px]">audioTracks[]</code> from sources to get each dub's stream URLs.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/sources/{dubSubjectId}</code> — use <code class="font-mono text-cyan-400 text-[11px]">audioTracks[]</code> from sources to get each dub's stream URLs.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">14</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Live TV Channels</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/live</code> — 8,000+ global channels with filter, category, and search sub-routes.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/live</code> — 8,000+ global channels with filter, category, and search sub-routes.</div>
                                 </div>
                             </div>
                             <div class="flex items-start gap-3">
                                 <div class="step-number">15</div>
                                 <div>
                                     <div class="text-sm font-semibold text-white">Live TV Stream by ID</div>
-                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v3/live/stream/{id}</code> — fetch a single channel's HLS stream URLs by channel ID for just-in-time player integration.</div>
+                                    <div class="text-xs text-slate-500">GET <code class="font-mono text-cyan-400 text-[11px]">/api/v1/live/stream/{id}</code> — fetch a single channel's HLS stream URLs by channel ID for just-in-time player integration.</div>
                                 </div>
                             </div>
                         </div>
@@ -2730,15 +2710,15 @@ print(json.dumps(sources, indent=2))</code></pre>
                     <div class="flex items-center gap-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                         <a href="/" class="hover:text-white transition-colors">Home</a>
                         <a href="/docs" class="hover:text-white transition-colors">Documentation</a>
-                        <a href="https://movieapi.devafeez.name.ng" target="_blank" class="hover:text-white transition-colors">More APIs</a>
+                        <a href="/changelog" class="hover:text-white transition-colors">Changelog</a>
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <a href="https://wa.me/+2348029214393" target="_blank" class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all">
+                        <a href="https://whatsapp.com/channel/0029VbD02FF3WHTa3xbICy1i" target="_blank" class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all">
                             <i class="fab fa-whatsapp text-sm"></i>
                         </a>
-                        <a href="https://movieapi.devafeez.name.ng" target="_blank" class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all">
-                            <i class="fas fa-external-link-alt text-sm"></i>
+                        <a href="/docs" class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all">
+                            <i class="fas fa-book-open text-sm"></i>
                         </a>
                     </div>
                 </div>
@@ -2840,7 +2820,7 @@ print(json.dumps(sources, indent=2))</code></pre>
 
         // Copy base URL
         function copyUrl() {
-            navigator.clipboard.writeText('https://moviemovieapi.devafeez.name.ng/api/v3/');
+            navigator.clipboard.writeText('https://movieapi.devafeez.name.ng/api/v1/');
             const btn = document.getElementById('copyBaseBtn');
             btn.innerHTML = '<i class="fas fa-check text-emerald-400"></i>';
             setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i>', 2000);

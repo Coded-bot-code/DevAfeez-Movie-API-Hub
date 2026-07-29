@@ -2,10 +2,10 @@
 
 // Allowed origins - only these will be allowed
 const ALLOWED_ORIGINS = [
-    "https://runflix.name.ng",
+    "https://devafeez.name.ng",
     "https://*.runconnect.name.ng",
-    "https://*.runflix.name.ng",
-    "https://movieapi.runflix.name.ng",
+    "https://*.devafeez.name.ng",
+    "https://movieapi.devafeez.name.ng",
     // Development — Replit preview domains for internal relay & testing
     "https://*.replit.dev",
     "https://*.repl.co",
@@ -15,12 +15,12 @@ const ALLOWED_ORIGINS = [
 ];
 
 // Changelog fallback — used when KV is empty so changelog always shows on production
-const CHANGELOG_FALLBACK = [{"id":"cl_014","version":"v1.5.3","date":"2026-06-20","type":"fix","title":"Live TV — full 9000+ channel load, instant stream playback, export report","description":"Three fixes for the Live Channel Tester: rate limit raised so all channels load, channel clicks now play instantly using already-loaded stream data, and a CSV export button lets you download the full test report.","changes":["Rate limit raised from 60 to 300 req/min so all 9000+ channels load without being blocked","Channel clicks now use streams embedded in the loaded list — no extra API call, no rate-limit impact","Export Report button downloads a CSV with ID, name, country, categories, languages, status, stream count, and first stream URL","Page fetch limit raised from 50 to 200 channels per request — only ~47 pages needed for the full list"]},{"id":"cl_013","version":"v1.5.2","date":"2026-06-19","type":"feature","title":"Live TV stream by ID — single-channel lookup endpoint","description":"New endpoint to fetch a single live TV channel and its stream URLs by channel ID. Ideal for just-in-time player integrations that load only the selected channel.","changes":["GET /api/v3/live/stream/:id — returns one channel with its HLS streams by exact channel ID","Sample data available at /sample-live-stream-data","Endpoint count updated to 15","Docs updated with new sub-route, cURL / JS examples, and Quick Integration step 12"]},{"id":"cl_012","version":"v1.5.1","date":"2026-06-19","type":"improvement","title":"Documentation overhaul — Live TV section and endpoint count","description":"Full documentation pass: Live TV channels documented with parameter table, cURL/JS examples, and inline sample response. Endpoint count updated.","changes":["Live TV endpoint section added to /docs with sub-routes, parameter table, and code tabs","Live TV added to docs sidebar and navigation","Node.js and Python quick integration examples updated with Live TV functions","Endpoint count updated across index and docs"]},{"id":"cl_011","version":"v1.5.0","date":"2026-06-19","type":"feature","title":"Live TV channels API — 8,000+ global channels with HLS streams","description":"Three new live TV endpoints added. Returns channels with active HLS streams, filtered to exclude NSFW and closed entries. Channels include Nickelodeon, Disney Junior, Al Jazeera, BBC World News, Yoruba TV, and thousands more across 200+ countries.","changes":["GET /api/v3/live — paginated channel list; filters: ?category, ?country, ?lang, ?q, ?page, ?limit","GET /api/v3/live/categories — category slugs with channel counts (general, news, kids, sports…)","GET /api/v3/live/search/:query — search channels by name, up to 100 results","Each channel includes id, name, logo, country, languages, categories, and HLS stream URLs"]},{"id":"cl_010","version":"v1.4.0","date":"2026-06-18","type":"feature","title":"Public changelog page","description":"A public changelog is now live, showing all API updates in a filterable timeline.","changes":["New public page at /changelog — dark timeline UI with type filter buttons","GET /api/changelog — public feed (no API key required)","Changelog link added to main navigation"]},{"id":"cl_008","version":"v1.3.0","date":"2026-06-18","type":"fix","title":"Episode count now uses real per-season data","description":"Series info responses now return accurate total episode counts derived from per-season data.","changes":["totalEpisodes now sums actual per-season episode counts","seasonDetails array added to series info responses","Fix applied to /api/v3/info/:id and /api/v3/anime/info/:id"]},{"id":"cl_007","version":"v1.3.0","date":"2026-06-18","type":"fix","title":"Video blank / audio-only bug — HEVC sources now flagged","description":"Sources now expose a browserCompatible field so consumers can detect HEVC/H.265 encoded files that Chrome and Firefox cannot play.","changes":["All source objects now include browserCompatible: false for HEVC/H.265 codecs","Affected codec identifiers: hevc, h265, hvc1, hev1","Use an HLS proxy or transcoder for browser-compatible playback"]},{"id":"cl_006","version":"v1.2.1","date":"2026-06-12","type":"improvement","title":"Captions endpoint — multi-format filtering","description":"The /api/v3/captions endpoint now supports a format query parameter.","changes":["Added ?format=srt / ?format=vtt / ?format=ass query parameter support","Supported formats: srt, vtt, ass, ssa, sup, sub","Unrecognised format values return all tracks (safe fallback)"]},{"id":"cl_005","version":"v1.2.0","date":"2026-06-10","type":"feature","title":"Anime-specific endpoints with genre validation","description":"Dedicated anime routes added across search, info, and sources.","changes":["GET /api/v3/anime — paginated anime catalog (series + movies)","GET /api/v3/anime/search/:query — keyword search filtered to anime genre","GET /api/v3/anime/info/:id — full info with anime genre validation","GET /api/v3/anime/sources/:id — episode sources with genre validation","GET /api/v3/seasons/upcoming — upcoming anime season lineup from AniList/MAL"]},{"id":"cl_004","version":"v1.2.0","date":"2026-06-10","type":"feature","title":"Anime schedule endpoints (Jikan / MAL)","description":"Anime airing schedule routes added using the Jikan API.","changes":["GET /api/v3/schedule — weekly airing schedule grouped by day","GET /api/v3/schedule/popular — top airing anime ranked by MAL score","Responses include MAL score, episode count, genres, and thumbnail"]},{"id":"cl_003","version":"v1.1.1","date":"2026-06-01","type":"improvement","title":"Source normalisation — quality labels + audio tracks","description":"Source responses now include consistent quality labels and audio track information.","changes":["quality field normalised to 1080p / 720p / 480p / 360p labels","audioTracks array exposed from upstream dub data","runtimeMinutes derived from durationSeconds when not already present"]},{"id":"cl_002","version":"v1.1.0","date":"2026-05-20","type":"feature","title":"Cloudflare Worker relay + v3 signed requests","description":"Added a Cloudflare Worker relay layer to bypass upstream geo-blocking.","changes":["CF Worker relay deployed — routes geo-blocked requests through Cloudflare edge","V3 request signing implemented for relay authentication","Improved resilience via mirror host rotation"]},{"id":"cl_001","version":"v1.0.0","date":"2026-05-01","type":"feature","title":"Initial API release","description":"RUNFLIX Movie API launched with core endpoints for homepage, trending, search, filter, info, sources, and captions.","changes":["GET /api/v3/homepage — homepage sections by tab","GET /api/v3/trending — trending movies and series","GET /api/v3/search/:query — keyword search","GET /api/v3/info/:id — full title metadata","GET /api/v3/sources/:id — stream and download links","API key authentication — Bearer token required on all endpoints","Documentation at /docs, interactive try at /try"]}];
+const CHANGELOG_FALLBACK = [{"id":"cl_014","version":"v1.5.3","date":"2026-06-20","type":"fix","title":"Live TV — full 9000+ channel load, instant stream playback, export report","description":"Three fixes for the Live Channel Tester: rate limit raised so all channels load, channel clicks now play instantly using already-loaded stream data, and a CSV export button lets you download the full test report.","changes":["Rate limit raised from 60 to 300 req/min so all 9000+ channels load without being blocked","Channel clicks now use streams embedded in the loaded list — no extra API call, no rate-limit impact","Export Report button downloads a CSV with ID, name, country, categories, languages, status, stream count, and first stream URL","Page fetch limit raised from 50 to 200 channels per request — only ~47 pages needed for the full list"]},{"id":"cl_013","version":"v1.5.2","date":"2026-06-19","type":"feature","title":"Live TV stream by ID — single-channel lookup endpoint","description":"New endpoint to fetch a single live TV channel and its stream URLs by channel ID. Ideal for just-in-time player integrations that load only the selected channel.","changes":["GET /api/v1/live/stream/:id — returns one channel with its HLS streams by exact channel ID","Sample data available at /sample-live-stream-data","Endpoint count updated to 15","Docs updated with new sub-route, cURL / JS examples, and Quick Integration step 12"]},{"id":"cl_012","version":"v1.5.1","date":"2026-06-19","type":"improvement","title":"Documentation overhaul — Live TV section and endpoint count","description":"Full documentation pass: Live TV channels documented with parameter table, cURL/JS examples, and inline sample response. Endpoint count updated.","changes":["Live TV endpoint section added to /docs with sub-routes, parameter table, and code tabs","Live TV added to docs sidebar and navigation","Node.js and Python quick integration examples updated with Live TV functions","Endpoint count updated across index and docs"]},{"id":"cl_011","version":"v1.5.0","date":"2026-06-19","type":"feature","title":"Live TV channels API — 8,000+ global channels with HLS streams","description":"Three new live TV endpoints added. Returns channels with active HLS streams, filtered to exclude NSFW and closed entries. Channels include Nickelodeon, Disney Junior, Al Jazeera, BBC World News, Yoruba TV, and thousands more across 200+ countries.","changes":["GET /api/v1/live — paginated channel list; filters: ?category, ?country, ?lang, ?q, ?page, ?limit","GET /api/v1/live/categories — category slugs with channel counts (general, news, kids, sports…)","GET /api/v1/live/search/:query — search channels by name, up to 100 results","Each channel includes id, name, logo, country, languages, categories, and HLS stream URLs"]},{"id":"cl_010","version":"v1.4.0","date":"2026-06-18","type":"feature","title":"Public changelog page","description":"A public changelog is now live, showing all API updates in a filterable timeline.","changes":["New public page at /changelog — dark timeline UI with type filter buttons","GET /api/changelog — public feed (no API key required)","Changelog link added to main navigation"]},{"id":"cl_008","version":"v1.3.0","date":"2026-06-18","type":"fix","title":"Episode count now uses real per-season data","description":"Series info responses now return accurate total episode counts derived from per-season data.","changes":["totalEpisodes now sums actual per-season episode counts","seasonDetails array added to series info responses","Fix applied to /api/v1/info/:id and /api/v1/anime/info/:id"]},{"id":"cl_007","version":"v1.3.0","date":"2026-06-18","type":"fix","title":"Video blank / audio-only bug — HEVC sources now flagged","description":"Sources now expose a browserCompatible field so consumers can detect HEVC/H.265 encoded files that Chrome and Firefox cannot play.","changes":["All source objects now include browserCompatible: false for HEVC/H.265 codecs","Affected codec identifiers: hevc, h265, hvc1, hev1","Use an HLS proxy or transcoder for browser-compatible playback"]},{"id":"cl_006","version":"v1.2.1","date":"2026-06-12","type":"improvement","title":"Captions endpoint — multi-format filtering","description":"The /api/v1/captions endpoint now supports a format query parameter.","changes":["Added ?format=srt / ?format=vtt / ?format=ass query parameter support","Supported formats: srt, vtt, ass, ssa, sup, sub","Unrecognised format values return all tracks (safe fallback)"]},{"id":"cl_005","version":"v1.2.0","date":"2026-06-10","type":"feature","title":"Anime-specific endpoints with genre validation","description":"Dedicated anime routes added across search, info, and sources.","changes":["GET /api/v1/anime — paginated anime catalog (series + movies)","GET /api/v1/anime/search/:query — keyword search filtered to anime genre","GET /api/v1/anime/info/:id — full info with anime genre validation","GET /api/v1/anime/sources/:id — episode sources with genre validation","GET /api/v1/seasons/upcoming — upcoming anime season lineup from AniList/MAL"]},{"id":"cl_004","version":"v1.2.0","date":"2026-06-10","type":"feature","title":"Anime schedule endpoints (Jikan / MAL)","description":"Anime airing schedule routes added using the Jikan API.","changes":["GET /api/v1/schedule — weekly airing schedule grouped by day","GET /api/v1/schedule/popular — top airing anime ranked by MAL score","Responses include MAL score, episode count, genres, and thumbnail"]},{"id":"cl_003","version":"v1.1.1","date":"2026-06-01","type":"improvement","title":"Source normalisation — quality labels + audio tracks","description":"Source responses now include consistent quality labels and audio track information.","changes":["quality field normalised to 1080p / 720p / 480p / 360p labels","audioTracks array exposed from upstream dub data","runtimeMinutes derived from durationSeconds when not already present"]},{"id":"cl_002","version":"v1.1.0","date":"2026-05-20","type":"feature","title":"Cloudflare Worker relay + v3 signed requests","description":"Added a Cloudflare Worker relay layer to bypass upstream geo-blocking.","changes":["CF Worker relay deployed — routes geo-blocked requests through Cloudflare edge","V3 request signing implemented for relay authentication","Improved resilience via mirror host rotation"]},{"id":"cl_001","version":"v1.0.0","date":"2026-05-01","type":"feature","title":"Initial API release","description":"DevAfeez Movie API launched with core endpoints for homepage, trending, search, filter, info, sources, and captions.","changes":["GET /api/v1/homepage — homepage sections by tab","GET /api/v1/trending — trending movies and series","GET /api/v1/search/:query — keyword search","GET /api/v1/info/:id — full title metadata","GET /api/v1/sources/:id — stream and download links","API key authentication — Bearer token required on all endpoints","Documentation at /docs, interactive try at /try"]}];
 
 // API Keys mapped to their authorized domains
 // Each key only works from its registered domain - prevents stolen key abuse
 const API_KEY_MAP = {
-    "runflix_.....": { owner: "DevAfeez", domains: ["runflix.name.ng"] },
+    "devafeez-movieapi_.....": { owner: "DevAfeez", domains: ["devafeez.name.ng"] },
     // Internal relay key — used by the Replit local server to proxy geo-blocked endpoints
     // through the CF Worker edge IPs. Works from server-side (no Origin) and *.workers.dev,
     // *.replit.dev origins. Rotate this key if compromised.
@@ -167,7 +167,7 @@ function normaliseJikanItem(item, date) {
 async function withCache(cacheKey, ttl, fn) {
     if (!ttl) return fn();
     const cache = caches.default;
-    const cacheUrl = `https://runflix.cache.internal/${encodeURIComponent(cacheKey)}`;
+    const cacheUrl = `https://devafeez.cache.internal/${encodeURIComponent(cacheKey)}`;
     const cacheReq = new Request(cacheUrl);
     try {
         const hit = await cache.match(cacheReq);
@@ -363,10 +363,10 @@ function v3Headers(method, urlStr, bodyStr=null, useAltKey=false) {
 // bootstrapped identity. Route all v3 calls through the Replit local server
 // (Replit IPs, where bootstrap succeeds) instead of hitting the upstream directly.
 const REPLIT_PROXY_BASE = 'https://runflix-api-v-3262--unknownofrun.replit.app';
-const REPLIT_PROXY_KEY  = 'runflix_v3_proxy_relay_9f3a7c2e';
+const REPLIT_PROXY_KEY  = 'devafeez-movieapi_v1_proxy_relay_9f3a7c2e';
 
 async function v3FetchViaReplitProxy(method, pathAndQuery, bodyStr) {
-    const res = await fetch(`${REPLIT_PROXY_BASE}/internal/v3proxy`, {
+    const res = await fetch(`${REPLIT_PROXY_BASE}/internal/v1proxy`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-proxy-key': REPLIT_PROXY_KEY },
         body: JSON.stringify({ method, path: pathAndQuery, body: bodyStr ? JSON.parse(bodyStr) : null }),
@@ -1062,7 +1062,7 @@ async function handleAnimeInfo(movieId, request) {
         const ANIME_KW = ['anime', 'animation'];
         const hasAnimeKw = (str) => { const s = (str || '').toLowerCase(); return ANIME_KW.some(k => s.includes(k)); };
         const isAnime = hasAnimeKw(item.genre) || hasAnimeKw(item.corner) || hasAnimeKw(item.category);
-        if (!isAnime) return createErrorResponse(`Title "${item.title || movieId}" is not an anime/animation title. Use /api/v3/info/${movieId} for general info.`, 404, request);
+        if (!isAnime) return createErrorResponse(`Title "${item.title || movieId}" is not an anime/animation title. Use /api/v1/info/${movieId} for general info.`, 404, request);
         if (seasonDetails) {
             item.seasonDetails = seasonDetails;
             const total = seasonDetails.reduce((n, s) => n + (s.totalEpisodes || 0), 0);
@@ -1332,7 +1332,7 @@ async function handleAnime(url, request) {
         // strict=true → only items whose corner field is exactly "Anime" (excludes generic animated films)
         const strict  = urlObj.searchParams.get('strict') === 'true' || urlObj.searchParams.get('strict') === '1';
 
-        // Pull homepage sections (same upstream call as /api/v3/homepage and trending)
+        // Pull homepage sections (same upstream call as /api/v1/homepage and trending)
         const data     = await v3Get('/wefeed-mobile-bff/tab-operating', { page: 1, tabId: 0, version: '' });
         const sections = (data?.items || []).filter(s => Array.isArray(s.subjects) && s.subjects.length > 0);
 
@@ -1607,8 +1607,8 @@ async function handleSources(movieId, url, request) {
                     id: file.id,
                     // quality: `${file.resolution}p` || 'Unknown',
                     quality: `${file.resolutions}p` || 'Unknown',
-                    download_url: `${baseUrl}/api/v3/download?${downloadParams.toString()}`,
-                    stream_url: `${baseUrl}/api/v3/stream?url=${encodeURIComponent(file.url)}`,
+                    download_url: `${baseUrl}/api/v1/download?${downloadParams.toString()}`,
+                    stream_url: `${baseUrl}/api/v1/stream?url=${encodeURIComponent(file.url)}`,
                     size: file.size,
                     format: 'mp4'
                 };
@@ -1700,8 +1700,8 @@ async function handleSources(movieId, url, request) {
                         _qualityBase:      label,
                         quality:           label,
                         url:               f.resourceLink,
-                        download_url:      `${baseUrl}/api/v3/download?${dl}`,
-                        stream_url:        `${baseUrl}/api/v3/stream?url=${encodeURIComponent(f.resourceLink)}`,
+                        download_url:      `${baseUrl}/api/v1/download?${dl}`,
+                        stream_url:        `${baseUrl}/api/v1/stream?url=${encodeURIComponent(f.resourceLink)}`,
                         size:              f.size || 0,
                         codec,
                         duration:          f.duration || 0,
@@ -1774,7 +1774,7 @@ async function handleAnimeSources(movieId, url, request) {
         const ANIME_KW = ['anime', 'animation'];
         const hasAnimeKw = (str) => { const s = (str || '').toLowerCase(); return ANIME_KW.some(k => s.includes(k)); };
         if (!hasAnimeKw(item.genre) && !hasAnimeKw(item.corner) && !hasAnimeKw(item.category)) {
-            return createErrorResponse(`Title "${item.title || movieId}" is not an anime/animation title. Use /api/v3/sources/${movieId} for general sources.`, 404, request);
+            return createErrorResponse(`Title "${item.title || movieId}" is not an anime/animation title. Use /api/v1/sources/${movieId} for general sources.`, 404, request);
         }
 
         const videoList = v3Data?.list || [];
@@ -1790,8 +1790,8 @@ async function handleAnimeSources(movieId, url, request) {
                 _qualityBase:      label,
                 quality:           label,
                 url:               f.resourceLink,
-                download_url:      `${baseUrl}/api/v3/download?${dl}`,
-                stream_url:        `${baseUrl}/api/v3/stream?url=${encodeURIComponent(f.resourceLink)}`,
+                download_url:      `${baseUrl}/api/v1/download?${dl}`,
+                stream_url:        `${baseUrl}/api/v1/stream?url=${encodeURIComponent(f.resourceLink)}`,
                 size:              f.size      || 0,
                 codec,
                 duration:          f.duration  || 0,
@@ -1830,9 +1830,9 @@ async function sendSmtpNotification(env, data) {
     const enc = new TextEncoder();
     const dec = new TextDecoder();
     const smtp = {
-        host: 'mail.runflix.name.ng',
+        host: 'mail.devafeez.name.ng',
         port: 587,
-        user: 'support@runflix.name.ng',
+        user: 'support@devafeez.name.ng',
         to: 'adtelecom.info@gmail.com'
     };
     try {
@@ -1858,7 +1858,7 @@ async function sendSmtpNotification(env, data) {
         const writeSMTP = async (w, line) => { await w.write(enc.encode(line + '\r\n')); };
 
         await readSMTP(reader);
-        await writeSMTP(writer, 'EHLO worker.runflix.name.ng');
+        await writeSMTP(writer, 'EHLO worker.devafeez.name.ng');
         await readSMTP(reader);
         await writeSMTP(writer, 'STARTTLS');
         await readSMTP(reader);
@@ -1872,7 +1872,7 @@ async function sendSmtpNotification(env, data) {
         const tlsRead = () => readSMTP(tr);
         const tlsWrite = (line) => writeSMTP(tw, line);
 
-        await tlsWrite('EHLO worker.runflix.name.ng');
+        await tlsWrite('EHLO worker.devafeez.name.ng');
         await tlsRead();
         await tlsWrite('AUTH LOGIN');
         await tlsRead();
@@ -1890,7 +1890,7 @@ async function sendSmtpNotification(env, data) {
         await tlsRead();
 
         const lines = [
-            `From: RUNFLIX API <${smtp.user}>`,
+            `From: DevAfeez API <${smtp.user}>`,
             `To: RunFlix Entertainment <${smtp.to}>`,
             `Subject: New API Key Request — ${data.name}`,
             `MIME-Version: 1.0`,
@@ -1903,7 +1903,7 @@ async function sendSmtpNotification(env, data) {
             `Website:  ${data.website || '—'}`,
             `Use Case: ${data.useCase}`,
             ``,
-            `Review at: https://movieapi.runflix.name.ng/admin/stats`,
+            `Review at: https://movieapi.devafeez.name.ng/admin/stats`,
             `.`
         ].join('\r\n');
 
@@ -2167,7 +2167,7 @@ async function handleFetchInner(request, env, ctx, url) {
             if (url.pathname === '/admin/api/generate' && request.method === 'POST') {
                 const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
                 const rand = Array.from({ length: 20 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-                return createJsonResponse({ key: `runflix_${rand}` }, 200, false, request);
+                return createJsonResponse({ key: `devafeez-movieapi_${rand}` }, 200, false, request);
             }
 
             // GET /admin/api/keys — list all keys from KV
@@ -2346,7 +2346,7 @@ async function handleFetchInner(request, env, ctx, url) {
                 status: 'pending'
             }));
             const ownerWa = (env.OWNER_WHATSAPP || '2348100785677').replace(/\D/g, '');
-            const msg = `*New RUNFLIX API Key Request*\n\nName: ${name}\nEmail: ${email || '—'}\nWebsite: ${website || '—'}\nUse Case: ${useCase}\n\nReview: https://movieapi.runflix.name.ng/admin`;
+            const msg = `*New DevAfeez API Key Request*\n\nName: ${name}\nEmail: ${email || '—'}\nWebsite: ${website || '—'}\nUse Case: ${useCase}\n\nReview: https://movieapi.devafeez.name.ng/admin`;
             const whatsappUrl = `https://wa.me/${ownerWa}?text=${encodeURIComponent(msg)}`;
             ctx.waitUntil(sendSmtpNotification(env, { name, email, website, useCase }));
             return createJsonResponse({ ok: true, id, whatsappUrl }, 200, false, request);
@@ -2473,22 +2473,22 @@ async function handleFetchInner(request, env, ctx, url) {
 
         // API endpoints that require API key authorization
         const apiKeyRequiredPaths = [
-            '/api/v3/homepage',
-            '/api/v3/trending',
-            '/api/v3/search',
-            '/api/v3/info',
-            '/api/v3/sources',
-            '/api/v3/captions',
-            '/api/v3/filter',
-            '/api/v3/schedule',
-            '/api/v3/anime',
-            '/api/v3/seasons',
-            '/api/v3/live'
+            '/api/v1/homepage',
+            '/api/v1/trending',
+            '/api/v1/search',
+            '/api/v1/info',
+            '/api/v1/sources',
+            '/api/v1/captions',
+            '/api/v1/filter',
+            '/api/v1/schedule',
+            '/api/v1/anime',
+            '/api/v1/seasons',
+            '/api/v1/live'
         ];
 
         const requiresApiKey = apiKeyRequiredPaths.some(path => url.pathname.startsWith(path));
 
-        // Requests from whitelisted origins (runflix.name.ng and subdomains) bypass API key requirement.
+        // Requests from whitelisted origins (devafeez.name.ng and subdomains) bypass API key requirement.
         // This lets the main site call the API without embedding a key in client-side code.
         const fromAllowedOrigin = (() => {
             const origin = request.headers.get('origin');
@@ -2537,82 +2537,82 @@ async function handleFetchInner(request, env, ctx, url) {
         }
 
         // API endpoint handlers
-        if (url.pathname === '/api/v3/homepage') {
+        if (url.pathname === '/api/v1/homepage') {
             return await handleHomepage(request);
         }
 
-        if (url.pathname === '/api/v3/trending') {
+        if (url.pathname === '/api/v1/trending') {
             return await handleTrending(request.url, request);
         }
 
-        if (url.pathname.startsWith('/api/v3/search/')) {
-            const query = url.pathname.split('/api/v3/search/')[1];
+        if (url.pathname.startsWith('/api/v1/search/')) {
+            const query = url.pathname.split('/api/v1/search/')[1];
             return await handleSearch(decodeURIComponent(query), request.url, request);
         }
 
-        if (url.pathname === '/api/v3/filter') {
+        if (url.pathname === '/api/v1/filter') {
             const ck = `filter:${url.search}`;
             return await withCache(ck, 900, () => handleFilter(request.url, request));
         }
 
-        if (url.pathname === '/api/v3/schedule/popular') {
+        if (url.pathname === '/api/v1/schedule/popular') {
             const ck = `schedule:popular:${url.search}`;
             return await withCache(ck, 3600, () => handleSchedulePopular(request.url, request));
         }
 
-        if (url.pathname === '/api/v3/schedule') {
+        if (url.pathname === '/api/v1/schedule') {
             const ck = `schedule:${url.search}`;
             return await withCache(ck, 3600, () => handleSchedule(request.url, request, env));
         }
 
-        if (url.pathname.startsWith('/api/v3/anime/search/')) {
-            const query = url.pathname.split('/api/v3/anime/search/')[1];
+        if (url.pathname.startsWith('/api/v1/anime/search/')) {
+            const query = url.pathname.split('/api/v1/anime/search/')[1];
             const ck = `anime:search:${decodeURIComponent(query)}:${url.search}`;
             return await withCache(ck, 900, () => handleAnimeSearch(decodeURIComponent(query), request.url, request));
         }
 
-        if (url.pathname === '/api/v3/anime') {
+        if (url.pathname === '/api/v1/anime') {
             const ck = `anime:${url.search}`;
             return await withCache(ck, 1800, () => handleAnime(request.url, request));
         }
 
-        if (url.pathname === '/api/v3/seasons/upcoming') {
+        if (url.pathname === '/api/v1/seasons/upcoming') {
             const ck = `seasons:upcoming:${url.search}`;
             return await withCache(ck, 3600, () => handleSeasonsUpcoming(request.url, request));
         }
 
-        if (url.pathname.startsWith('/api/v3/anime/sources/')) {
-            const movieId = url.pathname.split('/api/v3/anime/sources/')[1];
+        if (url.pathname.startsWith('/api/v1/anime/sources/')) {
+            const movieId = url.pathname.split('/api/v1/anime/sources/')[1];
             return await handleAnimeSources(movieId, request.url, request);
         }
 
-        if (url.pathname.startsWith('/api/v3/anime/info/')) {
-            const movieId = url.pathname.split('/api/v3/anime/info/')[1];
+        if (url.pathname.startsWith('/api/v1/anime/info/')) {
+            const movieId = url.pathname.split('/api/v1/anime/info/')[1];
             return await handleAnimeInfo(movieId, request);
         }
 
-        if (url.pathname.startsWith('/api/v3/info/')) {
-            const movieId = url.pathname.split('/api/v3/info/')[1];
+        if (url.pathname.startsWith('/api/v1/info/')) {
+            const movieId = url.pathname.split('/api/v1/info/')[1];
             return await handleInfo(movieId, request);
         }
 
-        if (url.pathname.startsWith('/api/v3/sources/')) {
-            const movieId = url.pathname.split('/api/v3/sources/')[1];
+        if (url.pathname.startsWith('/api/v1/sources/')) {
+            const movieId = url.pathname.split('/api/v1/sources/')[1];
             return await handleSources(movieId, request.url, request);
         }
 
-        if (url.pathname.startsWith('/api/v3/captions/')) {
-            const parts = url.pathname.split('/api/v3/captions/')[1].split('/');
+        if (url.pathname.startsWith('/api/v1/captions/')) {
+            const parts = url.pathname.split('/api/v1/captions/')[1].split('/');
             const subjectId = parts[0];
             const streamId = parts[1];
             if (!subjectId || !streamId) {
-                return createErrorResponse('subjectId and streamId are required. Use /api/v3/captions/{subjectId}/{streamId}', 400, request);
+                return createErrorResponse('subjectId and streamId are required. Use /api/v1/captions/{subjectId}/{streamId}', 400, request);
             }
             return await handleCaptions(subjectId, streamId, request.url, request);
         }
 
         // ── Live channels (iptv-org) ────────────────────────────────────────────
-        if (url.pathname.startsWith('/api/v3/live')) {
+        if (url.pathname.startsWith('/api/v1/live')) {
 
             // Verified-working supplementary streams — tested server-side June 2026.
             // CartoonNetwork.us has NO free public stream (it is pay-TV).
@@ -2650,7 +2650,7 @@ async function handleFetchInner(request, env, ctx, url) {
 
             const getLiveW = async () => {
                 // L1: Cloudflare Cache API — cached processed result (6 h TTL, per-datacenter)
-                const cacheKey = new Request('https://cache.internal/runflix-live-channels-v3');
+                const cacheKey = new Request('https://cache.internal/devafeez-live-channels-v1');
                 const cfCache  = caches.default;
                 const hit = await cfCache.match(cacheKey);
                 if (hit) return hit.json();
@@ -2697,9 +2697,9 @@ async function handleFetchInner(request, env, ctx, url) {
                 return result;
             };
 
-            // GET /api/v3/live/stream/:id
-            if (url.pathname.startsWith('/api/v3/live/stream/')) {
-                const channelId = decodeURIComponent(url.pathname.slice('/api/v3/live/stream/'.length)).trim();
+            // GET /api/v1/live/stream/:id
+            if (url.pathname.startsWith('/api/v1/live/stream/')) {
+                const channelId = decodeURIComponent(url.pathname.slice('/api/v1/live/stream/'.length)).trim();
                 if (!channelId) return createErrorResponse('Channel ID is required', 400, request);
                 const channels = await getLiveW();
                 const channel = channels.find(c => c.id === channelId);
@@ -2707,8 +2707,8 @@ async function handleFetchInner(request, env, ctx, url) {
                 return createSuccessResponse(channel, 'Live channel stream', request);
             }
 
-            // GET /api/v3/live/categories
-            if (url.pathname === '/api/v3/live/categories') {
+            // GET /api/v1/live/categories
+            if (url.pathname === '/api/v1/live/categories') {
                 const channels = await getLiveW();
                 const catCount = {};
                 for (const ch of channels) for (const cat of ch.categories) catCount[cat] = (catCount[cat] || 0) + 1;
@@ -2716,16 +2716,16 @@ async function handleFetchInner(request, env, ctx, url) {
                 return createSuccessResponse({ total: categories.length, categories }, 'Live channel categories', request);
             }
 
-            // GET /api/v3/live/search/:query
-            if (url.pathname.startsWith('/api/v3/live/search/')) {
-                const q = decodeURIComponent(url.pathname.slice('/api/v3/live/search/'.length)).trim().toLowerCase();
+            // GET /api/v1/live/search/:query
+            if (url.pathname.startsWith('/api/v1/live/search/')) {
+                const q = decodeURIComponent(url.pathname.slice('/api/v1/live/search/'.length)).trim().toLowerCase();
                 const channels = await getLiveW();
                 const results = channels.filter(c => c.name.toLowerCase().includes(q) || c.altNames.some(n => n.toLowerCase().includes(q))).slice(0, 100);
                 return createSuccessResponse({ total: results.length, query: q, results }, 'Live channel search', request);
             }
 
-            // GET /api/v3/live — paginated list with filters
-            if (url.pathname === '/api/v3/live') {
+            // GET /api/v1/live — paginated list with filters
+            if (url.pathname === '/api/v1/live') {
                 let channels = await getLiveW();
                 const q        = url.searchParams.get('q');
                 const category = url.searchParams.get('category');
@@ -2744,11 +2744,11 @@ async function handleFetchInner(request, env, ctx, url) {
         }
 
         // ── HLS Geo-proxy — bypass regional stream blocks ──────────────────────
-        // GET /api/v3/live/proxy?url=ENCODED_URL
+        // GET /api/v1/live/proxy?url=ENCODED_URL
         // Fetches the HLS manifest from Cloudflare's edge (globally distributed),
         // rewrites all segment/sub-playlist URLs to also go through this proxy,
         // and returns the rewritten manifest. TS segments are piped as-is.
-        if (url.pathname === '/api/v3/live/proxy') {
+        if (url.pathname === '/api/v1/live/proxy') {
             const rawUrl = url.searchParams.get('url');
             if (!rawUrl) return createErrorResponse('?url= query parameter is required', 400, request);
 
@@ -2783,7 +2783,7 @@ async function handleFetchInner(request, env, ctx, url) {
 
                 if (isM3U) {
                     const baseUrl   = rawUrl.substring(0, rawUrl.lastIndexOf('/') + 1);
-                    const proxyBase = `${url.origin}/api/v3/live/proxy?url=`;
+                    const proxyBase = `${url.origin}/api/v1/live/proxy?url=`;
                     const rewritten = body.split('\n').map(line => {
                         const t = line.trim();
                         if (!t || t.startsWith('#')) return line;

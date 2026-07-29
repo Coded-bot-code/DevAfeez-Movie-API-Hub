@@ -1,6 +1,6 @@
-# RUNFLIX Movies API
+# DevAfeez Movies API
 
-A high-throughput movie and series metadata API (v3) built with Node.js/Express for local development and Cloudflare Workers for production deployment.
+A high-throughput movie and series metadata API (v1) built with Node.js/Express for local development and Cloudflare Workers for production deployment.
 
 ## Stack
 
@@ -29,19 +29,23 @@ PORT=5000 node local-server.js
 | `/changelog` | Changelog |
 | `/debug/logs-view` | Live request log viewer |
 
-## API endpoints (v3)
+## API endpoints (v1)
 
 All endpoints accept an `Authorization: Bearer <key>` header (or use `/try` for 50 free calls/day).
 
-- `GET /api/v3/homepage` — Homepage sections
-- `GET /api/v3/trending` — Trending titles
-- `GET /api/v3/search/:query` — Keyword search
-- `GET /api/v3/info/:id` — Title info
-- `GET /api/v3/sources/:id` — Stream/download links
-- `GET /api/v3/captions/:sid/:strmId` — Subtitle tracks
-- `GET /api/v3/anime` — Anime catalog
-- `GET /api/v3/schedule` — Anime airing schedule
-- `GET /api/v3/filter` — Filter by platform/genre/region
+- `GET /api/v1/homepage` — Homepage sections
+- `GET /api/v1/trending` — Trending titles
+- `GET /api/v1/search/:query` — Keyword search
+- `GET /api/v1/info/:id` — Title info
+- `GET /api/v1/sources/:id` — Stream/download links
+- `GET /api/v1/captions/:sid/:strmId` — Subtitle tracks
+- `GET /api/v1/anime` — Anime catalog
+- `GET /api/v1/schedule` — Anime airing schedule
+- `GET /api/v1/filter` — Filter by platform/genre/region
+
+## Stats endpoint
+
+`GET /api/stats` — Returns real-time server uptime, average latency, endpoint count, and version.
 
 ## Environment variables
 

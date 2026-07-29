@@ -7,7 +7,7 @@
     "title": "Live TV stream by ID — single-channel lookup endpoint",
     "description": "New endpoint to fetch a single live TV channel and its stream URLs by channel ID. Ideal for just-in-time player integrations that load only the selected channel.",
     "changes": [
-      "GET /api/v3/live/stream/:id — returns one channel with its HLS streams by exact channel ID",
+      "GET /api/v1/live/stream/:id — returns one channel with its HLS streams by exact channel ID",
       "Sample data available at /sample-live-stream-data",
       "Endpoint count updated to 15",
       "Docs updated with new sub-route, cURL / JS examples, and Quick Integration step 12"
@@ -35,9 +35,9 @@
     "title": "Live TV channels API — 8,000+ global channels with HLS streams",
     "description": "Three new live TV endpoints added. Returns channels with active HLS streams, filtered to exclude NSFW and closed entries. Channels include Nickelodeon, Disney Junior, Al Jazeera, BBC World News, Yoruba TV, and thousands more across 200+ countries.",
     "changes": [
-      "GET /api/v3/live — paginated channel list; filters: ?category, ?country, ?lang, ?q, ?page, ?limit",
-      "GET /api/v3/live/categories — category slugs with channel counts (general, news, kids, sports…)",
-      "GET /api/v3/live/search/:query — search channels by name, up to 100 results",
+      "GET /api/v1/live — paginated channel list; filters: ?category, ?country, ?lang, ?q, ?page, ?limit",
+      "GET /api/v1/live/categories — category slugs with channel counts (general, news, kids, sports…)",
+      "GET /api/v1/live/search/:query — search channels by name, up to 100 results",
       "Each channel includes id, name, logo, country, languages, categories, and HLS stream URLs"
     ]
   },
@@ -64,7 +64,7 @@
     "changes": [
       "totalEpisodes now sums actual per-season episode counts",
       "seasonDetails array added to series info responses",
-      "Fix applied to /api/v3/info/:id and /api/v3/anime/info/:id"
+      "Fix applied to /api/v1/info/:id and /api/v1/anime/info/:id"
     ]
   },
   {
@@ -86,7 +86,7 @@
     "date": "2026-06-12",
     "type": "improvement",
     "title": "Captions endpoint — multi-format filtering",
-    "description": "The /api/v3/captions endpoint now supports a format query parameter so consumers can request only SRT, VTT, ASS, or other specific subtitle formats.",
+    "description": "The /api/v1/captions endpoint now supports a format query parameter so consumers can request only SRT, VTT, ASS, or other specific subtitle formats.",
     "changes": [
       "Added ?format=srt / ?format=vtt / ?format=ass query parameter support",
       "Supported formats: srt, vtt, ass, ssa, sup, sub",
@@ -101,11 +101,11 @@
     "title": "Anime-specific endpoints with genre validation",
     "description": "Dedicated anime routes added across search, info, and sources. Each endpoint validates that the returned title is actually an anime genre before responding.",
     "changes": [
-      "GET /api/v3/anime — paginated anime catalog (series + movies)",
-      "GET /api/v3/anime/search/:query — keyword search filtered to anime genre",
-      "GET /api/v3/anime/info/:id — full info with anime genre validation",
-      "GET /api/v3/anime/sources/:id — episode sources with genre validation",
-      "GET /api/v3/seasons/upcoming — upcoming anime season lineup from AniList/MAL"
+      "GET /api/v1/anime — paginated anime catalog (series + movies)",
+      "GET /api/v1/anime/search/:query — keyword search filtered to anime genre",
+      "GET /api/v1/anime/info/:id — full info with anime genre validation",
+      "GET /api/v1/anime/sources/:id — episode sources with genre validation",
+      "GET /api/v1/seasons/upcoming — upcoming anime season lineup from AniList/MAL"
     ]
   },
   {
@@ -116,8 +116,8 @@
     "title": "Anime schedule endpoints (Jikan / MAL)",
     "description": "Anime airing schedule routes added using the Jikan API. Returns currently airing anime with episode air dates, sorted by MAL score.",
     "changes": [
-      "GET /api/v3/schedule — weekly airing schedule grouped by day",
-      "GET /api/v3/schedule/popular — top airing anime ranked by MAL score",
+      "GET /api/v1/schedule — weekly airing schedule grouped by day",
+      "GET /api/v1/schedule/popular — top airing anime ranked by MAL score",
       "Responses include MAL score, episode count, genres, and thumbnail"
     ]
   },
@@ -153,15 +153,15 @@
     "date": "2026-05-01",
     "type": "feature",
     "title": "Initial API release",
-    "description": "RUNFLIX Movie API launched with core endpoints for homepage, trending, search, filter, info, sources, and captions.",
+    "description": "DevAfeez Movie API launched with core endpoints for homepage, trending, search, filter, info, sources, and captions.",
     "changes": [
-      "GET /api/v3/homepage — homepage sections by tab",
-      "GET /api/v3/trending — trending movies and series",
-      "GET /api/v3/search/:query — keyword search",
-      "GET /api/v3/filter — filter by platform, genre, region",
-      "GET /api/v3/info/:id — full title metadata",
-      "GET /api/v3/sources/:id — stream and download links with quality labels",
-      "GET /api/v3/captions/:sid/:streamId — subtitle tracks",
+      "GET /api/v1/homepage — homepage sections by tab",
+      "GET /api/v1/trending — trending movies and series",
+      "GET /api/v1/search/:query — keyword search",
+      "GET /api/v1/filter — filter by platform, genre, region",
+      "GET /api/v1/info/:id — full title metadata",
+      "GET /api/v1/sources/:id — stream and download links with quality labels",
+      "GET /api/v1/captions/:sid/:streamId — subtitle tracks",
       "API key authentication — Bearer token required on all endpoints",
       "Documentation at /docs, interactive try at /try"
     ]
