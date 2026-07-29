@@ -1,0 +1,17 @@
+name = "movieapi"
+main = "worker.js"
+compatibility_date = "2025-11-17"
+account_id = "8979e94775109424eb5e1b66c665e561"
+
+[observability]
+enabled = true
+
+# Static assets — bundled at deploy time, no KV writes needed
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+# KV namespace (kept for API-key store and any legacy data)
+[[kv_namespaces]]
+binding = "KV_STORE"
+id = "1a518d50e5c241ae8e5d16974d3fb24c"

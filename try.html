@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try RUNFLIX API — Free Search Playground</title>
+    <link rel="icon" type="image/x-icon" href="https://runflix.name.ng/favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        void: '#02040a', surface: '#0a0f1e', panel: '#111827', edge: '#1a2035',
+                        'edge-light': '#25304a',
+                        cyan: { 400: '#22d3ee', 500: '#06b6d4' },
+                        violet: { 400: '#a78bfa', 500: '#8b5cf6' },
+                        slate: { 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b' }
+                    },
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #02040a; color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .mesh-bg { position: fixed; inset: 0; z-index: -2; background: radial-gradient(ellipse 80% 50% at 20% 40%, rgba(34,211,238,0.07) 0%, transparent 50%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(139,92,246,0.05) 0%, transparent 50%); }
+        .dot-grid { position: fixed; inset: 0; z-index: -1; background-image: radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 32px 32px; mask-image: linear-gradient(to bottom, black 30%, transparent 100%); }
+        .panel { background: #111827; border: 1px solid #1a2035; }
+        .glow-search:focus { box-shadow: 0 0 0 2px rgba(34,211,238,0.2), 0 0 30px rgba(34,211,238,0.06); }
+        .movie-card { background: #111827; border: 1px solid #1a2035; transition: all 0.2s ease; }
+        .movie-card:hover { border-color: #25304a; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        .tag-cyan { background: rgba(34,211,238,0.08); border: 1px solid rgba(34,211,238,0.2); color: #22d3ee; }
+        .tag-violet { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); color: #a78bfa; }
+        .mono-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
+        .btn-primary { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); box-shadow: 0 0 20px rgba(6,182,212,0.25); transition: all 0.2s ease; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(6,182,212,0.4); }
+        .btn-violet { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); box-shadow: 0 0 20px rgba(139,92,246,0.25); transition: all 0.2s ease; }
+        .btn-violet:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(139,92,246,0.4); }
+        .nav-link { padding: 0.5rem 0.75rem; font-size: 0.8125rem; font-weight: 500; color: #64748b; border-radius: 0.5rem; transition: all 0.15s ease; }
+        .nav-link:hover { color: #e2e8f0; background: rgba(255,255,255,0.03); }
+        .quota-bar-fill { background: linear-gradient(90deg, #22d3ee, #a78bfa); border-radius: 4px; height: 100%; transition: width 0.4s ease; }
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .skeleton { background: linear-gradient(90deg, #1a2035 25%, #25304a 50%, #1a2035 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
+        .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(34,211,238,0.3); border-top-color: #22d3ee; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .result-item-type { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; }
+        .type-movie { background: rgba(34,211,238,0.08); color: #22d3ee; border: 1px solid rgba(34,211,238,0.15); }
+        .type-series { background: rgba(139,92,246,0.08); color: #a78bfa; border: 1px solid rgba(139,92,246,0.15); }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="mesh-bg"></div>
+    <div class="dot-grid"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-void/90 backdrop-blur-xl border-b border-edge">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-3 group shrink-0">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                    <i class="fas fa-play text-white text-xs"></i>
+                </div>
+                <div>
+                    <span class="font-bold text-sm tracking-tight text-white">RUNFLIX</span>
+                    <span class="text-slate-500 text-xs ml-1 font-mono">API</span>
+                </div>
+            </a>
+            <nav class="hidden md:flex items-center gap-1">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/docs" class="nav-link">Documentation</a>
+                <a href="/try" class="nav-link text-cyan-400 bg-cyan-500/5 border border-cyan-500/10">Try API</a>
+                <a href="/request-key" class="nav-link">Request Key</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <a href="/request-key" class="btn-violet px-4 py-2 rounded-lg font-semibold text-xs text-white inline-flex items-center gap-2">
+                    <i class="fas fa-key text-xs"></i>
+                    <span>Get Full Access</span>
+                </a>
+                <div class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
+                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Live</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-16 px-4 sm:px-6 max-w-6xl mx-auto">
+
+        <!-- Hero -->
+        <section class="mb-10 max-w-3xl">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="mono-label tag-cyan px-3 py-1.5 rounded-full">Free Tier</span>
+                <span class="mono-label text-slate-500">Search Playground</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
+                Try the API<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">before you buy</span>
+            </h1>
+            <p class="text-slate-400 text-base max-w-xl leading-relaxed">
+                Live search across the RUNFLIX catalog — no API key needed. Limited to <strong class="text-white">50 searches per day</strong>. 
+                <a href="/request-key" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">Request full access</a> for all endpoints.
+            </p>
+        </section>
+
+        <!-- Quota indicator -->
+        <div id="quotaBar" class="mb-8 panel rounded-xl p-4 flex items-center gap-4">
+            <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
+                <i class="fas fa-gauge-high text-sm"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between mb-1.5">
+                    <span class="text-xs font-semibold text-white">Daily Search Quota</span>
+                    <span class="mono-label text-slate-500" id="quotaText">10 / 10 remaining</span>
+                </div>
+                <div class="h-1.5 bg-edge rounded-full overflow-hidden">
+                    <div class="quota-bar-fill" id="quotaFill" style="width:100%"></div>
+                </div>
+            </div>
+            <a href="/request-key" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors shrink-0">
+                <i class="fas fa-infinity text-xs"></i>
+                Unlimited Access
+            </a>
+        </div>
+
+        <!-- Search box -->
+        <section class="mb-10">
+            <div class="relative">
+                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">
+                    <i class="fas fa-search"></i>
+                </div>
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search movies, TV shows, actors…"
+                    class="w-full bg-panel border border-edge rounded-xl pl-11 pr-36 py-4 text-white placeholder-slate-500 text-base outline-none glow-search transition-all"
+                    autocomplete="off"
+                >
+                <button
+                    id="searchBtn"
+                    onclick="doSearch()"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 btn-primary px-5 py-2.5 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2"
+                >
+                    <span id="searchBtnText">Search</span>
+                    <span id="searchSpinner" class="spinner hidden"></span>
+                </button>
+            </div>
+            <div class="mt-3 flex flex-wrap gap-2" id="suggestions">
+                <button onclick="quickSearch('Action')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Action</button>
+                <button onclick="quickSearch('Breaking Bad')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Breaking Bad</button>
+                <button onclick="quickSearch('Drama')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Drama</button>
+                <button onclick="quickSearch('Crime')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Crime</button>
+                <button onclick="quickSearch('Thriller')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Thriller</button>
+                <button onclick="quickSearch('Anime')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Anime</button>
+            </div>
+        </section>
+
+        <!-- Results area -->
+        <section id="resultsSection" class="mb-16 hidden">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-sm font-bold text-white" id="resultsTitle">Results</h2>
+                <span class="mono-label text-slate-500" id="resultsCount"></span>
+            </div>
+            <div id="resultsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+            <div id="moreHint" class="mt-6 hidden text-center">
+                <p class="text-xs text-slate-500">Showing first 10 results. <a href="/request-key" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">Get full API access</a> for complete pagination.</p>
+            </div>
+        </section>
+
+        <!-- Empty state -->
+        <section id="emptyState" class="mb-16">
+            <div class="panel rounded-2xl p-12 text-center border border-edge">
+                <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mx-auto mb-5">
+                    <i class="fas fa-search text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white mb-2">Search the catalog</h3>
+                <p class="text-slate-500 text-sm max-w-sm mx-auto">Type a title, genre, or actor above and press Search to see live results from the RUNFLIX API.</p>
+            </div>
+        </section>
+
+        <!-- Error state -->
+        <section id="errorState" class="mb-16 hidden">
+            <div class="panel rounded-xl p-6 text-center max-w-md mx-auto">
+                <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 mx-auto mb-3">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="text-base font-bold text-white mb-1" id="errorTitle">Search failed</h3>
+                <p class="text-sm text-slate-500" id="errorMsg">Something went wrong. Please try again.</p>
+            </div>
+        </section>
+
+        <!-- Quota exhausted state -->
+        <section id="quotaState" class="mb-16 hidden">
+            <div class="panel rounded-xl p-8 text-center max-w-lg mx-auto border border-violet-500/20">
+                <div class="w-14 h-14 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 mx-auto mb-4">
+                    <i class="fas fa-lock text-xl"></i>
+                </div>
+                <h3 class="text-xl font-black text-white mb-2">Daily limit reached</h3>
+                <p class="text-sm text-slate-400 mb-6 leading-relaxed">You've used all 10 free searches for today. Request a full API key to get unlimited access to all 7 endpoints — homepage, trending, search, metadata, streaming sources, captions, and audio dubs.</p>
+                <div class="flex flex-wrap gap-3 justify-center">
+                    <a href="/request-key" class="btn-violet px-6 py-3 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2">
+                        <i class="fas fa-key text-xs"></i>
+                        Request API Key
+                    </a>
+                    <a href="/docs" class="px-6 py-3 rounded-lg font-semibold text-sm text-slate-300 border border-edge hover:border-cyan-500/30 hover:text-cyan-400 transition-all inline-flex items-center gap-2">
+                        <i class="fas fa-book text-xs"></i>
+                        View Docs
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA banner -->
+        <section class="mb-8">
+            <div class="panel rounded-2xl p-6 sm:p-8 relative overflow-hidden border border-edge">
+                <div class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-cyan-500/10 to-violet-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+                    <div>
+                        <div class="mono-label tag-violet px-2 py-1 rounded mb-3 inline-block">Full Access</div>
+                        <h2 class="text-xl font-black text-white mb-1">Unlock all 7 endpoints</h2>
+                        <p class="text-slate-400 text-sm max-w-sm">Homepage, Trending, Search, Metadata, Streaming Sources, Captions, and Audio Dubs — unlimited requests with a verified API key.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-3 shrink-0">
+                        <a href="/request-key" class="btn-primary px-6 py-3 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2">
+                            <i class="fas fa-key text-xs"></i>
+                            Request Key
+                        </a>
+                        <a href="/docs" class="px-5 py-3 rounded-lg font-semibold text-sm text-slate-300 border border-edge hover:border-cyan-500/30 hover:text-cyan-400 transition-all inline-flex items-center gap-2">
+                            <i class="fas fa-book text-xs"></i>
+                            Docs
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        const DAILY_LIMIT = 50;
+        const LS_KEY = 'runflix_try_v3';
+
+        function renderMovieCard(item) {
+            const thumb = item.thumbnail || item.cover?.url || item.stills?.url || '';
+            const title = item.title || 'Unknown';
+            const year = item.year || item.releaseYear || '';
+            const type = item.subjectType === 2 ? 'series' : 'movie';
+            const rating = item.rating ? parseFloat(item.rating).toFixed(1) : '';
+            return `
+                <div class="movie-card rounded-xl overflow-hidden cursor-default" title="${escHtml(title)}">
+                    <div class="relative aspect-[2/3] bg-panel overflow-hidden">
+                        ${thumb ? `<img src="${escHtml(thumb)}" alt="${escHtml(title)}" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display='none'">` : ''}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                        ${rating ? `<div class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm rounded-md px-1.5 py-0.5 text-xs font-bold text-yellow-400"><i class="fas fa-star text-[9px] mr-0.5"></i>${rating}</div>` : ''}
+                        <div class="absolute bottom-2 left-2">
+                            <span class="result-item-type type-${type}">${type === 'series' ? 'Series' : 'Movie'}</span>
+                        </div>
+                    </div>
+                    <div class="p-2.5">
+                        <div class="text-xs font-semibold text-white leading-tight truncate">${escHtml(title)}</div>
+                        ${year ? `<div class="text-[10px] text-slate-500 mt-0.5">${year}</div>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function getQuota() {
+            try {
+                const today = new Date().toISOString().slice(0, 10);
+                const stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+                if (stored.date !== today) return { date: today, used: 0 };
+                return { date: today, used: stored.used || 0 };
+            } catch { return { date: new Date().toISOString().slice(0, 10), used: 0 }; }
+        }
+
+        function saveQuota(q) {
+            try { localStorage.setItem(LS_KEY, JSON.stringify(q)); } catch {}
+        }
+
+        function updateQuotaUI() {
+            const q = getQuota();
+            const remaining = Math.max(0, DAILY_LIMIT - q.used);
+            const pct = (remaining / DAILY_LIMIT) * 100;
+            document.getElementById('quotaText').textContent = `${remaining} / ${DAILY_LIMIT} remaining`;
+            document.getElementById('quotaFill').style.width = pct + '%';
+            if (pct <= 30) document.getElementById('quotaFill').style.background = 'linear-gradient(90deg, #f59e0b, #ef4444)';
+            if (pct === 0) showQuotaExhausted();
+        }
+
+        function showQuotaExhausted() {
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('quotaState').classList.remove('hidden');
+        }
+
+        function quickSearch(q) {
+            document.getElementById('searchInput').value = q;
+            doSearch();
+        }
+
+        async function doSearch() {
+            const q = document.getElementById('searchInput').value.trim();
+            if (!q) return;
+
+            const quota = getQuota();
+            if (quota.used >= DAILY_LIMIT) { showQuotaExhausted(); return; }
+
+            const btn = document.getElementById('searchBtn');
+            const btnText = document.getElementById('searchBtnText');
+            const spinner = document.getElementById('searchSpinner');
+            btn.disabled = true;
+            btnText.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            document.getElementById('quotaState').classList.add('hidden');
+
+            const grid = document.getElementById('resultsGrid');
+            grid.innerHTML = Array(6).fill(0).map(() => `
+                <div>
+                    <div class="skeleton w-full aspect-[2/3] mb-2"></div>
+                    <div class="skeleton h-3 w-3/4 mb-1.5"></div>
+                    <div class="skeleton h-2.5 w-1/2"></div>
+                </div>
+            `).join('');
+            document.getElementById('resultsSection').classList.remove('hidden');
+            document.getElementById('resultsTitle').textContent = `Results for "${q}"`;
+
+            try {
+                const r = await fetch(`/try-search/${encodeURIComponent(q)}`);
+                const d = await r.json();
+                if (!r.ok || !d.success) {
+                    if (r.status === 429) { showQuotaExhausted(); return; }
+                    throw new Error(d.message || 'Search failed');
+                }
+                quota.used += 1;
+                saveQuota(quota);
+                updateQuotaUI();
+
+                const items = d.results?.items || [];
+                document.getElementById('resultsCount').textContent = items.length
+                    ? `${items.length} result${items.length !== 1 ? 's' : ''}`
+                    : '';
+
+                if (!items.length) {
+                    grid.innerHTML = `
+                        <div class="col-span-full text-center py-10">
+                            <i class="fas fa-search text-slate-600 text-3xl mb-3 block"></i>
+                            <p class="text-slate-500 text-sm">No results found for "<span class="text-white">${escHtml(q)}</span>"</p>
+                        </div>
+                    `;
+                    document.getElementById('moreHint').classList.add('hidden');
+                    return;
+                }
+
+                grid.innerHTML = items.slice(0, 10).map(renderMovieCard).join('');
+                document.getElementById('moreHint').classList.toggle('hidden', items.length <= 10);
+
+            } catch (e) {
+                document.getElementById('resultsSection').classList.add('hidden');
+                document.getElementById('errorState').classList.remove('hidden');
+                document.getElementById('errorTitle').textContent = 'Search failed';
+                document.getElementById('errorMsg').textContent = e.message || 'Unexpected error. Please try again.';
+            } finally {
+                btn.disabled = false;
+                btnText.classList.remove('hidden');
+                spinner.classList.add('hidden');
+            }
+        }
+
+        function escHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        document.getElementById('searchInput').addEventListener('keydown', e => {
+            if (e.key === 'Enter') doSearch();
+        });
+
+        updateQuotaUI();
+    </script>
+</body>
+</html>

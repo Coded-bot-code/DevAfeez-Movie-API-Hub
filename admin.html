@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNFLIX — Key Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root { --void: #050508; --panel: #0d0e14; --edge: rgba(255,255,255,0.07); --text: #cbd5e1; --muted: #475569; }
+        body { font-family: 'Inter','Segoe UI',system-ui,sans-serif; background: var(--void); color: var(--text); min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+
+        /* Header */
+        header { position: sticky; top: 0; z-index: 50; background: rgba(5,5,8,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--edge); padding: 0 1.5rem; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { display: flex; align-items: center; gap: 0.6rem; }
+        .logo-icon { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg,#8b5cf6,#6366f1); display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; }
+        .logo-text { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 0.04em; }
+        .logo-sub { font-size: 10px; color: var(--muted); font-family: monospace; margin-left: 4px; }
+        .back-link { display: flex; align-items: center; gap: 0.4rem; font-size: 12px; color: var(--muted); transition: color 0.15s; }
+        .back-link:hover { color: #fff; }
+
+        /* Login gate */
+        #loginGate { position: fixed; inset: 0; z-index: 100; background: var(--void); display: flex; align-items: center; justify-content: center; }
+        .login-box { background: var(--panel); border: 1px solid var(--edge); border-radius: 18px; padding: 2.5rem 2rem; width: 360px; max-width: 90vw; text-align: center; }
+        .login-icon { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg,#8b5cf6,#6366f1); display: flex; align-items: center; justify-content: center; font-size: 22px; color: white; margin: 0 auto 1.25rem; }
+        .login-title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 0.4rem; }
+        .login-desc { font-size: 12px; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.5; }
+        .login-error { font-size: 11px; color: #f87171; margin-top: 0.75rem; min-height: 16px; }
+
+        /* Main */
+        main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+        .page-title { font-size: 22px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.35rem; }
+        .page-desc { font-size: 13px; color: var(--muted); max-width: 520px; line-height: 1.5; margin-bottom: 2rem; }
+
+        .stats-bar { display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .stat-pill { display: flex; align-items: center; gap: 0.5rem; background: var(--panel); border: 1px solid var(--edge); border-radius: 10px; padding: 0.6rem 1rem; font-size: 12px; }
+        .stat-num { font-size: 18px; font-weight: 700; color: #fff; margin-right: 2px; }
+        .stat-label { color: var(--muted); }
+
+        .section-label { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+        .section-label span { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); font-family: monospace; background: rgba(255,255,255,0.04); border: 1px solid var(--edge); padding: 2px 8px; border-radius: 4px; }
+        .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right,var(--edge),transparent); }
+
+        .card { background: var(--panel); border: 1px solid var(--edge); border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+        .field-label { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 0.35rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        .field-row { display: flex; gap: 0.5rem; }
+        input[type="text"], input[type="password"] {
+            flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 8px; padding: 0.55rem 0.8rem; color: #fff; font-size: 12px;
+            font-family: monospace; outline: none; transition: border-color 0.15s; width: 100%;
+        }
+        input::placeholder { color: var(--muted); }
+        input:focus { border-color: rgba(139,92,246,0.5); }
+
+        .btn { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.55rem 1rem; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; white-space: nowrap; }
+        .btn-ghost { background: rgba(255,255,255,0.05); color: var(--text); border: 1px solid var(--edge); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.09); color: #fff; }
+        .btn-violet { background: rgba(139,92,246,0.18); color: #a78bfa; border: 1px solid rgba(139,92,246,0.3); }
+        .btn-violet:hover { background: rgba(139,92,246,0.28); }
+        .btn-danger { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+        .btn-danger:hover { background: rgba(239,68,68,0.2); }
+        .btn-full { width: 100%; justify-content: center; padding: 0.7rem; }
+        .form-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem; }
+
+        .keys-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2.5rem; }
+        .key-card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 1rem 1.25rem; }
+        .key-value-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .key-string { font-family: monospace; font-size: 12px; color: #94a3b8; background: rgba(255,255,255,0.03); border: 1px solid var(--edge); border-radius: 6px; padding: 0.35rem 0.7rem; word-break: break-all; flex: 1; min-width: 0; }
+        .key-string.revealed { color: #a78bfa; }
+        .key-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+        .icon-btn { width: 28px; height: 28px; border-radius: 7px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 11px; transition: all 0.15s; }
+        .icon-btn.eye { background: rgba(255,255,255,0.05); color: var(--muted); }
+        .icon-btn.eye:hover { color: #fff; background: rgba(255,255,255,0.1); }
+        .icon-btn.copy { background: rgba(34,211,238,0.07); color: #67e8f9; }
+        .icon-btn.copy:hover { background: rgba(34,211,238,0.15); }
+        .icon-btn.del { background: rgba(239,68,68,0.07); color: #fca5a5; }
+        .icon-btn.del:hover { background: rgba(239,68,68,0.18); }
+        .key-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
+        .owner-tag { font-size: 11px; font-weight: 600; color: #a78bfa; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); padding: 2px 8px; border-radius: 5px; }
+        .domain-pill { font-size: 10px; color: #64748b; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 2px 7px; border-radius: 4px; font-family: monospace; }
+        .created-ts { font-size: 10px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+
+        .empty-state { text-align: center; padding: 3rem 1rem; background: var(--panel); border: 1px dashed rgba(255,255,255,0.08); border-radius: 12px; color: var(--muted); }
+        .empty-state i { font-size: 32px; margin-bottom: 0.75rem; display: block; opacity: 0.3; }
+        .empty-state p { font-size: 13px; }
+
+        #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999; background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.3); color: #34d399; padding: 0.6rem 1rem; border-radius: 8px; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; opacity: 0; transform: translateY(8px); transition: all 0.2s; pointer-events: none; max-width: 300px; }
+        #toast.show { opacity: 1; transform: translateY(0); }
+        #toast.error { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.3); color: #fca5a5; }
+
+        .confirm-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; }
+        .confirm-overlay.open { display: flex; }
+        .confirm-box { background: #0d0e14; border: 1px solid var(--edge); border-radius: 14px; padding: 1.5rem; max-width: 360px; width: 90%; text-align: center; }
+        .confirm-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+        .confirm-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-bottom: 1.25rem; }
+        .confirm-key-preview { font-family: monospace; font-size: 11px; color: #fca5a5; word-break: break-all; margin-bottom: 1.25rem; }
+        .confirm-actions { display: flex; gap: 0.5rem; justify-content: center; }
+
+        .notice-box { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.2); border-radius: 10px; padding: 0.75rem 1rem; font-size: 11.5px; color: #94a3b8; line-height: 1.6; margin-bottom: 1.5rem; }
+        .notice-box code { color: #a78bfa; font-size: 10.5px; }
+
+        /* Changelog */
+        select { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 8px; padding: 0.55rem 0.8rem; color: #fff; font-size: 12px; font-family: inherit; outline: none; transition: border-color 0.15s; width: 100%; appearance: none; }
+        select:focus { border-color: rgba(139,92,246,0.5); }
+        textarea { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 8px; padding: 0.55rem 0.8rem; color: #fff; font-size: 12px; font-family: inherit; outline: none; transition: border-color 0.15s; width: 100%; resize: vertical; min-height: 70px; }
+        textarea:focus { border-color: rgba(139,92,246,0.5); }
+        textarea::placeholder { color: var(--muted); }
+        .cl-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .cl-card { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px; padding: 1rem 1.25rem; }
+        .cl-card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
+        .cl-version { font-size: 11px; font-family: monospace; font-weight: 700; color: #a78bfa; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); padding: 2px 7px; border-radius: 4px; }
+        .cl-type { font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+        .cl-type.feature     { background: rgba(99,102,241,0.12); color: #818cf8; border: 1px solid rgba(99,102,241,0.25); }
+        .cl-type.fix         { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+        .cl-type.breaking    { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+        .cl-type.improvement { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+        .cl-date { font-size: 10px; color: var(--muted); margin-left: auto; }
+        .cl-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 0.2rem; }
+        .cl-desc { font-size: 11px; color: #64748b; margin-bottom: 0.5rem; line-height: 1.5; }
+        .cl-changes { font-size: 11px; color: var(--text); line-height: 1.6; }
+        .cl-changes li { list-style: none; display: flex; gap: 0.4rem; }
+        .cl-changes li::before { content: '→'; color: #6366f1; flex-shrink: 0; }
+        .cl-card-actions { display: flex; gap: 0.4rem; margin-top: 0.75rem; justify-content: flex-end; }
+        .btn-green { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+        .btn-green:hover { background: rgba(16,185,129,0.2); }
+
+        /* Edit modal */
+        .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1rem; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { background: #0d0e14; border: 1px solid var(--edge); border-radius: 16px; padding: 1.75rem; max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; }
+        .modal-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+        @media (max-width: 500px) { .modal-grid { grid-template-columns: 1fr; } }
+        .modal-full { grid-column: 1 / -1; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-key"></i></div>
+            <span class="logo-text">RUNFLIX</span>
+            <span class="logo-sub">KEY MANAGER</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;">
+            <a href="/admin/stats" class="back-link"><i class="fas fa-chart-line" style="font-size:10px;"></i> <span>Stats</span></a>
+            <a href="/changelog" class="back-link"><i class="fas fa-scroll" style="font-size:10px;"></i> <span>Changelog</span></a>
+            <a href="/docs" class="back-link"><i class="fas fa-book-open" style="font-size:10px;"></i> <span>Docs</span></a>
+        </div>
+    </header>
+
+    <!-- Password gate -->
+    <div id="loginGate">
+        <div class="login-box">
+            <div class="login-icon"><i class="fas fa-key"></i></div>
+            <div class="login-title">Admin Access</div>
+            <div class="login-desc">Enter your admin password to manage API keys.<br>Set via <code style="font-size:10px;color:#a78bfa;">ADMIN_SECRET</code> Worker secret.</div>
+            <div class="field-row" style="margin-bottom:0.5rem;">
+                <input type="password" id="pwdInput" placeholder="Admin password" autocomplete="current-password">
+            </div>
+            <button class="btn btn-violet btn-full" onclick="login()">
+                <i class="fas fa-unlock text-xs"></i> Unlock
+            </button>
+            <div class="login-error" id="loginError"></div>
+        </div>
+    </div>
+
+    <main id="mainContent" style="display:none;">
+        <div class="page-title"><i class="fas fa-key" style="color:#a78bfa;font-size:18px;"></i> API Key Manager</div>
+        <p class="page-desc">Issue keys to customers. Keys activate instantly on the live Worker — no redeployment needed.</p>
+
+        <div class="stats-bar">
+            <div class="stat-pill"><span class="stat-num" id="statKeys">0</span><span class="stat-label">Active Keys</span></div>
+            <div class="stat-pill"><span class="stat-num" id="statDomains">0</span><span class="stat-label">Authorized Domains</span></div>
+            <div class="stat-pill">
+                <span style="width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,0.5);display:inline-block;margin-right:6px;"></span>
+                <span style="font-size:12px;color:#86efac;font-weight:600;">KV Live</span>
+            </div>
+        </div>
+
+        <div class="notice-box">
+            <i class="fas fa-info-circle" style="color:#6366f1;margin-right:6px;"></i>
+            Keys are stored in your <code>KV_STORE</code> namespace. When you add or revoke a key here, it takes effect on the live API within <strong style="color:#e2e8f0;">30 seconds</strong> (cache TTL).
+        </div>
+
+        <!-- Add New Key -->
+        <div class="section-label"><span>Issue New Key</span></div>
+        <div class="card">
+            <div class="form-grid">
+                <div>
+                    <div class="field-label">Key String</div>
+                    <div class="field-row">
+                        <input type="text" id="inputKey" placeholder="runflix_abc123…" autocomplete="off" spellcheck="false">
+                        <button class="btn btn-ghost" onclick="generateKey()" title="Generate random key"><i class="fas fa-dice"></i></button>
+                    </div>
+                </div>
+                <div>
+                    <div class="field-label">Owner / Client Name</div>
+                    <input type="text" id="inputOwner" placeholder="e.g. John's App">
+                </div>
+                <div style="grid-column:1/-1;">
+                    <div class="field-label">Authorized Domains <span style="text-transform:none;font-weight:400;letter-spacing:0;color:#334155">(comma-separated — leave blank to allow all origins)</span></div>
+                    <input type="text" id="inputDomains" placeholder="app.client.com, movies.client.co.ke">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-ghost" onclick="clearForm()">Clear</button>
+                <button class="btn btn-violet" onclick="addKey()"><i class="fas fa-plus text-xs"></i> Issue Key</button>
+            </div>
+        </div>
+
+        <!-- Keys list -->
+        <div class="section-label"><span>Active Keys</span></div>
+        <div class="keys-list" id="keysList"></div>
+
+        <!-- ──────────────────────────────────────────── -->
+        <!-- Changelog Section -->
+        <!-- ──────────────────────────────────────────── -->
+        <div style="border-top:1px solid var(--edge);margin:2.5rem 0;"></div>
+
+        <div class="page-title" style="margin-bottom:0.35rem;"><i class="fas fa-scroll" style="color:#a78bfa;font-size:18px;"></i> Changelog Manager</div>
+        <p class="page-desc">Add, edit, and remove public changelog entries. Changes appear instantly on <a href="/changelog" style="color:#a78bfa;">/changelog</a>.</p>
+
+        <!-- Add New Entry -->
+        <div class="section-label"><span>New Entry</span></div>
+        <div class="card">
+            <div class="form-grid">
+                <div>
+                    <div class="field-label">Version</div>
+                    <input type="text" id="clVersion" placeholder="v1.4.0" spellcheck="false">
+                </div>
+                <div>
+                    <div class="field-label">Type</div>
+                    <select id="clType">
+                        <option value="feature">Feature</option>
+                        <option value="fix">Fix</option>
+                        <option value="improvement">Improvement</option>
+                        <option value="breaking">Breaking Change</option>
+                    </select>
+                </div>
+                <div>
+                    <div class="field-label">Date</div>
+                    <input type="text" id="clDate" placeholder="2026-06-18" spellcheck="false">
+                </div>
+                <div>
+                    <div class="field-label">Title</div>
+                    <input type="text" id="clTitle" placeholder="Short summary of the change">
+                </div>
+                <div style="grid-column:1/-1;">
+                    <div class="field-label">Description <span style="text-transform:none;font-weight:400;letter-spacing:0;color:#334155">(optional — shown below title)</span></div>
+                    <textarea id="clDesc" placeholder="More detail about what changed and why…"></textarea>
+                </div>
+                <div style="grid-column:1/-1;">
+                    <div class="field-label">Changes <span style="text-transform:none;font-weight:400;letter-spacing:0;color:#334155">(one per line)</span></div>
+                    <textarea id="clChanges" style="min-height:90px;" placeholder="Fixed episode count on series pages&#10;Added browserCompatible flag to HEVC sources&#10;…"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-ghost" onclick="clearClForm()">Clear</button>
+                <button class="btn btn-violet" onclick="addEntry()"><i class="fas fa-plus text-xs"></i> Add Entry</button>
+            </div>
+        </div>
+
+        <!-- Entries List -->
+        <div class="section-label"><span>All Entries</span></div>
+        <div class="cl-list" id="clList"></div>
+
+        <!-- Push to Worker -->
+        <div style="margin-top:2rem;">
+            <div class="section-label"><span>Push to Production KV</span></div>
+            <div class="card">
+                <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:1rem;">
+                    <i class="fas fa-cloud-upload-alt" style="color:#6366f1;margin-right:6px;"></i>
+                    Sync all local changelog entries to the deployed CF Worker's KV store in one click.
+                    Reads your current <code style="color:#a78bfa;font-size:10.5px;">changelog.json</code> and calls
+                    <code style="color:#a78bfa;font-size:10.5px;">PUT /admin/api/changelog/bulk</code> on the Worker.
+                </p>
+                <div class="form-grid" style="margin-bottom:1rem;">
+                    <div>
+                        <div class="field-label">Worker URL <span style="text-transform:none;font-weight:400;letter-spacing:0;color:#334155">(auto-loaded from CF_WORKER_URL)</span></div>
+                        <input type="text" id="pushWorkerUrl" placeholder="https://your-worker.workers.dev" spellcheck="false">
+                    </div>
+                    <div>
+                        <div class="field-label">Worker Admin Secret <span style="text-transform:none;font-weight:400;letter-spacing:0;color:#334155">(leave blank to use ADMIN_SECRET)</span></div>
+                        <input type="password" id="pushWorkerSecret" placeholder="Same as production ADMIN_SECRET" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-violet" onclick="pushToWorker()" id="pushBtn">
+                        <i class="fas fa-cloud-upload-alt" style="font-size:10px;"></i> Push to Worker KV
+                    </button>
+                </div>
+                <div id="pushStatus" style="margin-top:0.75rem;font-size:11.5px;display:none;"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-box">
+            <div class="modal-title"><i class="fas fa-pen" style="color:#a78bfa;font-size:14px;"></i> Edit Entry</div>
+            <input type="hidden" id="editId">
+            <div class="modal-grid">
+                <div>
+                    <div class="field-label">Version</div>
+                    <input type="text" id="editVersion" placeholder="v1.4.0">
+                </div>
+                <div>
+                    <div class="field-label">Type</div>
+                    <select id="editType">
+                        <option value="feature">Feature</option>
+                        <option value="fix">Fix</option>
+                        <option value="improvement">Improvement</option>
+                        <option value="breaking">Breaking Change</option>
+                    </select>
+                </div>
+                <div>
+                    <div class="field-label">Date</div>
+                    <input type="text" id="editDate" placeholder="2026-06-18">
+                </div>
+                <div>
+                    <div class="field-label">Title</div>
+                    <input type="text" id="editTitle" placeholder="Title">
+                </div>
+                <div class="modal-full">
+                    <div class="field-label">Description</div>
+                    <textarea id="editDesc" placeholder="More detail…"></textarea>
+                </div>
+                <div class="modal-full">
+                    <div class="field-label">Changes <span style="text-transform:none;font-weight:400;letter-spacing:0;color:#334155">(one per line)</span></div>
+                    <textarea id="editChanges" style="min-height:90px;"></textarea>
+                </div>
+            </div>
+            <div class="form-actions" style="margin-top:1.25rem;">
+                <button class="btn btn-ghost" onclick="closeEditModal()">Cancel</button>
+                <button class="btn btn-violet" onclick="saveEdit()"><i class="fas fa-save text-xs"></i> Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-box">
+            <div class="confirm-title" id="confirmTitle">Revoke API Key?</div>
+            <div class="confirm-desc" id="confirmBody">This will permanently remove the key from KV. Requests using it will be rejected within 30 seconds.</div>
+            <div class="confirm-key-preview" id="confirmKeyPreview"></div>
+            <div class="confirm-actions">
+                <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+                <button class="btn btn-danger" id="confirmRevokeBtn" onclick="confirmRevoke()"><i class="fas fa-trash-alt text-xs"></i> Revoke</button>
+            </div>
+        </div>
+    </div>
+    <div id="toast"></div>
+
+    <script>
+        const MASKED = '●'.repeat(12);
+        let keys = {};
+        let revokeTarget = null;
+        let adminPwd = '';
+
+        function authHeaders() {
+            return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${adminPwd}` };
+        }
+
+        async function login() {
+            const pwd = document.getElementById('pwdInput').value.trim();
+            if (!pwd) return;
+            const errEl = document.getElementById('loginError');
+            errEl.textContent = '';
+            try {
+                const r = await fetch('/admin/api/keys', { headers: { 'Authorization': `Bearer ${pwd}` } });
+                if (r.status === 401) { errEl.textContent = 'Incorrect password.'; return; }
+                adminPwd = pwd;
+                sessionStorage.setItem('adminPwd', pwd);
+                document.getElementById('loginGate').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                processKeys(await r.json());
+            } catch { errEl.textContent = 'Connection error.'; }
+        }
+
+        async function loadKeys() {
+            try {
+                const r = await fetch('/admin/api/keys', { headers: authHeaders() });
+                if (r.status === 401) { sessionStorage.removeItem('adminPwd'); location.reload(); return; }
+                processKeys(await r.json());
+            } catch { toast('Failed to load keys', true); }
+        }
+
+        function processKeys(data) {
+            keys = data;
+            render();
+        }
+
+        function mask(k) {
+            if (k.length <= 12) return MASKED;
+            return k.substring(0, 8) + '●'.repeat(Math.min(k.length - 8, 12));
+        }
+
+        function render() {
+            const entries = Object.entries(keys);
+            document.getElementById('statKeys').textContent = entries.length;
+            document.getElementById('statDomains').textContent = entries.reduce((n,[,v]) => n + (v.domains?.length || 0), 0);
+            const list = document.getElementById('keysList');
+            if (!entries.length) {
+                list.innerHTML = `<div class="empty-state"><i class="fas fa-key"></i><p>No keys yet. Issue one above to get started.</p></div>`;
+                return;
+            }
+            list.innerHTML = entries.map(([k, v]) => {
+                const safe = encodeURIComponent(k);
+                const domPills = (v.domains || []).length
+                    ? v.domains.map(d => `<span class="domain-pill">${d}</span>`).join('')
+                    : `<span class="domain-pill" style="font-style:italic;color:#334155;">all origins</span>`;
+                const created = v.createdAt ? new Date(v.createdAt).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : '—';
+                return `<div class="key-card" id="card-${safe}">
+                    <div class="key-value-row">
+                        <div class="key-string" id="ks-${safe}">${mask(k)}</div>
+                        <div class="key-actions">
+                            <button class="icon-btn eye" onclick="toggleReveal('${safe}')" title="Reveal"><i class="fas fa-eye"></i></button>
+                            <button class="icon-btn copy" onclick="copyKey('${safe}')" title="Copy key"><i class="fas fa-copy"></i></button>
+                            <button class="icon-btn del" onclick="askRevoke('${safe}')" title="Revoke"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="key-meta">
+                        <span class="owner-tag">${v.owner || '—'}</span>
+                        ${domPills}
+                        <span class="created-ts"><i class="far fa-calendar-alt" style="font-size:9px;margin-right:3px;"></i>${created}</span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        const revealed = new Set();
+        function toggleReveal(safe) {
+            const k = decodeURIComponent(safe);
+            const el = document.getElementById('ks-' + safe);
+            if (revealed.has(safe)) { revealed.delete(safe); el.textContent = mask(k); el.classList.remove('revealed'); }
+            else { revealed.add(safe); el.textContent = k; el.classList.add('revealed'); }
+        }
+
+        function copyKey(safe) {
+            navigator.clipboard.writeText(decodeURIComponent(safe)).then(() => toast('Key copied to clipboard'));
+        }
+
+        async function generateKey() {
+            try {
+                const r = await fetch('/admin/api/generate', { method: 'POST', headers: authHeaders() });
+                const d = await r.json();
+                document.getElementById('inputKey').value = d.key;
+            } catch { toast('Failed to generate', true); }
+        }
+
+        function clearForm() {
+            ['inputKey','inputOwner','inputDomains'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        async function addKey() {
+            const key = document.getElementById('inputKey').value.trim();
+            const owner = document.getElementById('inputOwner').value.trim();
+            const domainsRaw = document.getElementById('inputDomains').value.trim();
+            const domains = domainsRaw ? domainsRaw.split(',').map(d => d.trim()).filter(Boolean) : [];
+            if (!key) return toast('Enter a key string', true);
+            if (!owner) return toast('Enter the client name', true);
+            try {
+                const r = await fetch('/admin/api/keys', { method: 'POST', headers: authHeaders(), body: JSON.stringify({ key, owner, domains }) });
+                const d = await r.json();
+                if (!r.ok) return toast(d.error || 'Error', true);
+                clearForm();
+                toast('Key issued — live in KV within 30s ✓');
+                loadKeys();
+            } catch { toast('Network error', true); }
+        }
+
+        function askRevoke(safe) {
+            revokeTarget = decodeURIComponent(safe);
+            const preview = revokeTarget.length > 40 ? revokeTarget.slice(0,24) + '…' + revokeTarget.slice(-8) : revokeTarget;
+            document.getElementById('confirmTitle').textContent = 'Revoke API Key?';
+            document.getElementById('confirmBody').textContent = 'This will permanently remove the key from KV. Requests using it will be rejected within 30 seconds.';
+            document.getElementById('confirmKeyPreview').textContent = preview;
+            document.getElementById('confirmRevokeBtn').innerHTML = '<i class="fas fa-trash-alt" style="font-size:10px;"></i> Revoke';
+            document.getElementById('confirmRevokeBtn').onclick = confirmRevoke;
+            document.getElementById('confirmOverlay').classList.add('open');
+        }
+
+        function closeConfirm() { revokeTarget = null; document.getElementById('confirmOverlay').classList.remove('open'); }
+
+        async function confirmRevoke() {
+            if (!revokeTarget) return closeConfirm();
+            try {
+                const r = await fetch('/admin/api/keys/' + encodeURIComponent(revokeTarget), { method: 'DELETE', headers: authHeaders() });
+                const d = await r.json();
+                if (!r.ok) return toast(d.error || 'Error', true);
+                toast('Key revoked — will stop working within 30s');
+                closeConfirm();
+                loadKeys();
+            } catch { toast('Network error', true); }
+        }
+
+        let toastTimer;
+        function toast(msg, isError = false) {
+            const el = document.getElementById('toast');
+            el.innerHTML = `<i class="fas fa-${isError ? 'exclamation-circle' : 'check-circle'}"></i> ${msg}`;
+            el.className = 'show' + (isError ? ' error' : '');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { el.className = ''; }, 3000);
+        }
+
+        document.getElementById('confirmOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeConfirm(); });
+        document.getElementById('pwdInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+
+        // Auto-login if password stored in session
+        const stored = sessionStorage.getItem('adminPwd');
+        if (stored) {
+            adminPwd = stored;
+            fetch('/admin/api/keys', { headers: { 'Authorization': `Bearer ${stored}` } }).then(async r => {
+                if (r.ok) {
+                    document.getElementById('loginGate').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'block';
+                    processKeys(await r.json());
+                    loadChangelog();
+                } else { sessionStorage.removeItem('adminPwd'); }
+            }).catch(() => {});
+        }
+
+        // ── Changelog ────────────────────────────────────────────────────────
+        let clEntries = [];
+        let clDeleteTarget = null;
+
+        const TYPE_LABELS = { feature: 'Feature', fix: 'Fix', improvement: 'Improvement', breaking: 'Breaking' };
+
+        function todayISO() {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        async function loadChangelog() {
+            try {
+                const r = await fetch('/admin/api/changelog', { headers: authHeaders() });
+                if (!r.ok) return;
+                clEntries = await r.json();
+                renderChangelog();
+            } catch {}
+        }
+
+        function renderChangelog() {
+            const list = document.getElementById('clList');
+            const sorted = [...clEntries].sort((a, b) => new Date(b.date) - new Date(a.date));
+            if (!sorted.length) {
+                list.innerHTML = `<div class="empty-state"><i class="fas fa-scroll"></i><p>No changelog entries yet. Add one above.</p></div>`;
+                return;
+            }
+            list.innerHTML = sorted.map(e => {
+                const typeClass = e.type || 'feature';
+                const typeLabel = TYPE_LABELS[e.type] || e.type;
+                const changes = (e.changes || []).map(c => `<li>${c}</li>`).join('');
+                const fmtDate = e.date ? new Date(e.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+                return `<div class="cl-card">
+                    <div class="cl-card-header">
+                        <span class="cl-version">${e.version || '?'}</span>
+                        <span class="cl-type ${typeClass}">${typeLabel}</span>
+                        <span class="cl-date"><i class="far fa-calendar-alt" style="margin-right:3px;font-size:9px;"></i>${fmtDate}</span>
+                    </div>
+                    <div class="cl-title">${e.title || ''}</div>
+                    ${e.description ? `<div class="cl-desc">${e.description}</div>` : ''}
+                    ${changes ? `<ul class="cl-changes">${changes}</ul>` : ''}
+                    <div class="cl-card-actions">
+                        <button class="btn btn-ghost" style="font-size:11px;padding:0.4rem 0.75rem;" onclick="openEdit('${e.id}')"><i class="fas fa-pen" style="font-size:10px;"></i> Edit</button>
+                        <button class="btn btn-danger" style="font-size:11px;padding:0.4rem 0.75rem;" onclick="askDeleteEntry('${e.id}')"><i class="fas fa-trash-alt" style="font-size:10px;"></i> Delete</button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function clearClForm() {
+            ['clVersion','clDate','clTitle','clDesc','clChanges'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('clType').value = 'feature';
+        }
+
+        async function addEntry() {
+            const version = document.getElementById('clVersion').value.trim();
+            const type    = document.getElementById('clType').value;
+            const date    = document.getElementById('clDate').value.trim() || todayISO();
+            const title   = document.getElementById('clTitle').value.trim();
+            const desc    = document.getElementById('clDesc').value.trim();
+            const changesRaw = document.getElementById('clChanges').value.trim();
+            const changes = changesRaw ? changesRaw.split('\n').map(l => l.trim()).filter(Boolean) : [];
+            if (!version) return toast('Enter a version (e.g. v1.4.0)', true);
+            if (!title)   return toast('Enter a title for the entry', true);
+            try {
+                const r = await fetch('/admin/api/changelog', {
+                    method: 'POST', headers: authHeaders(),
+                    body: JSON.stringify({ version, type, date, title, description: desc, changes })
+                });
+                const d = await r.json();
+                if (!r.ok) return toast(d.error || 'Error adding entry', true);
+                clearClForm();
+                toast('Entry added ✓');
+                loadChangelog();
+            } catch { toast('Network error', true); }
+        }
+
+        function openEdit(id) {
+            const entry = clEntries.find(e => e.id === id);
+            if (!entry) return;
+            document.getElementById('editId').value = id;
+            document.getElementById('editVersion').value = entry.version || '';
+            document.getElementById('editType').value = entry.type || 'feature';
+            document.getElementById('editDate').value = entry.date || '';
+            document.getElementById('editTitle').value = entry.title || '';
+            document.getElementById('editDesc').value = entry.description || '';
+            document.getElementById('editChanges').value = (entry.changes || []).join('\n');
+            document.getElementById('editModal').classList.add('open');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('open');
+        }
+
+        async function saveEdit() {
+            const id      = document.getElementById('editId').value;
+            const version = document.getElementById('editVersion').value.trim();
+            const type    = document.getElementById('editType').value;
+            const date    = document.getElementById('editDate').value.trim();
+            const title   = document.getElementById('editTitle').value.trim();
+            const desc    = document.getElementById('editDesc').value.trim();
+            const changesRaw = document.getElementById('editChanges').value.trim();
+            const changes = changesRaw ? changesRaw.split('\n').map(l => l.trim()).filter(Boolean) : [];
+            if (!version) return toast('Version is required', true);
+            if (!title)   return toast('Title is required', true);
+            try {
+                const r = await fetch('/admin/api/changelog/' + encodeURIComponent(id), {
+                    method: 'PUT', headers: authHeaders(),
+                    body: JSON.stringify({ version, type, date, title, description: desc, changes })
+                });
+                const d = await r.json();
+                if (!r.ok) return toast(d.error || 'Error saving entry', true);
+                closeEditModal();
+                toast('Entry updated ✓');
+                loadChangelog();
+            } catch { toast('Network error', true); }
+        }
+
+        function askDeleteEntry(id) {
+            clDeleteTarget = id;
+            const entry = clEntries.find(e => e.id === id);
+            document.getElementById('confirmTitle').textContent = 'Delete Changelog Entry?';
+            document.getElementById('confirmBody').textContent = 'This will permanently remove the entry from the public changelog.';
+            document.getElementById('confirmKeyPreview').textContent = entry ? (entry.version + ' — ' + entry.title) : id;
+            document.getElementById('confirmRevokeBtn').textContent = 'Delete';
+            document.getElementById('confirmRevokeBtn').onclick = confirmDeleteEntry;
+            document.getElementById('confirmOverlay').classList.add('open');
+        }
+
+        async function confirmDeleteEntry() {
+            if (!clDeleteTarget) return closeConfirm();
+            try {
+                const r = await fetch('/admin/api/changelog/' + encodeURIComponent(clDeleteTarget), { method: 'DELETE', headers: authHeaders() });
+                const d = await r.json();
+                if (!r.ok) return toast(d.error || 'Error', true);
+                toast('Entry deleted');
+                clDeleteTarget = null;
+                closeConfirm();
+                loadChangelog();
+            } catch { toast('Network error', true); }
+        }
+
+        document.getElementById('editModal').addEventListener('click', e => { if (e.target === e.currentTarget) closeEditModal(); });
+
+        // Patch confirm overlay to support both key revoke and changelog delete
+        document.getElementById('confirmOverlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeConfirm(); });
+
+        // ── Push to Worker ───────────────────────────────────────────────────────
+        async function initPushWorkerUrl() {
+            try {
+                const r = await fetch('/debug/pool');
+                if (!r.ok) return;
+                const d = await r.json();
+                if (d.relay?.url) document.getElementById('pushWorkerUrl').value = d.relay.url;
+            } catch {}
+        }
+        initPushWorkerUrl();
+
+        async function pushToWorker() {
+            const workerUrl  = document.getElementById('pushWorkerUrl').value.trim();
+            const workerSecret = document.getElementById('pushWorkerSecret').value.trim();
+            const btn    = document.getElementById('pushBtn');
+            const status = document.getElementById('pushStatus');
+
+            if (!workerUrl) {
+                status.style.display = 'block';
+                status.style.color = '#f87171';
+                status.innerHTML = '<i class="fas fa-exclamation-circle" style="margin-right:5px;"></i>Enter the Worker URL first.';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:10px;"></i> Pushing…';
+            status.style.display = 'none';
+
+            try {
+                const body = { worker_url: workerUrl };
+                if (workerSecret) body.worker_secret = workerSecret;
+
+                const r = await fetch('/admin/api/changelog/push-to-worker', {
+                    method: 'POST',
+                    headers: authHeaders(),
+                    body: JSON.stringify(body)
+                });
+                const d = await r.json();
+
+                status.style.display = 'block';
+                if (r.ok) {
+                    status.style.color = '#34d399';
+                    status.innerHTML = `<i class="fas fa-check-circle" style="margin-right:5px;"></i>${d.count} ${d.count === 1 ? 'entry' : 'entries'} pushed to <span style="color:#a78bfa;font-family:monospace;">${d.workerUrl}</span> — KV updated.`;
+                    toast(`${d.count} entries pushed to Worker KV ✓`);
+                } else {
+                    status.style.color = '#f87171';
+                    status.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right:5px;"></i>${d.error || 'Unknown error'}`;
+                    toast(d.error || 'Push failed', true);
+                }
+            } catch (e) {
+                status.style.display = 'block';
+                status.style.color = '#f87171';
+                status.innerHTML = `<i class="fas fa-exclamation-circle" style="margin-right:5px;"></i>Network error: ${e.message}`;
+                toast('Network error', true);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-cloud-upload-alt" style="font-size:10px;"></i> Push to Worker KV';
+            }
+        }
+    </script>
+</body>
+</html>
