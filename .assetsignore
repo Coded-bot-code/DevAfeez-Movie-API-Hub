@@ -1,0 +1,16 @@
+node_modules/
+.git/
+.local/
+.agents/
+.cache/
+.config/
+wrangler.toml
+worker.js
+local-server.js
+package.json
+package-lock.json
+replit.md
+replit.nix
+.replit
+*.log
+*.toml

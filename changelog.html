@@ -7,205 +7,223 @@
     <link rel="icon" type="image/png" href="/assets/logo.png">
     <link rel="apple-touch-icon" href="/assets/apple-icon.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-            --bg: #070b14; --surface: #0c1220; --panel: #111b2e;
-            --border: rgba(28,45,74,0.9); --text: #cbd5e1; --muted: #475569;
-            --blue: #3b82f6; --blue-light: #60a5fa; --orange: #f97316;
+            --bg: #04080f; --surf: #08101d; --panel: #0d1826;
+            --border: rgba(255,255,255,0.07);
+            --em: #10b981; --em-l: #34d399;
+            --am: #f59e0b; --am-l: #fbbf24;
+            --vi: #a78bfa; --cy: #22d3ee; --ro: #f43f5e;
+            --text: #e2e8f0; --muted: #64748b;
         }
-        body { font-family: 'Inter','Segoe UI',system-ui,sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
         a { text-decoration: none; color: inherit; }
 
         body::before {
             content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none;
-            background-image: linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
-            background-size: 48px 48px;
-            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+            background: radial-gradient(ellipse 60% 50% at 80% 10%, rgba(16,185,129,0.08) 0%, transparent 55%),
+                        radial-gradient(ellipse 50% 40% at 10% 80%, rgba(245,158,11,0.06) 0%, transparent 55%);
+        }
+        body::after {
+            content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.016) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
         header {
             position: sticky; top: 0; z-index: 50;
-            background: rgba(7,11,20,0.88); backdrop-filter: blur(20px);
+            background: rgba(4,8,15,0.9); backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border); padding: 0 1.5rem;
             height: 60px; display: flex; align-items: center; justify-content: space-between;
         }
-        .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
-        .logo img { width: 32px; height: 32px; border-radius: 9px; object-fit: cover; }
-        .logo-text { font-family: 'Space Grotesk',sans-serif; font-size: 14px; font-weight: 700; color: #fff; }
-        .logo-sub { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono',monospace; margin-left: 4px; }
-        .nav-links { display: flex; align-items: center; gap: 1.25rem; }
-        .nav-link { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; transition: color 0.15s; padding: 0.35rem 0.65rem; border-radius: 8px; }
-        .nav-link:hover { color: #fff; background: rgba(59,130,246,0.06); }
-        .nav-link.active { color: var(--blue-light); }
+        .brand { display: flex; align-items: center; gap: 0.6rem; }
+        .brand img { width: 28px; height: 28px; border-radius: 8px; object-fit: cover; }
+        .brand-name { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; color: #fff; }
+        .brand-tag { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--muted); margin-left: 3px; }
+        .nav-links { display: flex; align-items: center; gap: 0.5rem; }
+        .nav-link {
+            font-size: 12.5px; color: var(--muted); padding: 0.4rem 0.75rem;
+            border-radius: 8px; transition: all 0.15s;
+        }
+        .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+        .nav-link.active { color: var(--em); }
 
-        main { max-width: 780px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+        main { max-width: 820px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
 
-        .hero { margin-bottom: 3rem; }
-        .hero-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue-light); font-family: 'JetBrains Mono',monospace; margin-bottom: 0.6rem; }
-        .hero-title { font-family: 'Space Grotesk',sans-serif; font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
-        .hero-desc { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 500px; }
+        .hero { margin-bottom: 2.5rem; }
+        .hero-eyebrow { font-family: 'Fira Code', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--em); margin-bottom: 0.6rem; }
+        .hero h1 { font-family: 'DM Sans', sans-serif; font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .hero p { font-size: 14px; color: var(--muted); line-height: 1.65; max-width: 480px; }
 
-        .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-        .filter-btn { font-size: 11px; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: 20px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--muted); cursor: pointer; transition: all 0.15s; }
-        .filter-btn:hover { color: #fff; border-color: rgba(59,130,246,0.3); }
-        .filter-btn.active { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.3); color: var(--blue-light); }
+        .filters { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+        .filter-btn {
+            font-family: 'Fira Code', monospace; font-size: 10.5px; font-weight: 600;
+            padding: 0.35rem 0.9rem; border-radius: 99px;
+            border: 1px solid var(--border); background: transparent;
+            color: var(--muted); cursor: pointer; transition: all 0.15s;
+            letter-spacing: 0.04em;
+        }
+        .filter-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+        .filter-btn.active { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--em); }
+        .filter-btn.all.active { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--em); }
+        .filter-btn.feature.active { background: rgba(34,211,238,0.1); border-color: rgba(34,211,238,0.3); color: var(--cy); }
+        .filter-btn.fix.active { background: rgba(244,63,94,0.1); border-color: rgba(244,63,94,0.3); color: var(--ro); }
+        .filter-btn.improvement.active { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: var(--am); }
 
+        /* Timeline */
         .timeline { position: relative; }
-        .timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, rgba(59,130,246,0.5), rgba(59,130,246,0.1) 80%, transparent); }
+        .timeline::before {
+            content: ''; position: absolute; left: 13px; top: 0; bottom: 0; width: 1px;
+            background: linear-gradient(to bottom, rgba(16,185,129,0.5), rgba(16,185,129,0.08) 85%, transparent);
+        }
+        .entry { position: relative; padding-left: 3rem; margin-bottom: 2rem; }
+        .entry-dot {
+            position: absolute; left: 6px; top: 6px; width: 16px; height: 16px;
+            border-radius: 50%; border: 2px solid var(--bg);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .entry-dot.feature  { background: var(--cy); box-shadow: 0 0 12px rgba(34,211,238,0.5); }
+        .entry-dot.fix      { background: var(--ro); box-shadow: 0 0 12px rgba(244,63,94,0.5); }
+        .entry-dot.improvement { background: var(--am); box-shadow: 0 0 12px rgba(245,158,11,0.5); }
+        .entry-dot i { font-size: 6px; color: #fff; }
 
-        .entry { position: relative; padding-left: 3rem; margin-bottom: 2.5rem; }
-        .entry-dot { position: absolute; left: 8px; top: 6px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--bg); display: flex; align-items: center; justify-content: center; }
-        .entry-dot.feature  { background: #3b82f6; box-shadow: 0 0 10px rgba(59,130,246,0.5); }
-        .entry-dot.fix      { background: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.5); }
-        .entry-dot.breaking { background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,0.5); }
-        .entry-dot.improvement { background: #f97316; box-shadow: 0 0 10px rgba(249,115,22,0.5); }
+        .entry-card {
+            background: rgba(13,24,38,0.7); border: 1px solid var(--border); border-radius: 14px;
+            padding: 1.25rem 1.4rem; backdrop-filter: blur(8px);
+            transition: border-color 0.2s;
+        }
+        .entry-card:hover { border-color: rgba(16,185,129,0.18); }
 
-        .entry-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem 1.5rem; transition: border-color 0.2s; position: relative; overflow: hidden; }
-        .entry-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(59,130,246,0.25), transparent); }
-        .entry-card:hover { border-color: rgba(59,130,246,0.25); }
+        .entry-meta { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+        .entry-type {
+            font-family: 'Fira Code', monospace; font-size: 9px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            padding: 2px 8px; border-radius: 99px; border: 1px solid;
+        }
+        .entry-type.feature     { background: rgba(34,211,238,0.08); border-color: rgba(34,211,238,0.25); color: var(--cy); }
+        .entry-type.fix         { background: rgba(244,63,94,0.08); border-color: rgba(244,63,94,0.25); color: var(--ro); }
+        .entry-type.improvement { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.25); color: var(--am); }
+        .entry-ver {
+            font-family: 'Fira Code', monospace; font-size: 10px; font-weight: 600;
+            background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.22);
+            color: var(--vi); padding: 2px 8px; border-radius: 99px;
+        }
+        .entry-date { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--muted); margin-left: auto; }
 
-        .entry-header { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
-        .entry-version { font-size: 11px; font-family: 'JetBrains Mono',monospace; font-weight: 700; color: var(--blue-light); background: rgba(59,130,246,0.10); border: 1px solid rgba(59,130,246,0.22); padding: 2px 8px; border-radius: 5px; white-space: nowrap; }
-        .entry-type-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
-        .badge-feature     { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
-        .badge-fix         { background: rgba(16,185,129,0.10); color: #34d399; border: 1px solid rgba(16,185,129,0.20); }
-        .badge-breaking    { background: rgba(239,68,68,0.10); color: #f87171; border: 1px solid rgba(239,68,68,0.20); }
-        .badge-improvement { background: rgba(249,115,22,0.10); color: #fb923c; border: 1px solid rgba(249,115,22,0.20); }
+        .entry-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+        .entry-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 0.85rem; }
 
-        .entry-date { font-size: 11px; color: var(--muted); margin-left: auto; white-space: nowrap; display: flex; align-items: center; gap: 0.3rem; }
-        .entry-title { font-family: 'Space Grotesk',sans-serif; font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
-        .entry-desc { font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 1rem; }
-        .entry-changes { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
-        .entry-changes li { font-size: 12px; color: var(--text); display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.5; }
-        .entry-changes li::before { content: '→'; color: var(--blue); font-size: 11px; margin-top: 1px; flex-shrink: 0; }
+        .entry-changes { list-style: none; }
+        .entry-changes li {
+            display: flex; align-items: flex-start; gap: 0.6rem;
+            font-size: 12.5px; color: #8899aa; padding: 0.25rem 0;
+        }
+        .entry-changes li::before {
+            content: '→'; font-family: 'Fira Code', monospace; font-size: 10px;
+            color: var(--em); flex-shrink: 0; margin-top: 2px;
+        }
 
-        .empty-state { text-align: center; padding: 4rem 1rem; color: var(--muted); }
-        .empty-state i { font-size: 36px; margin-bottom: 1rem; display: block; opacity: 0.25; }
-        .empty-state p { font-size: 14px; }
-
-        #loadingState { text-align: center; padding: 3rem; color: var(--muted); }
-        .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(59,130,246,0.2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 0.75rem; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .empty-state { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; color: var(--border); display: block; }
     </style>
 </head>
 <body>
     <header>
-        <a href="/" class="logo">
+        <a href="/" class="brand">
             <img src="/assets/logo.png" alt="DevAfeez">
-            <span class="logo-text">DevAfeez</span>
-            <span class="logo-sub">MOVIE API</span>
+            <span class="brand-name">DevAfeez<span class="brand-tag">API</span></span>
         </a>
         <nav class="nav-links">
-            <a href="/" class="nav-link"><i class="fas fa-home" style="font-size:10px;"></i> Home</a>
-            <a href="/docs" class="nav-link"><i class="fas fa-book-open" style="font-size:10px;"></i> Docs</a>
-            <a href="/changelog" class="nav-link active"><i class="fas fa-scroll" style="font-size:10px;"></i> Changelog</a>
+            <a href="/" class="nav-link">Home</a>
+            <a href="/docs" class="nav-link">Docs</a>
+            <a href="/changelog" class="nav-link active">Changelog</a>
+            <a href="/try" class="nav-link">Try</a>
         </nav>
     </header>
 
     <main>
         <div class="hero">
-            <div class="hero-eyebrow"><i class="fas fa-scroll" style="margin-right:6px;"></i>What's New</div>
-            <h1 class="hero-title">API Changelog</h1>
-            <p class="hero-desc">Every update, fix, and improvement to the DevAfeez Movie API — newest first.</p>
+            <div class="hero-eyebrow"><i class="fas fa-scroll" style="margin-right:0.4rem;"></i>Release history</div>
+            <h1>Changelog</h1>
+            <p>Every update, fix, and improvement to the DevAfeez API — in reverse chronological order.</p>
         </div>
 
-        <div class="filter-bar">
-            <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
-            <button class="filter-btn" onclick="setFilter('feature', this)"><i class="fas fa-plus-circle" style="font-size:9px;margin-right:4px;"></i>Feature</button>
-            <button class="filter-btn" onclick="setFilter('fix', this)"><i class="fas fa-wrench" style="font-size:9px;margin-right:4px;"></i>Fix</button>
-            <button class="filter-btn" onclick="setFilter('improvement', this)"><i class="fas fa-arrow-up" style="font-size:9px;margin-right:4px;"></i>Improvement</button>
-            <button class="filter-btn" onclick="setFilter('breaking', this)"><i class="fas fa-bolt" style="font-size:9px;margin-right:4px;"></i>Breaking</button>
+        <div class="filters" id="filters">
+            <button class="filter-btn all active" data-type="all">All</button>
+            <button class="filter-btn feature" data-type="feature">Features</button>
+            <button class="filter-btn fix" data-type="fix">Bug Fixes</button>
+            <button class="filter-btn improvement" data-type="improvement">Improvements</button>
         </div>
 
-        <div id="loadingState">
-            <div class="spinner"></div>
-            <p style="font-size:12px;">Loading changelog…</p>
+        <div class="timeline" id="timeline">
+            <div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px;">
+                <i class="fas fa-spinner fa-spin" style="display:block;margin-bottom:0.75rem;font-size:1.5rem;color:var(--em);"></i>
+                Loading changelog…
+            </div>
         </div>
-
-        <div class="timeline" id="timeline" style="display:none;"></div>
     </main>
 
     <script>
+        const TYPE_ICONS = { feature: 'fa-star', fix: 'fa-bug', improvement: 'fa-arrow-up' };
         let allEntries = [];
-        let activeFilter = 'all';
 
-        const TYPE_ICONS = {
-            feature: 'fa-plus-circle', fix: 'fa-wrench',
-            breaking: 'fa-bolt', improvement: 'fa-arrow-up'
-        };
-
-        const BASE = window.location.pathname.replace(/\/changelog.*$/, '');
-
-        async function tryFetch(url) {
-            const r = await fetch(url, { headers: { 'Cache-Control': 'no-cache' } });
-            if (!r.ok) throw new Error(`HTTP ${r.status}`);
-            return r.json();
-        }
-
-        async function loadChangelog() {
-            const candidates = [];
-            if (BASE) candidates.push(BASE + '/api/changelog');
-            candidates.push('/api/changelog');
-            candidates.push(window.location.origin + '/api/changelog');
-
-            let lastErr;
-            for (const url of candidates) {
-                try {
-                    const data = await tryFetch(url);
-                    allEntries = (data.results || data || []).sort((a, b) => new Date(b.date) - new Date(a.date));
-                    document.getElementById('loadingState').style.display = 'none';
-                    document.getElementById('timeline').style.display = 'block';
-                    render(); return;
-                } catch (e) { lastErr = e; }
-            }
-            document.getElementById('loadingState').innerHTML = '<i class="fas fa-exclamation-circle" style="font-size:28px;opacity:0.3;display:block;margin-bottom:0.5rem;"></i><p style="font-size:12px;">Failed to load changelog.</p>';
-        }
-
-        function setFilter(type, btn) {
-            activeFilter = type;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            render();
-        }
-
-        function fmtDate(d) {
-            if (!d) return '—';
-            const dt = new Date(d + 'T00:00:00');
-            return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        }
-
-        function render() {
-            const filtered = activeFilter === 'all' ? allEntries : allEntries.filter(e => e.type === activeFilter);
-            const tl = document.getElementById('timeline');
-            if (!filtered.length) {
-                tl.innerHTML = `<div class="empty-state"><i class="fas fa-scroll"></i><p>No ${activeFilter === 'all' ? '' : activeFilter + ' '}entries yet.</p></div>`;
+        function renderEntries(entries) {
+            const timeline = document.getElementById('timeline');
+            if (!entries.length) {
+                timeline.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>No entries found.</p></div>';
                 return;
             }
-            tl.innerHTML = filtered.map(entry => {
-                const changes = (entry.changes || []).map(c => `<li>${c}</li>`).join('');
-                const dotClass = entry.type || 'feature';
-                const badgeClass = `badge-${entry.type || 'feature'}`;
-                const typeLabel = (entry.type || 'feature').charAt(0).toUpperCase() + (entry.type || 'feature').slice(1);
-                return `<div class="entry" data-type="${entry.type}">
-                    <div class="entry-dot ${dotClass}"></div>
+            timeline.innerHTML = entries.map(e => `
+                <div class="entry" data-type="${e.type}">
+                    <div class="entry-dot ${e.type}"><i class="fas ${TYPE_ICONS[e.type] || 'fa-circle'}" style="font-size:6px;color:#fff;"></i></div>
                     <div class="entry-card">
-                        <div class="entry-header">
-                            <span class="entry-version">${entry.version || 'v?'}</span>
-                            <span class="entry-type-badge ${badgeClass}">
-                                <i class="fas ${TYPE_ICONS[entry.type] || 'fa-circle'}" style="margin-right:4px;font-size:8px;"></i>${typeLabel}
-                            </span>
-                            <span class="entry-date"><i class="far fa-calendar-alt" style="font-size:9px;"></i>${fmtDate(entry.date)}</span>
+                        <div class="entry-meta">
+                            <span class="entry-type ${e.type}">${e.type}</span>
+                            <span class="entry-ver">${e.version}</span>
+                            <span class="entry-date">${e.date}</span>
                         </div>
-                        <div class="entry-title">${entry.title || ''}</div>
-                        ${entry.description ? `<div class="entry-desc">${entry.description}</div>` : ''}
-                        ${changes ? `<ul class="entry-changes">${changes}</ul>` : ''}
+                        <div class="entry-title">${escHtml(e.title)}</div>
+                        <div class="entry-desc">${escHtml(e.description)}</div>
+                        ${e.changes && e.changes.length ? `
+                            <ul class="entry-changes">
+                                ${e.changes.map(c => `<li>${escHtml(c)}</li>`).join('')}
+                            </ul>
+                        ` : ''}
                     </div>
-                </div>`;
-            }).join('');
+                </div>
+            `).join('');
         }
 
+        function escHtml(s) {
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        // Filters
+        document.getElementById('filters').addEventListener('click', e => {
+            const btn = e.target.closest('.filter-btn');
+            if (!btn) return;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const type = btn.dataset.type;
+            const filtered = type === 'all' ? allEntries : allEntries.filter(x => x.type === type);
+            renderEntries(filtered);
+        });
+
+        async function loadChangelog() {
+            try {
+                const r = await fetch('/api/changelog');
+                if (!r.ok) throw new Error();
+                const data = await r.json();
+                // Server returns { total, results } — fall back for other shapes
+                allEntries = Array.isArray(data) ? data : (data.results || data.changelog || data.entries || []);
+                renderEntries(allEntries);
+            } catch {
+                document.getElementById('timeline').innerHTML =
+                    '<div class="empty-state"><i class="fas fa-exclamation-circle" style="color:var(--ro);"></i><p>Could not load changelog.</p></div>';
+            }
+        }
         loadChangelog();
     </script>
 </body>

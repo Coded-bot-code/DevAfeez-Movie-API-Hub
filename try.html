@@ -5,383 +5,381 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Try DevAfeez API — Free Search Playground</title>
     <link rel="icon" type="image/x-icon" href="/assets/logo.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        void: '#02040a', surface: '#0a0f1e', panel: '#111827', edge: '#1a2035',
-                        'edge-light': '#25304a',
-                        cyan: { 400: '#22d3ee', 500: '#06b6d4' },
-                        violet: { 400: '#a78bfa', 500: '#8b5cf6' },
-                        slate: { 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b' }
-                    },
-                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #02040a; color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .mesh-bg { position: fixed; inset: 0; z-index: -2; background: radial-gradient(ellipse 80% 50% at 20% 40%, rgba(34,211,238,0.07) 0%, transparent 50%), radial-gradient(ellipse 60% 60% at 80% 80%, rgba(139,92,246,0.05) 0%, transparent 50%); }
-        .dot-grid { position: fixed; inset: 0; z-index: -1; background-image: radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 32px 32px; mask-image: linear-gradient(to bottom, black 30%, transparent 100%); }
-        .panel { background: #111827; border: 1px solid #1a2035; }
-        .glow-search:focus { box-shadow: 0 0 0 2px rgba(34,211,238,0.2), 0 0 30px rgba(34,211,238,0.06); }
-        .movie-card { background: #111827; border: 1px solid #1a2035; transition: all 0.2s ease; }
-        .movie-card:hover { border-color: #25304a; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
-        .tag-cyan { background: rgba(34,211,238,0.08); border: 1px solid rgba(34,211,238,0.2); color: #22d3ee; }
-        .tag-violet { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); color: #a78bfa; }
-        .mono-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; }
-        .btn-primary { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); box-shadow: 0 0 20px rgba(6,182,212,0.25); transition: all 0.2s ease; }
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(6,182,212,0.4); }
-        .btn-violet { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); box-shadow: 0 0 20px rgba(139,92,246,0.25); transition: all 0.2s ease; }
-        .btn-violet:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgba(139,92,246,0.4); }
-        .nav-link { padding: 0.5rem 0.75rem; font-size: 0.8125rem; font-weight: 500; color: #64748b; border-radius: 0.5rem; transition: all 0.15s ease; }
-        .nav-link:hover { color: #e2e8f0; background: rgba(255,255,255,0.03); }
-        .quota-bar-fill { background: linear-gradient(90deg, #22d3ee, #a78bfa); border-radius: 4px; height: 100%; transition: width 0.4s ease; }
-        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-        .skeleton { background: linear-gradient(90deg, #1a2035 25%, #25304a 50%, #1a2035 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
-        .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(34,211,238,0.3); border-top-color: #22d3ee; border-radius: 50%; animation: spin 0.7s linear infinite; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #04080f; --surf: #08101d; --panel: #0d1826;
+            --border: rgba(255,255,255,0.07);
+            --em: #10b981; --em-l: #34d399;
+            --am: #f59e0b; --am-l: #fbbf24;
+            --vi: #a78bfa; --cy: #22d3ee;
+            --text: #e2e8f0; --muted: #64748b;
+        }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; }
+
+        .aurora {
+            position: fixed; inset: 0; z-index: -2;
+            background: radial-gradient(ellipse 70% 55% at 70% 5%, rgba(16,185,129,0.1) 0%, transparent 55%),
+                        radial-gradient(ellipse 55% 45% at 15% 85%, rgba(34,211,238,0.06) 0%, transparent 55%);
+        }
+        .dots {
+            position: fixed; inset: 0; z-index: -1;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.018) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Header */
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+            background: rgba(4,8,15,0.9); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); height: 60px;
+        }
+        .nav-inner { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; gap: 0.6rem; }
+        .brand-icon { width: 30px; height: 30px; border-radius: 9px; background: linear-gradient(135deg, var(--em), #059669); display: flex; align-items: center; justify-content: center; }
+        .brand-icon i { color: #fff; font-size: 11px; }
+        .brand-name { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; color: #fff; }
+        .brand-tag { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--muted); margin-left: 3px; }
+        .nav-links { display: none; align-items: center; gap: 0.25rem; }
+        @media(min-width:640px) { .nav-links { display: flex; } }
+        .nav-link { font-size: 12.5px; font-weight: 500; color: var(--muted); padding: 0.4rem 0.75rem; border-radius: 8px; transition: all 0.15s; }
+        .nav-link:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+        .nav-link.active { color: var(--em); background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.12); }
+        .btn-key {
+            padding: 0.45rem 1rem; border-radius: 9px; font-size: 12px; font-weight: 700;
+            background: linear-gradient(135deg, var(--em), #059669); color: #fff;
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            box-shadow: 0 0 20px rgba(16,185,129,0.2); transition: all 0.2s;
+        }
+        .btn-key:hover { box-shadow: 0 0 30px rgba(16,185,129,0.35); transform: translateY(-1px); }
+
+        /* Main */
+        main { max-width: 1100px; margin: 0 auto; padding: 5.5rem 1.5rem 5rem; }
+
+        /* Hero */
+        .hero { text-align: center; margin-bottom: 2.5rem; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.22);
+            border-radius: 99px; padding: 0.3rem 0.9rem;
+            font-family: 'Fira Code', monospace; font-size: 10px; letter-spacing: 0.08em;
+            text-transform: uppercase; color: var(--em); margin-bottom: 1rem;
+        }
+        .hero h1 { font-family: 'DM Sans', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 5vw, 2.75rem); color: #fff; margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+        .hero h1 .grad { background: linear-gradient(135deg, var(--em-l), var(--cy)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero p { font-size: 14px; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.65; }
+
+        /* Quota */
+        .quota-bar-wrap {
+            max-width: 520px; margin: 1.5rem auto 0;
+            background: rgba(13,24,38,0.7); border: 1px solid var(--border);
+            border-radius: 12px; padding: 0.9rem 1.1rem;
+            display: flex; align-items: center; gap: 0.85rem;
+        }
+        .quota-icon { width: 32px; height: 32px; border-radius: 9px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .quota-icon i { color: var(--em); font-size: 12px; }
+        .quota-info { flex: 1; }
+        .quota-label { font-family: 'Fira Code', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.35rem; }
+        .quota-track { height: 4px; background: rgba(255,255,255,0.06); border-radius: 99px; overflow: hidden; }
+        .quota-fill { height: 100%; background: linear-gradient(90deg, var(--em), var(--cy)); border-radius: 99px; transition: width 0.4s ease; }
+        .quota-count { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
+
+        /* Search */
+        .search-wrap { max-width: 700px; margin: 2rem auto 0; }
+        .search-row { display: flex; gap: 0.6rem; margin-bottom: 0.85rem; }
+        .search-input {
+            flex: 1; background: rgba(8,16,29,0.9); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px; padding: 0.8rem 1.1rem 0.8rem 2.8rem; color: #fff; font-size: 14px;
+            font-family: 'Inter', sans-serif; outline: none; transition: all 0.2s;
+        }
+        .search-input:focus { border-color: rgba(16,185,129,0.45); box-shadow: 0 0 0 3px rgba(16,185,129,0.08), 0 0 30px rgba(16,185,129,0.06); }
+        .search-input::placeholder { color: var(--muted); }
+        .search-icon-wrap { position: relative; flex: 1; }
+        .search-icon { position: absolute; left: 0.9rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 12px; pointer-events: none; }
+        .btn-search {
+            padding: 0.8rem 1.5rem; border-radius: 12px; border: none; cursor: pointer;
+            background: linear-gradient(135deg, var(--em), #059669); color: #fff;
+            font-size: 13px; font-weight: 700; font-family: 'DM Sans', sans-serif;
+            display: flex; align-items: center; gap: 0.45rem;
+            box-shadow: 0 0 22px rgba(16,185,129,0.25); transition: all 0.2s; white-space: nowrap;
+        }
+        .btn-search:hover { transform: translateY(-1px); box-shadow: 0 0 32px rgba(16,185,129,0.4); }
+        .btn-search:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+        .type-tabs { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+        .type-tab {
+            font-family: 'Fira Code', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 0.3rem 0.8rem; border-radius: 99px; border: 1px solid var(--border);
+            background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s;
+        }
+        .type-tab:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+        .type-tab.active { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: var(--em); }
+
+        /* Results */
+        .results-header { display: flex; align-items: center; justify-content: space-between; margin: 2rem 0 1rem; }
+        .results-label { font-family: 'Fira Code', monospace; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+        .results-count { font-family: 'Fira Code', monospace; font-size: 10px; color: var(--em); }
+        .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; }
+
+        .result-card {
+            background: rgba(13,24,38,0.8); border: 1px solid var(--border); border-radius: 14px;
+            overflow: hidden; transition: all 0.22s; cursor: pointer;
+        }
+        .result-card:hover { border-color: rgba(16,185,129,0.25); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.35), 0 0 20px rgba(16,185,129,0.05); }
+        .result-poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; background: var(--panel); display: block; }
+        .result-body { padding: 0.85rem; }
+        .result-meta { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .result-type-badge {
+            font-family: 'Fira Code', monospace; font-size: 8.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+            padding: 2px 7px; border-radius: 99px;
+        }
+        .type-movie  { background: rgba(16,185,129,0.1); color: var(--em); border: 1px solid rgba(16,185,129,0.2); }
+        .type-series { background: rgba(167,139,250,0.1); color: var(--vi); border: 1px solid rgba(167,139,250,0.2); }
+        .type-anime  { background: rgba(245,158,11,0.1); color: var(--am); border: 1px solid rgba(245,158,11,0.2); }
+        .result-year { font-size: 11px; color: var(--muted); font-family: 'Fira Code', monospace; }
+        .result-title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 13.5px; color: #fff; line-height: 1.35; margin-bottom: 0.3rem; }
+        .result-rating { display: flex; align-items: center; gap: 0.3rem; font-size: 11px; color: var(--am); }
+        .result-rating i { font-size: 9px; }
+
+        /* Skeleton */
+        @keyframes shimmer { 0%{background-position:-200% 0;} 100%{background-position:200% 0;} }
+        .skeleton {
+            background: linear-gradient(90deg, rgba(13,24,38,0.8) 25%, rgba(20,35,55,0.9) 50%, rgba(13,24,38,0.8) 75%);
+            background-size: 200% 100%; animation: shimmer 1.6s infinite; border-radius: 8px;
+        }
+        .skel-card { background: rgba(13,24,38,0.8); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+        .skel-poster { width: 100%; aspect-ratio: 2/3; }
+        .skel-body { padding: 0.85rem; }
+        .skel-line { height: 10px; margin-bottom: 7px; }
+
+        .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(16,185,129,0.3); border-top-color: var(--em); border-radius: 50%; animation: spin 0.7s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .result-item-type { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; }
-        .type-movie { background: rgba(34,211,238,0.08); color: #22d3ee; border: 1px solid rgba(34,211,238,0.15); }
-        .type-series { background: rgba(139,92,246,0.08); color: #a78bfa; border: 1px solid rgba(139,92,246,0.15); }
+
+        .state-msg { text-align: center; padding: 3rem 1rem; color: var(--muted); }
+        .state-msg i { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
+        .state-msg p { font-size: 14px; }
     </style>
 </head>
-<body class="min-h-screen">
-    <div class="mesh-bg"></div>
-    <div class="dot-grid"></div>
+<body>
+<div class="aurora"></div>
+<div class="dots"></div>
 
-    <!-- Header -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-void/90 backdrop-blur-xl border-b border-edge">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-3 group shrink-0">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/20">
-                    <i class="fas fa-play text-white text-xs"></i>
-                </div>
-                <div>
-                    <span class="font-bold text-sm tracking-tight text-white">DevAfeez</span>
-                    <span class="text-slate-500 text-xs ml-1 font-mono">API</span>
-                </div>
-            </a>
-            <nav class="hidden md:flex items-center gap-1">
-                <a href="/" class="nav-link">Home</a>
-                <a href="/docs" class="nav-link">Documentation</a>
-                <a href="/try" class="nav-link text-cyan-400 bg-cyan-500/5 border border-cyan-500/10">Try API</a>
-                <a href="/request-key" class="nav-link">Request Key</a>
-            </nav>
-            <div class="flex items-center gap-3">
-                <a href="/request-key" class="btn-violet px-4 py-2 rounded-lg font-semibold text-xs text-white inline-flex items-center gap-2">
-                    <i class="fas fa-key text-xs"></i>
-                    <span>Get Full Access</span>
-                </a>
-                <div class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-emerald-500/5 border border-emerald-500/10">
-                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Live</span>
-                </div>
+<header>
+    <div class="nav-inner">
+        <a href="/" class="brand">
+            <div class="brand-icon"><i class="fas fa-play"></i></div>
+            <span class="brand-name">DevAfeez<span class="brand-tag">API</span></span>
+        </a>
+        <nav class="nav-links">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/docs" class="nav-link">Docs</a>
+            <a href="/try" class="nav-link active">Try API</a>
+            <a href="/request-key" class="nav-link">Request Key</a>
+        </nav>
+        <a href="/request-key" class="btn-key"><i class="fas fa-key" style="font-size:10px;"></i>Get API Key</a>
+    </div>
+</header>
+
+<main>
+    <div class="hero">
+        <div class="hero-badge"><i class="fas fa-flask" style="font-size:9px;"></i>&nbsp;Free Playground — 50 calls/day</div>
+        <h1>Try the API <span class="grad">for Free</span></h1>
+        <p>Search movies, series, and anime instantly — no API key required. Up to 50 free calls per day.</p>
+
+        <div class="quota-bar-wrap">
+            <div class="quota-icon"><i class="fas fa-gauge-high"></i></div>
+            <div class="quota-info">
+                <div class="quota-label">Daily Quota</div>
+                <div class="quota-track"><div class="quota-fill" id="quotaFill" style="width:0%"></div></div>
             </div>
+            <div class="quota-count" id="quotaCount">— / 50</div>
         </div>
-    </header>
+    </div>
 
-    <main class="pt-24 pb-16 px-4 sm:px-6 max-w-6xl mx-auto">
-
-        <!-- Hero -->
-        <section class="mb-10 max-w-3xl">
-            <div class="flex items-center gap-3 mb-4">
-                <span class="mono-label tag-cyan px-3 py-1.5 rounded-full">Free Tier</span>
-                <span class="mono-label text-slate-500">Search Playground</span>
+    <!-- Search -->
+    <div class="search-wrap">
+        <div class="search-row">
+            <div class="search-icon-wrap">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" id="searchInput" placeholder="Search movies, series, anime…" autocomplete="off" />
             </div>
-            <h1 class="text-4xl sm:text-5xl font-black text-white leading-tight mb-4">
-                Try the API<br>
-                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">before you buy</span>
-            </h1>
-            <p class="text-slate-400 text-base max-w-xl leading-relaxed">
-                Live search across the DevAfeez catalog — no API key needed. Limited to <strong class="text-white">50 searches per day</strong>. 
-                <a href="/request-key" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">Request full access</a> for all endpoints.
-            </p>
-        </section>
-
-        <!-- Quota indicator -->
-        <div id="quotaBar" class="mb-8 panel rounded-xl p-4 flex items-center gap-4">
-            <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 shrink-0">
-                <i class="fas fa-gauge-high text-sm"></i>
-            </div>
-            <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between mb-1.5">
-                    <span class="text-xs font-semibold text-white">Daily Search Quota</span>
-                    <span class="mono-label text-slate-500" id="quotaText">10 / 10 remaining</span>
-                </div>
-                <div class="h-1.5 bg-edge rounded-full overflow-hidden">
-                    <div class="quota-bar-fill" id="quotaFill" style="width:100%"></div>
-                </div>
-            </div>
-            <a href="/request-key" class="hidden sm:flex items-center gap-1.5 text-xs font-semibold text-violet-400 hover:text-violet-300 transition-colors shrink-0">
-                <i class="fas fa-infinity text-xs"></i>
-                Unlimited Access
-            </a>
+            <button class="btn-search" id="searchBtn" onclick="doSearch()">
+                <span id="searchBtnLabel">Search</span>
+            </button>
         </div>
+        <div class="type-tabs">
+            <button class="type-tab active" data-type="">All Types</button>
+            <button class="type-tab" data-type="movie">Movies</button>
+            <button class="type-tab" data-type="series">Series</button>
+            <button class="type-tab" data-type="anime">Anime</button>
+        </div>
+    </div>
 
-        <!-- Search box -->
-        <section class="mb-10">
-            <div class="relative">
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none">
-                    <i class="fas fa-search"></i>
-                </div>
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search movies, TV shows, actors…"
-                    class="w-full bg-panel border border-edge rounded-xl pl-11 pr-36 py-4 text-white placeholder-slate-500 text-base outline-none glow-search transition-all"
-                    autocomplete="off"
-                >
-                <button
-                    id="searchBtn"
-                    onclick="doSearch()"
-                    class="absolute right-2 top-1/2 -translate-y-1/2 btn-primary px-5 py-2.5 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2"
-                >
-                    <span id="searchBtnText">Search</span>
-                    <span id="searchSpinner" class="spinner hidden"></span>
-                </button>
-            </div>
-            <div class="mt-3 flex flex-wrap gap-2" id="suggestions">
-                <button onclick="quickSearch('Action')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Action</button>
-                <button onclick="quickSearch('Breaking Bad')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Breaking Bad</button>
-                <button onclick="quickSearch('Drama')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Drama</button>
-                <button onclick="quickSearch('Crime')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Crime</button>
-                <button onclick="quickSearch('Thriller')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Thriller</button>
-                <button onclick="quickSearch('Anime')" class="text-xs px-3 py-1.5 rounded-full border border-edge text-slate-500 hover:border-cyan-500/30 hover:text-cyan-400 transition-all">Anime</button>
-            </div>
-        </section>
+    <!-- Results -->
+    <div id="resultsArea"></div>
+</main>
 
-        <!-- Results area -->
-        <section id="resultsSection" class="mb-16 hidden">
-            <div class="flex items-center justify-between mb-5">
-                <h2 class="text-sm font-bold text-white" id="resultsTitle">Results</h2>
-                <span class="mono-label text-slate-500" id="resultsCount"></span>
-            </div>
-            <div id="resultsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
-            <div id="moreHint" class="mt-6 hidden text-center">
-                <p class="text-xs text-slate-500">Showing first 10 results. <a href="/request-key" class="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">Get full API access</a> for complete pagination.</p>
-            </div>
-        </section>
+<script>
+    let currentType = '';
+    let usedToday = 0;
+    const DAILY_LIMIT = 50;
 
-        <!-- Empty state -->
-        <section id="emptyState" class="mb-16">
-            <div class="panel rounded-2xl p-12 text-center border border-edge">
-                <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mx-auto mb-5">
-                    <i class="fas fa-search text-2xl"></i>
-                </div>
-                <h3 class="text-lg font-bold text-white mb-2">Search the catalog</h3>
-                <p class="text-slate-500 text-sm max-w-sm mx-auto">Type a title, genre, or actor above and press Search to see live results from the DevAfeez API.</p>
-            </div>
-        </section>
-
-        <!-- Error state -->
-        <section id="errorState" class="mb-16 hidden">
-            <div class="panel rounded-xl p-6 text-center max-w-md mx-auto">
-                <div class="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 mx-auto mb-3">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <h3 class="text-base font-bold text-white mb-1" id="errorTitle">Search failed</h3>
-                <p class="text-sm text-slate-500" id="errorMsg">Something went wrong. Please try again.</p>
-            </div>
-        </section>
-
-        <!-- Quota exhausted state -->
-        <section id="quotaState" class="mb-16 hidden">
-            <div class="panel rounded-xl p-8 text-center max-w-lg mx-auto border border-violet-500/20">
-                <div class="w-14 h-14 rounded-2xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 mx-auto mb-4">
-                    <i class="fas fa-lock text-xl"></i>
-                </div>
-                <h3 class="text-xl font-black text-white mb-2">Daily limit reached</h3>
-                <p class="text-sm text-slate-400 mb-6 leading-relaxed">You've used all 10 free searches for today. Request a full API key to get unlimited access to all 7 endpoints — homepage, trending, search, metadata, streaming sources, captions, and audio dubs.</p>
-                <div class="flex flex-wrap gap-3 justify-center">
-                    <a href="/request-key" class="btn-violet px-6 py-3 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2">
-                        <i class="fas fa-key text-xs"></i>
-                        Request API Key
-                    </a>
-                    <a href="/docs" class="px-6 py-3 rounded-lg font-semibold text-sm text-slate-300 border border-edge hover:border-cyan-500/30 hover:text-cyan-400 transition-all inline-flex items-center gap-2">
-                        <i class="fas fa-book text-xs"></i>
-                        View Docs
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA banner -->
-        <section class="mb-8">
-            <div class="panel rounded-2xl p-6 sm:p-8 relative overflow-hidden border border-edge">
-                <div class="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-cyan-500/10 to-violet-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-                <div class="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
-                    <div>
-                        <div class="mono-label tag-violet px-2 py-1 rounded mb-3 inline-block">Full Access</div>
-                        <h2 class="text-xl font-black text-white mb-1">Unlock all 7 endpoints</h2>
-                        <p class="text-slate-400 text-sm max-w-sm">Homepage, Trending, Search, Metadata, Streaming Sources, Captions, and Audio Dubs — unlimited requests with a verified API key.</p>
-                    </div>
-                    <div class="flex flex-wrap gap-3 shrink-0">
-                        <a href="/request-key" class="btn-primary px-6 py-3 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2">
-                            <i class="fas fa-key text-xs"></i>
-                            Request Key
-                        </a>
-                        <a href="/docs" class="px-5 py-3 rounded-lg font-semibold text-sm text-slate-300 border border-edge hover:border-cyan-500/30 hover:text-cyan-400 transition-all inline-flex items-center gap-2">
-                            <i class="fas fa-book text-xs"></i>
-                            Docs
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <script>
-        const DAILY_LIMIT = 50;
-        const LS_KEY = 'devafeez_try_v3';
-
-        function renderMovieCard(item) {
-            const thumb = item.thumbnail || item.cover?.url || item.stills?.url || '';
-            const title = item.title || 'Unknown';
-            const year = item.year || item.releaseYear || '';
-            const type = item.subjectType === 2 ? 'series' : 'movie';
-            const rating = item.rating ? parseFloat(item.rating).toFixed(1) : '';
-            return `
-                <div class="movie-card rounded-xl overflow-hidden cursor-default" title="${escHtml(title)}">
-                    <div class="relative aspect-[2/3] bg-panel overflow-hidden">
-                        ${thumb ? `<img src="${escHtml(thumb)}" alt="${escHtml(title)}" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display='none'">` : ''}
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                        ${rating ? `<div class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm rounded-md px-1.5 py-0.5 text-xs font-bold text-yellow-400"><i class="fas fa-star text-[9px] mr-0.5"></i>${rating}</div>` : ''}
-                        <div class="absolute bottom-2 left-2">
-                            <span class="result-item-type type-${type}">${type === 'series' ? 'Series' : 'Movie'}</span>
-                        </div>
-                    </div>
-                    <div class="p-2.5">
-                        <div class="text-xs font-semibold text-white leading-tight truncate">${escHtml(title)}</div>
-                        ${year ? `<div class="text-[10px] text-slate-500 mt-0.5">${year}</div>` : ''}
-                    </div>
-                </div>
-            `;
+    // Load quota from localStorage
+    function loadQuota() {
+        const today = new Date().toDateString();
+        const stored = JSON.parse(localStorage.getItem('da_quota') || '{}');
+        if (stored.date === today) {
+            usedToday = stored.used || 0;
+        } else {
+            usedToday = 0;
+            saveQuota();
         }
-
-        function getQuota() {
-            try {
-                const today = new Date().toISOString().slice(0, 10);
-                const stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
-                if (stored.date !== today) return { date: today, used: 0 };
-                return { date: today, used: stored.used || 0 };
-            } catch { return { date: new Date().toISOString().slice(0, 10), used: 0 }; }
-        }
-
-        function saveQuota(q) {
-            try { localStorage.setItem(LS_KEY, JSON.stringify(q)); } catch {}
-        }
-
-        function updateQuotaUI() {
-            const q = getQuota();
-            const remaining = Math.max(0, DAILY_LIMIT - q.used);
-            const pct = (remaining / DAILY_LIMIT) * 100;
-            document.getElementById('quotaText').textContent = `${remaining} / ${DAILY_LIMIT} remaining`;
-            document.getElementById('quotaFill').style.width = pct + '%';
-            if (pct <= 30) document.getElementById('quotaFill').style.background = 'linear-gradient(90deg, #f59e0b, #ef4444)';
-            if (pct === 0) showQuotaExhausted();
-        }
-
-        function showQuotaExhausted() {
-            document.getElementById('emptyState').classList.add('hidden');
-            document.getElementById('resultsSection').classList.add('hidden');
-            document.getElementById('errorState').classList.add('hidden');
-            document.getElementById('quotaState').classList.remove('hidden');
-        }
-
-        function quickSearch(q) {
-            document.getElementById('searchInput').value = q;
-            doSearch();
-        }
-
-        async function doSearch() {
-            const q = document.getElementById('searchInput').value.trim();
-            if (!q) return;
-
-            const quota = getQuota();
-            if (quota.used >= DAILY_LIMIT) { showQuotaExhausted(); return; }
-
-            const btn = document.getElementById('searchBtn');
-            const btnText = document.getElementById('searchBtnText');
-            const spinner = document.getElementById('searchSpinner');
-            btn.disabled = true;
-            btnText.classList.add('hidden');
-            spinner.classList.remove('hidden');
-
-            document.getElementById('emptyState').classList.add('hidden');
-            document.getElementById('errorState').classList.add('hidden');
-            document.getElementById('quotaState').classList.add('hidden');
-
-            const grid = document.getElementById('resultsGrid');
-            grid.innerHTML = Array(6).fill(0).map(() => `
-                <div>
-                    <div class="skeleton w-full aspect-[2/3] mb-2"></div>
-                    <div class="skeleton h-3 w-3/4 mb-1.5"></div>
-                    <div class="skeleton h-2.5 w-1/2"></div>
-                </div>
-            `).join('');
-            document.getElementById('resultsSection').classList.remove('hidden');
-            document.getElementById('resultsTitle').textContent = `Results for "${q}"`;
-
-            try {
-                const r = await fetch(`/try-search/${encodeURIComponent(q)}`);
-                const d = await r.json();
-                if (!r.ok || !d.success) {
-                    if (r.status === 429) { showQuotaExhausted(); return; }
-                    throw new Error(d.message || 'Search failed');
-                }
-                quota.used += 1;
-                saveQuota(quota);
-                updateQuotaUI();
-
-                const items = d.results?.items || [];
-                document.getElementById('resultsCount').textContent = items.length
-                    ? `${items.length} result${items.length !== 1 ? 's' : ''}`
-                    : '';
-
-                if (!items.length) {
-                    grid.innerHTML = `
-                        <div class="col-span-full text-center py-10">
-                            <i class="fas fa-search text-slate-600 text-3xl mb-3 block"></i>
-                            <p class="text-slate-500 text-sm">No results found for "<span class="text-white">${escHtml(q)}</span>"</p>
-                        </div>
-                    `;
-                    document.getElementById('moreHint').classList.add('hidden');
-                    return;
-                }
-
-                grid.innerHTML = items.slice(0, 10).map(renderMovieCard).join('');
-                document.getElementById('moreHint').classList.toggle('hidden', items.length <= 10);
-
-            } catch (e) {
-                document.getElementById('resultsSection').classList.add('hidden');
-                document.getElementById('errorState').classList.remove('hidden');
-                document.getElementById('errorTitle').textContent = 'Search failed';
-                document.getElementById('errorMsg').textContent = e.message || 'Unexpected error. Please try again.';
-            } finally {
-                btn.disabled = false;
-                btnText.classList.remove('hidden');
-                spinner.classList.add('hidden');
-            }
-        }
-
-        function escHtml(str) {
-            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
-
-        document.getElementById('searchInput').addEventListener('keydown', e => {
-            if (e.key === 'Enter') doSearch();
-        });
-
         updateQuotaUI();
-    </script>
+    }
+    function saveQuota() {
+        localStorage.setItem('da_quota', JSON.stringify({ date: new Date().toDateString(), used: usedToday }));
+    }
+    function updateQuotaUI() {
+        const pct = Math.min((usedToday / DAILY_LIMIT) * 100, 100);
+        document.getElementById('quotaFill').style.width = pct + '%';
+        document.getElementById('quotaCount').textContent = usedToday + ' / ' + DAILY_LIMIT;
+    }
+
+    // Type tabs
+    document.querySelectorAll('.type-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.type-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentType = btn.dataset.type;
+        });
+    });
+
+    // Enter key
+    document.getElementById('searchInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') doSearch();
+    });
+
+    function skeletonGrid() {
+        return Array(8).fill(0).map(() => `
+            <div class="skel-card">
+                <div class="skel-poster skeleton"></div>
+                <div class="skel-body">
+                    <div class="skel-line skeleton" style="width:60%;"></div>
+                    <div class="skel-line skeleton" style="width:85%;"></div>
+                    <div class="skel-line skeleton" style="width:40%;"></div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function typeClass(type) {
+        if (!type) return 'type-movie';
+        const t = type.toLowerCase();
+        if (t.includes('anime')) return 'type-anime';
+        if (t.includes('series') || t.includes('show') || t.includes('tv')) return 'type-series';
+        return 'type-movie';
+    }
+    function typeLabel(type) {
+        if (!type) return 'Movie';
+        const t = type.toLowerCase();
+        if (t.includes('anime')) return 'Anime';
+        if (t.includes('series') || t.includes('show') || t.includes('tv')) return 'Series';
+        return 'Movie';
+    }
+
+    async function doSearch() {
+        const q = document.getElementById('searchInput').value.trim();
+        if (!q) return;
+
+        if (usedToday >= DAILY_LIMIT) {
+            document.getElementById('resultsArea').innerHTML = `
+                <div class="state-msg">
+                    <i class="fas fa-hourglass-end" style="color:var(--am);"></i>
+                    <p>Daily free limit reached (${DAILY_LIMIT} calls). <a href="/request-key" style="color:var(--em);">Request an API key</a> for unlimited access.</p>
+                </div>`;
+            return;
+        }
+
+        const btn = document.getElementById('searchBtn');
+        const lbl = document.getElementById('searchBtnLabel');
+        btn.disabled = true;
+        lbl.innerHTML = '<span class="spinner"></span>';
+
+        document.getElementById('resultsArea').innerHTML = `
+            <div class="results-header">
+                <span class="results-label">Results</span>
+            </div>
+            <div class="results-grid">${skeletonGrid()}</div>`;
+
+        try {
+            const params = new URLSearchParams({ q });
+            if (currentType) params.set('type', currentType);
+            const r = await fetch(`/api/v1/search/${encodeURIComponent(q)}?${params}`);
+            const data = await r.json();
+
+            usedToday++;
+            saveQuota();
+            updateQuotaUI();
+
+            if (!r.ok) throw new Error(data.message || 'Search failed');
+
+            const items = data.results?.items || data.results || [];
+            if (!items.length) {
+                document.getElementById('resultsArea').innerHTML = `
+                    <div class="state-msg">
+                        <i class="fas fa-film" style="color:var(--muted);"></i>
+                        <p>No results for "<strong>${escHtml(q)}</strong>". Try a different title.</p>
+                    </div>`;
+                return;
+            }
+
+            document.getElementById('resultsArea').innerHTML = `
+                <div class="results-header">
+                    <span class="results-label">Results</span>
+                    <span class="results-count">${items.length} found</span>
+                </div>
+                <div class="results-grid">
+                    ${items.map(item => `
+                        <div class="result-card">
+                            ${item.poster ? `<img class="result-poster" src="${escHtml(item.poster)}" alt="${escHtml(item.title || '')}" loading="lazy" onerror="this.style.display='none'">` : `<div class="result-poster" style="display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:2rem;"><i class="fas fa-film"></i></div>`}
+                            <div class="result-body">
+                                <div class="result-meta">
+                                    <span class="result-type-badge ${typeClass(item.type)}">${typeLabel(item.type)}</span>
+                                    ${item.year ? `<span class="result-year">${item.year}</span>` : ''}
+                                </div>
+                                <div class="result-title">${escHtml(item.title || item.name || 'Untitled')}</div>
+                                ${item.rating ? `<div class="result-rating"><i class="fas fa-star"></i>${item.rating}</div>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>`;
+        } catch (err) {
+            document.getElementById('resultsArea').innerHTML = `
+                <div class="state-msg">
+                    <i class="fas fa-exclamation-triangle" style="color:var(--am);"></i>
+                    <p>${escHtml(err.message || 'Something went wrong. Please try again.')}</p>
+                </div>`;
+        }
+
+        btn.disabled = false;
+        lbl.textContent = 'Search';
+    }
+
+    function escHtml(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    loadQuota();
+
+    // Show initial state
+    document.getElementById('resultsArea').innerHTML = `
+        <div class="state-msg">
+            <i class="fas fa-search" style="color:var(--em);opacity:0.4;"></i>
+            <p>Search for any movie, series, or anime to get started.</p>
+        </div>`;
+</script>
 </body>
 </html>

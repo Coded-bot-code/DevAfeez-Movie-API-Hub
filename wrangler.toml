@@ -8,7 +8,7 @@ enabled = true
 
 # Static assets — bundled at deploy time, no KV writes needed
 [assets]
-directory = "./public"
+directory = "."
 binding = "ASSETS"
 
 # KV namespace (kept for API-key store and any legacy data)
