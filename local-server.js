@@ -57,6 +57,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // ─── Request logger ────────────────────────────────────────────────────────────
 app.use((req, res, next) => {

@@ -3,94 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUNFLIX API — Changelog</title>
-    <link rel="icon" type="image/x-icon" href="https://runflix.name.ng/favicon.png">
+    <title>DevAfeez API — Changelog</title>
+    <link rel="icon" type="image/png" href="/assets/logo.png">
+    <link rel="apple-touch-icon" href="/assets/apple-icon.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-            --void: #050508; --panel: #0d0e14; --edge: rgba(255,255,255,0.07);
-            --text: #cbd5e1; --muted: #475569;
+            --bg: #070b14; --surface: #0c1220; --panel: #111b2e;
+            --border: rgba(28,45,74,0.9); --text: #cbd5e1; --muted: #475569;
+            --blue: #3b82f6; --blue-light: #60a5fa; --orange: #f97316;
         }
-        body { font-family: 'Inter','Segoe UI',system-ui,sans-serif; background: var(--void); color: var(--text); min-height: 100vh; }
+        body { font-family: 'Inter','Segoe UI',system-ui,sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
         a { text-decoration: none; color: inherit; }
+
+        body::before {
+            content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+            background-image: linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+        }
 
         header {
             position: sticky; top: 0; z-index: 50;
-            background: rgba(5,5,8,0.92); backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--edge); padding: 0 1.5rem;
-            height: 56px; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(7,11,20,0.88); backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border); padding: 0 1.5rem;
+            height: 60px; display: flex; align-items: center; justify-content: space-between;
         }
-        .logo { display: flex; align-items: center; gap: 0.6rem; }
-        .logo-icon { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg,#8b5cf6,#6366f1); display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; }
-        .logo-text { font-size: 13px; font-weight: 700; color: #fff; letter-spacing: 0.04em; }
-        .logo-sub { font-size: 10px; color: var(--muted); font-family: monospace; margin-left: 4px; }
+        .logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+        .logo img { width: 32px; height: 32px; border-radius: 9px; object-fit: cover; }
+        .logo-text { font-family: 'Space Grotesk',sans-serif; font-size: 14px; font-weight: 700; color: #fff; }
+        .logo-sub { font-size: 10px; color: var(--muted); font-family: 'JetBrains Mono',monospace; margin-left: 4px; }
         .nav-links { display: flex; align-items: center; gap: 1.25rem; }
-        .nav-link { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; transition: color 0.15s; }
-        .nav-link:hover { color: #fff; }
-        .nav-link.active { color: #a78bfa; }
+        .nav-link { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 0.4rem; transition: color 0.15s; padding: 0.35rem 0.65rem; border-radius: 8px; }
+        .nav-link:hover { color: #fff; background: rgba(59,130,246,0.06); }
+        .nav-link.active { color: var(--blue-light); }
 
         main { max-width: 780px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
 
         .hero { margin-bottom: 3rem; }
-        .hero-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8b5cf6; font-family: monospace; margin-bottom: 0.6rem; }
-        .hero-title { font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+        .hero-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue-light); font-family: 'JetBrains Mono',monospace; margin-bottom: 0.6rem; }
+        .hero-title { font-family: 'Space Grotesk',sans-serif; font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
         .hero-desc { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 500px; }
 
         .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
-        .filter-btn { font-size: 11px; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: 6px; border: 1px solid var(--edge); background: rgba(255,255,255,0.03); color: var(--muted); cursor: pointer; transition: all 0.15s; }
-        .filter-btn:hover { color: #fff; border-color: rgba(255,255,255,0.15); }
-        .filter-btn.active { background: rgba(139,92,246,0.15); border-color: rgba(139,92,246,0.35); color: #a78bfa; }
+        .filter-btn { font-size: 11px; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: 20px; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: var(--muted); cursor: pointer; transition: all 0.15s; }
+        .filter-btn:hover { color: #fff; border-color: rgba(59,130,246,0.3); }
+        .filter-btn.active { background: rgba(59,130,246,0.12); border-color: rgba(59,130,246,0.3); color: var(--blue-light); }
 
         .timeline { position: relative; }
-        .timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, rgba(139,92,246,0.4), rgba(99,102,241,0.1) 80%, transparent); }
+        .timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, rgba(59,130,246,0.5), rgba(59,130,246,0.1) 80%, transparent); }
 
         .entry { position: relative; padding-left: 3rem; margin-bottom: 2.5rem; }
-        .entry-dot {
-            position: absolute; left: 8px; top: 6px;
-            width: 16px; height: 16px; border-radius: 50%;
-            border: 2px solid var(--void);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .entry-dot.feature  { background: #6366f1; box-shadow: 0 0 10px rgba(99,102,241,0.5); }
+        .entry-dot { position: absolute; left: 8px; top: 6px; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--bg); display: flex; align-items: center; justify-content: center; }
+        .entry-dot.feature  { background: #3b82f6; box-shadow: 0 0 10px rgba(59,130,246,0.5); }
         .entry-dot.fix      { background: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.5); }
         .entry-dot.breaking { background: #ef4444; box-shadow: 0 0 10px rgba(239,68,68,0.5); }
-        .entry-dot.improvement { background: #f59e0b; box-shadow: 0 0 10px rgba(245,158,11,0.5); }
+        .entry-dot.improvement { background: #f97316; box-shadow: 0 0 10px rgba(249,115,22,0.5); }
 
-        .entry-card { background: var(--panel); border: 1px solid var(--edge); border-radius: 14px; padding: 1.25rem 1.5rem; transition: border-color 0.2s; }
-        .entry-card:hover { border-color: rgba(139,92,246,0.2); }
+        .entry-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 1.25rem 1.5rem; transition: border-color 0.2s; position: relative; overflow: hidden; }
+        .entry-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(59,130,246,0.25), transparent); }
+        .entry-card:hover { border-color: rgba(59,130,246,0.25); }
 
         .entry-header { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
-        .entry-version { font-size: 11px; font-family: monospace; font-weight: 700; color: #a78bfa; background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.2); padding: 2px 8px; border-radius: 5px; white-space: nowrap; }
+        .entry-version { font-size: 11px; font-family: 'JetBrains Mono',monospace; font-weight: 700; color: var(--blue-light); background: rgba(59,130,246,0.10); border: 1px solid rgba(59,130,246,0.22); padding: 2px 8px; border-radius: 5px; white-space: nowrap; }
         .entry-type-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
-        .badge-feature     { background: rgba(99,102,241,0.12); color: #818cf8; border: 1px solid rgba(99,102,241,0.25); }
-        .badge-fix         { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
-        .badge-breaking    { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
-        .badge-improvement { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+        .badge-feature     { background: rgba(59,130,246,0.12); color: #60a5fa; border: 1px solid rgba(59,130,246,0.25); }
+        .badge-fix         { background: rgba(16,185,129,0.10); color: #34d399; border: 1px solid rgba(16,185,129,0.20); }
+        .badge-breaking    { background: rgba(239,68,68,0.10); color: #f87171; border: 1px solid rgba(239,68,68,0.20); }
+        .badge-improvement { background: rgba(249,115,22,0.10); color: #fb923c; border: 1px solid rgba(249,115,22,0.20); }
 
         .entry-date { font-size: 11px; color: var(--muted); margin-left: auto; white-space: nowrap; display: flex; align-items: center; gap: 0.3rem; }
-        .entry-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+        .entry-title { font-family: 'Space Grotesk',sans-serif; font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
         .entry-desc { font-size: 13px; color: #64748b; line-height: 1.6; margin-bottom: 1rem; }
         .entry-changes { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
         .entry-changes li { font-size: 12px; color: var(--text); display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.5; }
-        .entry-changes li::before { content: '→'; color: #6366f1; font-size: 11px; margin-top: 1px; flex-shrink: 0; }
+        .entry-changes li::before { content: '→'; color: var(--blue); font-size: 11px; margin-top: 1px; flex-shrink: 0; }
 
         .empty-state { text-align: center; padding: 4rem 1rem; color: var(--muted); }
         .empty-state i { font-size: 36px; margin-bottom: 1rem; display: block; opacity: 0.25; }
         .empty-state p { font-size: 14px; }
 
         #loadingState { text-align: center; padding: 3rem; color: var(--muted); }
-        .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(139,92,246,0.2); border-top-color: #8b5cf6; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 0.75rem; }
+        .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(59,130,246,0.2); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 0.75rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">
-            <div class="logo-icon"><i class="fas fa-film"></i></div>
-            <span class="logo-text">RUNFLIX</span>
+        <a href="/" class="logo">
+            <img src="/assets/logo.png" alt="DevAfeez">
+            <span class="logo-text">DevAfeez</span>
             <span class="logo-sub">MOVIE API</span>
-        </div>
+        </a>
         <nav class="nav-links">
             <a href="/" class="nav-link"><i class="fas fa-home" style="font-size:10px;"></i> Home</a>
             <a href="/docs" class="nav-link"><i class="fas fa-book-open" style="font-size:10px;"></i> Docs</a>
@@ -102,7 +108,7 @@
         <div class="hero">
             <div class="hero-eyebrow"><i class="fas fa-scroll" style="margin-right:6px;"></i>What's New</div>
             <h1 class="hero-title">API Changelog</h1>
-            <p class="hero-desc">Every update, fix, and improvement to the RUNFLIX Movie API — newest first.</p>
+            <p class="hero-desc">Every update, fix, and improvement to the DevAfeez Movie API — newest first.</p>
         </div>
 
         <div class="filter-bar">
@@ -126,14 +132,10 @@
         let activeFilter = 'all';
 
         const TYPE_ICONS = {
-            feature: 'fa-plus-circle',
-            fix: 'fa-wrench',
-            breaking: 'fa-bolt',
-            improvement: 'fa-arrow-up'
+            feature: 'fa-plus-circle', fix: 'fa-wrench',
+            breaking: 'fa-bolt', improvement: 'fa-arrow-up'
         };
 
-        // Detect the base path so the fetch works both directly (localhost:3000)
-        // and through the Replit proxy (/runflix-api/changelog → base = /runflix-api)
         const BASE = window.location.pathname.replace(/\/changelog.*$/, '');
 
         async function tryFetch(url) {
@@ -155,8 +157,7 @@
                     allEntries = (data.results || data || []).sort((a, b) => new Date(b.date) - new Date(a.date));
                     document.getElementById('loadingState').style.display = 'none';
                     document.getElementById('timeline').style.display = 'block';
-                    render();
-                    return;
+                    render(); return;
                 } catch (e) { lastErr = e; }
             }
             document.getElementById('loadingState').innerHTML = '<i class="fas fa-exclamation-circle" style="font-size:28px;opacity:0.3;display:block;margin-bottom:0.5rem;"></i><p style="font-size:12px;">Failed to load changelog.</p>';

@@ -3,50 +3,30 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>RUNFLIX Movies API | DaraTech</title>
-        <link
-            rel="icon"
-            type="image/x-icon"
-            href="https://runflix.name.ng/favicon.png"
-        />
+        <title>DevAfeez Movie API | High-Throughput Media Data</title>
+        <link rel="icon" type="image/png" href="/assets/logo.png" />
+        <link rel="apple-touch-icon" href="/assets/apple-icon.jpg" />
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
         <script>
             tailwind.config = {
                 theme: {
                     extend: {
                         colors: {
-                            void: "#02040a",
-                            surface: "#0a0f1e",
-                            panel: "#111827",
-                            edge: "#1a2035",
-                            "edge-light": "#25304a",
-                            cyan: {
-                                400: "#22d3ee",
-                                500: "#06b6d4",
-                                glow: "rgba(34,211,238,0.15)",
-                            },
-                            violet: {
-                                400: "#a78bfa",
-                                500: "#8b5cf6",
-                                glow: "rgba(139,92,246,0.15)",
-                            },
-                            slate: {
-                                300: "#cbd5e1",
-                                400: "#94a3b8",
-                                500: "#64748b",
-                            },
+                            bg: "#070b14",
+                            surface: "#0c1220",
+                            panel: "#111b2e",
+                            border: "#1c2d4a",
+                            "border-light": "#243a5e",
+                            blue: { 400: "#60a5fa", 500: "#3b82f6", 600: "#2563eb" },
+                            orange: { 300: "#fdba74", 400: "#fb923c", 500: "#f97316" },
+                            slate: { 300: "#cbd5e1", 400: "#94a3b8", 500: "#64748b", 600: "#475569" },
                         },
                         fontFamily: {
+                            display: ["Space Grotesk", "system-ui", "sans-serif"],
                             sans: ["Inter", "system-ui", "sans-serif"],
                             mono: ["JetBrains Mono", "monospace"],
                         },
@@ -55,761 +35,358 @@
             };
         </script>
         <style>
+            * { box-sizing: border-box; }
             body {
-                background-color: #02040a;
+                background-color: #070b14;
                 color: #e2e8f0;
                 font-family: "Inter", sans-serif;
                 overflow-x: hidden;
             }
 
-            .mesh-bg {
-                position: fixed;
-                inset: 0;
-                z-index: -2;
+            /* ── Background ── */
+            .grid-bg {
+                position: fixed; inset: 0; z-index: -2;
+                background-image:
+                    linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+                background-size: 48px 48px;
+                mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+            }
+            .glow-bg {
+                position: fixed; inset: 0; z-index: -1; pointer-events: none;
                 background:
-                    radial-gradient(
-                        ellipse 80% 50% at 20% 40%,
-                        rgba(34, 211, 238, 0.08) 0%,
-                        transparent 50%
-                    ),
-                    radial-gradient(
-                        ellipse 60% 60% at 80% 80%,
-                        rgba(139, 92, 246, 0.06) 0%,
-                        transparent 50%
-                    ),
-                    radial-gradient(
-                        ellipse 50% 40% at 50% 0%,
-                        rgba(6, 182, 212, 0.05) 0%,
-                        transparent 50%
-                    );
+                    radial-gradient(ellipse 70% 50% at 15% 30%, rgba(59,130,246,0.10) 0%, transparent 60%),
+                    radial-gradient(ellipse 50% 40% at 85% 70%, rgba(249,115,22,0.06) 0%, transparent 60%),
+                    radial-gradient(ellipse 40% 30% at 50% 100%, rgba(59,130,246,0.05) 0%, transparent 60%);
             }
 
-            .dot-grid {
-                position: fixed;
-                inset: 0;
-                z-index: -1;
-                background-image: radial-gradient(
-                    circle,
-                    rgba(255, 255, 255, 0.03) 1px,
-                    transparent 1px
-                );
-                background-size: 32px 32px;
-                mask-image: linear-gradient(
-                    to bottom,
-                    black 30%,
-                    transparent 100%
-                );
-            }
-
-            .diagonal-lines {
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 400px;
-                height: 400px;
-                background: repeating-linear-gradient(
-                    -45deg,
-                    transparent,
-                    transparent 10px,
-                    rgba(34, 211, 238, 0.03) 10px,
-                    rgba(34, 211, 238, 0.03) 11px
-                );
-                pointer-events: none;
-            }
-
-            .panel {
-                background: #111827;
-                border: 1px solid #1a2035;
-                transition: all 0.25s ease;
-            }
-            .panel:hover {
-                border-color: #25304a;
-                box-shadow: 0 0 40px rgba(34, 211, 238, 0.04);
-            }
-
-            .btn-primary {
-                background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
-                box-shadow: 0 0 20px rgba(6, 182, 212, 0.25);
-                transition: all 0.2s ease;
-            }
-            .btn-primary:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 0 30px rgba(6, 182, 212, 0.4);
-            }
-
-            .btn-ghost {
-                border: 1px solid #1a2035;
-                background: transparent;
-                transition: all 0.2s ease;
-            }
-            .btn-ghost:hover {
-                border-color: #22d3ee;
-                color: #22d3ee;
-                box-shadow: 0 0 20px rgba(34, 211, 238, 0.08);
-            }
-
-            .btn-whatsapp {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
-                transition: all 0.2s ease;
-            }
-            .btn-whatsapp:hover {
-                transform: translateY(-1px);
-                box-shadow: 0 0 30px rgba(16, 185, 129, 0.35);
-            }
-
-            .tag-cyan {
-                background: rgba(34, 211, 238, 0.08);
-                border: 1px solid rgba(34, 211, 238, 0.2);
-                color: #22d3ee;
-            }
-            .tag-violet {
-                background: rgba(139, 92, 246, 0.08);
-                border: 1px solid rgba(139, 92, 246, 0.2);
-                color: #a78bfa;
-            }
-
-            .code-window {
-                background: #0d1117;
-                border: 1px solid #1a2035;
-                border-radius: 12px;
-                overflow: hidden;
-            }
-            .code-window-header {
-                background: #111827;
-                border-bottom: 1px solid #1a2035;
-                padding: 12px 16px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-            .dot {
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-            }
-            .dot-red {
-                background: #f87171;
-            }
-            .dot-yellow {
-                background: #fbbf24;
-            }
-            .dot-green {
-                background: #34d399;
-            }
-
-            .glow-text {
-                text-shadow:
-                    0 0 40px rgba(34, 211, 238, 0.3),
-                    0 0 80px rgba(139, 92, 246, 0.15);
-            }
-
-            .mono-label {
-                font-family: "JetBrains Mono", monospace;
-                font-size: 0.65rem;
-                letter-spacing: 0.1em;
-                text-transform: uppercase;
-            }
-
-            .bento-card {
-                background: #111827;
-                border: 1px solid #1a2035;
-                position: relative;
-                overflow: hidden;
-            }
-            .bento-card::before {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                height: 1px;
-                background: linear-gradient(
-                    90deg,
-                    transparent,
-                    rgba(34, 211, 238, 0.3),
-                    transparent
-                );
-            }
-
-            /* Dropdown nav styles */
-            .nav-item {
-                position: relative;
-            }
-
-            .nav-link {
-                padding: 0.5rem 0.75rem;
+            /* ── Nav ── */
+            .nav-pill {
+                padding: 0.4rem 0.875rem;
                 font-size: 0.8125rem;
                 font-weight: 500;
                 color: #64748b;
-                border-radius: 0.5rem;
+                border-radius: 999px;
                 transition: all 0.15s ease;
-                display: flex;
-                align-items: center;
-                gap: 0.375rem;
+                display: flex; align-items: center; gap: 0.375rem;
+                white-space: nowrap;
             }
-            .nav-link:hover {
-                color: #e2e8f0;
-                background: rgba(255, 255, 255, 0.03);
-            }
+            .nav-pill:hover { color: #e2e8f0; background: rgba(59,130,246,0.08); }
+            .nav-pill.active { color: #60a5fa; background: rgba(59,130,246,0.12); }
 
             .dropdown-menu {
-                position: absolute;
-                top: calc(100% + 0.5rem);
-                left: 0;
-                min-width: 220px;
-                background: #111827;
-                border: 1px solid #1a2035;
-                border-radius: 0.75rem;
+                position: absolute; top: calc(100% + 0.5rem); left: 0;
+                min-width: 230px;
+                background: #111b2e;
+                border: 1px solid #1c2d4a;
+                border-radius: 1rem;
                 padding: 0.5rem;
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-8px);
-                transition: all 0.2s ease;
+                opacity: 0; visibility: hidden;
+                transform: translateY(-6px);
+                transition: all 0.18s ease;
                 z-index: 50;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+                box-shadow: 0 24px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(59,130,246,0.08);
             }
-
-            .nav-item:hover .dropdown-menu,
-            .dropdown-menu.open {
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-            }
+            .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
 
             .dropdown-item {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                padding: 0.625rem 0.875rem;
-                border-radius: 0.5rem;
-                font-size: 0.8125rem;
+                display: flex; align-items: center; gap: 0.75rem;
+                padding: 0.575rem 0.875rem;
+                border-radius: 0.625rem;
+                font-size: 0.8rem;
                 color: #94a3b8;
-                transition: all 0.15s ease;
+                transition: all 0.12s ease;
             }
-            .dropdown-item:hover {
-                background: rgba(34, 211, 238, 0.04);
-                color: #e2e8f0;
+            .dropdown-item:hover { background: rgba(59,130,246,0.08); color: #e2e8f0; }
+
+            /* ── Buttons ── */
+            .btn-blue {
+                background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+                box-shadow: 0 0 24px rgba(59,130,246,0.30);
+                transition: all 0.2s ease;
+            }
+            .btn-blue:hover { transform: translateY(-1px); box-shadow: 0 0 36px rgba(59,130,246,0.45); }
+
+            .btn-orange {
+                background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+                box-shadow: 0 0 24px rgba(249,115,22,0.25);
+                transition: all 0.2s ease;
+            }
+            .btn-orange:hover { transform: translateY(-1px); box-shadow: 0 0 36px rgba(249,115,22,0.40); }
+
+            .btn-ghost {
+                border: 1px solid #1c2d4a;
+                background: transparent;
+                transition: all 0.2s ease;
+            }
+            .btn-ghost:hover { border-color: #3b82f6; color: #60a5fa; background: rgba(59,130,246,0.06); }
+
+            /* ── Cards ── */
+            .glass-card {
+                background: rgba(17,27,46,0.7);
+                border: 1px solid #1c2d4a;
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                transition: all 0.25s ease;
+                position: relative; overflow: hidden;
+            }
+            .glass-card::before {
+                content: "";
+                position: absolute; top: 0; left: 0; right: 0; height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(59,130,246,0.4), transparent);
+            }
+            .glass-card:hover { border-color: #243a5e; box-shadow: 0 0 40px rgba(59,130,246,0.06); }
+
+            /* ── Tags ── */
+            .tag-blue {
+                background: rgba(59,130,246,0.10);
+                border: 1px solid rgba(59,130,246,0.25);
+                color: #60a5fa;
+            }
+            .tag-orange {
+                background: rgba(249,115,22,0.10);
+                border: 1px solid rgba(249,115,22,0.25);
+                color: #fb923c;
+            }
+            .tag-green {
+                background: rgba(16,185,129,0.10);
+                border: 1px solid rgba(16,185,129,0.25);
+                color: #34d399;
             }
 
-            /* Mobile dropdown panel */
+            /* ── Code window ── */
+            .code-win { background: #060b15; border: 1px solid #1c2d4a; border-radius: 14px; overflow: hidden; }
+            .code-win-bar { background: #0c1220; border-bottom: 1px solid #1c2d4a; padding: 10px 16px; display: flex; align-items: center; gap: 8px; }
+            .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+            /* ── Label ── */
+            .label {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 0.625rem;
+                letter-spacing: 0.12em;
+                text-transform: uppercase;
+            }
+
+            /* ── Hero glow text ── */
+            .hero-text-glow {
+                text-shadow: 0 0 60px rgba(59,130,246,0.35);
+            }
+
+            /* ── Mobile nav ── */
             .mobile-panel {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: #0a0f1e;
-                border-bottom: 1px solid #1a2035;
+                position: absolute; top: 100%; left: 0; right: 0;
+                background: #0c1220;
+                border-bottom: 1px solid #1c2d4a;
                 padding: 1rem 1.5rem;
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-8px);
-                transition: all 0.25s ease;
+                opacity: 0; visibility: hidden;
+                transform: translateY(-6px);
+                transition: all 0.22s ease;
                 z-index: 40;
-                max-height: 0;
-                overflow: hidden;
+                max-height: 0; overflow: hidden;
             }
             .mobile-panel.open {
-                opacity: 1;
-                visibility: visible;
+                opacity: 1; visibility: visible;
                 transform: translateY(0);
-                max-height: 500px;
-                overflow: visible;
+                max-height: 520px; overflow: visible;
             }
-
-            .mobile-link {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                padding: 0.75rem 0;
-                font-size: 0.875rem;
-                font-weight: 500;
+            .m-link {
+                display: flex; align-items: center; gap: 0.75rem;
+                padding: 0.7rem 0;
+                font-size: 0.875rem; font-weight: 500;
                 color: #94a3b8;
-                border-bottom: 1px solid #1a2035;
+                border-bottom: 1px solid #1c2d4a;
                 transition: color 0.15s;
             }
-            .mobile-link:last-child {
-                border-bottom: none;
-            }
-            .mobile-link:hover,
-            .mobile-link.active {
-                color: #22d3ee;
-            }
+            .m-link:last-child { border-bottom: none; }
+            .m-link:hover, .m-link.active { color: #60a5fa; }
 
-            .mobile-dropdown-header {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0.75rem 0;
-                font-size: 0.875rem;
-                font-weight: 600;
+            .m-drop-header {
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 0.7rem 0;
+                font-size: 0.875rem; font-weight: 600;
                 color: #e2e8f0;
-                border-bottom: 1px solid #1a2035;
+                border-bottom: 1px solid #1c2d4a;
                 cursor: pointer;
             }
-
-            .mobile-dropdown-items {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease;
-                padding-left: 1.5rem;
-            }
-            .mobile-dropdown-items.open {
-                max-height: 300px;
-            }
-
-            .mobile-dropdown-items .mobile-link {
-                font-size: 0.8125rem;
-                padding: 0.625rem 0;
-                border-bottom: none;
-            }
+            .m-drop-items { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding-left: 1.25rem; }
+            .m-drop-items.open { max-height: 300px; }
+            .m-drop-items .m-link { font-size: 0.8rem; padding: 0.55rem 0; border-bottom: none; }
         </style>
     </head>
     <body class="min-h-screen">
-        <div class="mesh-bg"></div>
-        <div class="dot-grid"></div>
+        <div class="grid-bg"></div>
+        <div class="glow-bg"></div>
 
-        <!-- Header with dropdown nav -->
-        <header
-            class="fixed top-0 left-0 right-0 z-50 bg-void/90 backdrop-blur-xl border-b border-edge"
-        >
-            <div
-                class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between"
-            >
-                <a href="/" class="flex items-center gap-3 group shrink-0">
-                    <div
-                        class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition-shadow"
-                    >
-                        <i class="fas fa-play text-white text-xs"></i>
-                    </div>
-                    <div>
-                        <span
-                            class="font-bold text-sm tracking-tight text-white"
-                            >RUNFLIX</span
-                        >
-                        <span class="text-slate-500 text-xs ml-1 font-mono"
-                            >API</span
-                        >
+        <!-- ── Header ── -->
+        <header class="fixed top-0 left-0 right-0 z-50 bg-bg/85 backdrop-blur-2xl border-b border-border">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+
+                <a href="/" class="flex items-center gap-2.5 shrink-0">
+                    <img src="/assets/logo.png" alt="DevAfeez" class="w-8 h-8 rounded-lg object-cover" />
+                    <div class="leading-tight">
+                        <span class="font-display font-bold text-sm text-white">DevAfeez</span>
+                        <span class="text-slate-500 font-mono text-[10px] ml-1">API</span>
                     </div>
                 </a>
 
-                <!-- Desktop dropdown nav -->
-                <nav class="hidden md:flex items-center gap-1">
-                    <a
-                        href="/"
-                        class="nav-link active text-white bg-white/[0.03]"
-                    >
-                        <span>Home</span>
-                    </a>
+                <!-- Desktop nav -->
+                <nav class="hidden md:flex items-center gap-0.5">
+                    <a href="/" class="nav-pill active">Home</a>
 
-                    <div class="nav-item">
-                        <a href="/docs" class="nav-link">
-                            <span>Documentation</span>
-                            <i
-                                class="fas fa-chevron-down text-[10px] opacity-60"
-                            ></i>
+                    <div class="nav-item relative">
+                        <a href="/docs" class="nav-pill">
+                            Documentation
+                            <i class="fas fa-chevron-down text-[9px] opacity-50"></i>
                         </a>
                         <div class="dropdown-menu">
-                            <a href="/docs#overview" class="dropdown-item">
-                                <i
-                                    class="fas fa-list-alt text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>API Overview</span>
-                            </a>
-                            <a href="/docs#homepage" class="dropdown-item">
-                                <i
-                                    class="fas fa-star text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Homepage Data</span>
-                            </a>
-                            <a href="/docs#trending" class="dropdown-item">
-                                <i
-                                    class="fas fa-chart-line text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Trending</span>
-                            </a>
-                            <a href="/docs#search" class="dropdown-item">
-                                <i
-                                    class="fas fa-search text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Search</span>
-                            </a>
-                            <a href="/docs#filter" class="dropdown-item">
-                                <i
-                                    class="fas fa-filter text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Filter</span>
-                            </a>
-                            <a href="/docs#schedule" class="dropdown-item">
-                                <i
-                                    class="fas fa-calendar-alt text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Schedule</span>
-                            </a>
-                            <a href="/docs#schedule-popular" class="dropdown-item">
-                                <i class="fas fa-fire text-cyan-400 w-4 text-center text-xs"></i>
-                                <span>Popular Anime</span>
-                            </a>
-                            <a href="/docs#anime" class="dropdown-item">
-                                <i class="fas fa-dragon text-cyan-400 w-4 text-center text-xs"></i>
-                                <span>Anime Catalog</span>
-                            </a>
-                            <a href="/docs#seasons-upcoming" class="dropdown-item">
-                                <i class="fas fa-calendar-plus text-cyan-400 w-4 text-center text-xs"></i>
-                                <span>Upcoming Season</span>
-                            </a>
-                            <a href="/docs#info" class="dropdown-item">
-                                <i
-                                    class="fas fa-info-circle text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Metadata</span>
-                            </a>
-                            <a href="/docs#sources" class="dropdown-item">
-                                <i
-                                    class="fas fa-download text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Sources</span>
-                            </a>
-                            <a href="/docs#captions" class="dropdown-item">
-                                <i
-                                    class="fas fa-closed-captioning text-cyan-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Captions</span>
-                            </a>
-                            <a href="/docs#audio-dubs" class="dropdown-item">
-                                <i
-                                    class="fas fa-language text-violet-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Audio Dubs</span>
-                            </a>
-                            <a href="/docs#live" class="dropdown-item">
-                                <i class="fas fa-broadcast-tower text-cyan-400 w-4 text-center text-xs"></i>
-                                <span>Live TV</span>
-                            </a>
-                            <div class="h-px bg-edge my-1 mx-2"></div>
-                            <a href="/docs#examples" class="dropdown-item">
-                                <i
-                                    class="fas fa-code text-violet-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Code Examples</span>
-                            </a>
-                            <a href="/docs#support" class="dropdown-item">
-                                <i
-                                    class="fas fa-life-ring text-emerald-400 w-4 text-center text-xs"
-                                ></i>
-                                <span>Support</span>
-                            </a>
+                            <a href="/docs#overview" class="dropdown-item"><i class="fas fa-list-alt text-blue-400 w-4 text-center text-[10px]"></i>API Overview</a>
+                            <a href="/docs#homepage" class="dropdown-item"><i class="fas fa-star text-blue-400 w-4 text-center text-[10px]"></i>Homepage Data</a>
+                            <a href="/docs#trending" class="dropdown-item"><i class="fas fa-chart-line text-blue-400 w-4 text-center text-[10px]"></i>Trending</a>
+                            <a href="/docs#search" class="dropdown-item"><i class="fas fa-search text-blue-400 w-4 text-center text-[10px]"></i>Search</a>
+                            <a href="/docs#filter" class="dropdown-item"><i class="fas fa-filter text-blue-400 w-4 text-center text-[10px]"></i>Filter</a>
+                            <a href="/docs#schedule" class="dropdown-item"><i class="fas fa-calendar-alt text-blue-400 w-4 text-center text-[10px]"></i>Schedule</a>
+                            <a href="/docs#anime" class="dropdown-item"><i class="fas fa-dragon text-blue-400 w-4 text-center text-[10px]"></i>Anime Catalog</a>
+                            <a href="/docs#info" class="dropdown-item"><i class="fas fa-info-circle text-blue-400 w-4 text-center text-[10px]"></i>Metadata</a>
+                            <a href="/docs#sources" class="dropdown-item"><i class="fas fa-download text-blue-400 w-4 text-center text-[10px]"></i>Sources</a>
+                            <a href="/docs#captions" class="dropdown-item"><i class="fas fa-closed-captioning text-blue-400 w-4 text-center text-[10px]"></i>Captions</a>
+                            <a href="/docs#live" class="dropdown-item"><i class="fas fa-broadcast-tower text-orange-400 w-4 text-center text-[10px]"></i>Live TV</a>
+                            <div class="h-px bg-border my-1 mx-2"></div>
+                            <a href="/docs#examples" class="dropdown-item"><i class="fas fa-code text-orange-400 w-4 text-center text-[10px]"></i>Code Examples</a>
+                            <a href="/docs#support" class="dropdown-item"><i class="fas fa-life-ring text-green-400 w-4 text-center text-[10px]"></i>Support</a>
                         </div>
                     </div>
 
-                    <a href="/changelog" class="nav-link">
-                        <span>Changelog</span>
+                    <a href="/changelog" class="nav-pill">Changelog</a>
+                    <a href="/try" class="nav-pill">
+                        Try API
+                        <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 font-bold uppercase tracking-wider">Free</span>
                     </a>
-                    <a href="/try" class="nav-link">
-                        <span>Try API</span>
-                        <span
-                            class="text-[9px] px-1.5 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-bold uppercase tracking-wider ml-0.5"
-                            >Free</span
-                        >
-                    </a>
-                    <a href="/request-key" class="nav-link">
-                        <span>Request Key</span>
-                    </a>
-                    <a
-                        href="https://api.runflix.name.ng"
-                        target="_blank"
-                        class="nav-link"
-                    >
-                        <span>More APIs</span>
-                        <i
-                            class="fas fa-external-link-alt text-[10px] opacity-60"
-                        ></i>
-                    </a>
+                    <a href="/request-key" class="nav-pill">Request Key</a>
                 </nav>
 
-                <div class="flex items-center gap-3">
-                    <a
-                        href="https://wa.me/+2348100785677"
-                        target="_blank"
-                        class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-edge hover:border-emerald-500/30 text-slate-400 hover:text-emerald-400 transition-all text-xs font-medium"
-                    >
+                <div class="flex items-center gap-2.5">
+                    <a href="https://wa.me/+2348100785677" target="_blank"
+                       class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border hover:border-emerald-500/30 text-slate-500 hover:text-emerald-400 transition-all text-xs font-medium">
                         <i class="fab fa-whatsapp"></i>
                         <span>Support</span>
                     </a>
-                    <div
-                        class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-emerald-500/5 border border-emerald-500/10"
-                    >
-                        <div
-                            class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"
-                        ></div>
-                        <span
-                            class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider"
-                            >Live</span
-                        >
+                    <div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-emerald-500/5 border border-emerald-500/15">
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Live</span>
                     </div>
-                    <button
-                        id="menuBtn"
-                        class="md:hidden text-slate-400 hover:text-white transition-colors p-1 ml-1"
-                    >
+                    <button id="menuBtn" class="md:hidden text-slate-400 hover:text-white transition-colors p-1">
                         <i class="fas fa-bars text-lg" id="menuIcon"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Mobile dropdown panel (NOT full screen) -->
+            <!-- Mobile panel -->
             <div id="mobilePanel" class="mobile-panel md:hidden">
-                <a href="/" class="mobile-link active text-cyan-400">
-                    <i class="fas fa-home w-5 text-center text-xs"></i>
-                    <span>Home</span>
-                </a>
+                <a href="/" class="m-link active"><i class="fas fa-home w-5 text-center text-[10px]"></i>Home</a>
 
-                <div
-                    class="mobile-dropdown-header"
-                    onclick="toggleMobileDropdown('docsDropdown')"
-                >
-                    <span class="flex items-center gap-2">
-                        <i
-                            class="fas fa-book w-5 text-center text-xs text-cyan-400"
-                        ></i>
-                        Documentation
-                    </span>
-                    <i
-                        class="fas fa-chevron-down text-xs text-slate-500 transition-transform"
-                        id="docsDropdownIcon"
-                    ></i>
+                <div class="m-drop-header" onclick="toggleMDrop('ddocs')">
+                    <span class="flex items-center gap-2"><i class="fas fa-book w-5 text-center text-[10px] text-blue-400"></i>Documentation</span>
+                    <i class="fas fa-chevron-down text-xs text-slate-500 transition-transform" id="ddocsIcon"></i>
                 </div>
-                <div class="mobile-dropdown-items" id="docsDropdown">
-                    <a href="/docs#overview" class="mobile-link">
-                        <i class="fas fa-list-alt w-5 text-center text-xs"></i>
-                        <span>API Overview</span>
-                    </a>
-                    <a href="/docs#homepage" class="mobile-link">
-                        <i class="fas fa-star w-5 text-center text-xs"></i>
-                        <span>Homepage Data</span>
-                    </a>
-                    <a href="/docs#trending" class="mobile-link">
-                        <i
-                            class="fas fa-chart-line w-5 text-center text-xs"
-                        ></i>
-                        <span>Trending</span>
-                    </a>
-                    <a href="/docs#search" class="mobile-link">
-                        <i class="fas fa-search w-5 text-center text-xs"></i>
-                        <span>Search</span>
-                    </a>
-                    <a href="/docs#filter" class="mobile-link">
-                        <i class="fas fa-filter w-5 text-center text-xs"></i>
-                        <span>Filter</span>
-                    </a>
-                    <a href="/docs#schedule" class="mobile-link">
-                        <i class="fas fa-calendar-alt w-5 text-center text-xs"></i>
-                        <span>Schedule</span>
-                    </a>
-                    <a href="/docs#schedule-popular" class="mobile-link">
-                        <i class="fas fa-fire w-5 text-center text-xs"></i>
-                        <span>Popular Anime</span>
-                    </a>
-                    <a href="/docs#anime" class="mobile-link">
-                        <i class="fas fa-dragon w-5 text-center text-xs"></i>
-                        <span>Anime Catalog</span>
-                    </a>
-                    <a href="/docs#seasons-upcoming" class="mobile-link">
-                        <i class="fas fa-calendar-plus w-5 text-center text-xs"></i>
-                        <span>Upcoming Season</span>
-                    </a>
-                    <a href="/docs#info" class="mobile-link">
-                        <i
-                            class="fas fa-info-circle w-5 text-center text-xs"
-                        ></i>
-                        <span>Metadata</span>
-                    </a>
-                    <a href="/docs#sources" class="mobile-link">
-                        <i class="fas fa-download w-5 text-center text-xs"></i>
-                        <span>Sources</span>
-                    </a>
-                    <a href="/docs#captions" class="mobile-link">
-                        <i class="fas fa-closed-captioning w-5 text-center text-xs"></i>
-                        <span>Captions</span>
-                    </a>
-                    <a href="/docs#audio-dubs" class="mobile-link">
-                        <i class="fas fa-language w-5 text-center text-xs"></i>
-                        <span>Audio Dubs</span>
-                    </a>
-                    <a href="/docs#live" class="mobile-link">
-                        <i class="fas fa-broadcast-tower w-5 text-center text-xs"></i>
-                        <span>Live TV</span>
-                    </a>
-                    <a href="/docs#examples" class="mobile-link">
-                        <i class="fas fa-code w-5 text-center text-xs"></i>
-                        <span>Code Examples</span>
-                    </a>
-                    <a href="/docs#support" class="mobile-link">
-                        <i class="fas fa-life-ring w-5 text-center text-xs"></i>
-                        <span>Support</span>
-                    </a>
+                <div class="m-drop-items" id="ddocs">
+                    <a href="/docs#overview" class="m-link"><i class="fas fa-list-alt w-5 text-center text-[10px]"></i>API Overview</a>
+                    <a href="/docs#trending" class="m-link"><i class="fas fa-chart-line w-5 text-center text-[10px]"></i>Trending</a>
+                    <a href="/docs#search" class="m-link"><i class="fas fa-search w-5 text-center text-[10px]"></i>Search</a>
+                    <a href="/docs#sources" class="m-link"><i class="fas fa-download w-5 text-center text-[10px]"></i>Sources</a>
+                    <a href="/docs#live" class="m-link"><i class="fas fa-broadcast-tower w-5 text-center text-[10px]"></i>Live TV</a>
+                    <a href="/docs#examples" class="m-link"><i class="fas fa-code w-5 text-center text-[10px]"></i>Code Examples</a>
                 </div>
 
-                <a href="/changelog" class="mobile-link">
-                    <i class="fas fa-scroll w-5 text-center text-xs text-violet-400"></i>
-                    <span>Changelog</span>
-                </a>
-
-                <a href="/try" class="mobile-link text-cyan-400">
-                    <i class="fas fa-flask w-5 text-center text-xs"></i>
-                    <span
-                        >Try API
-                        <span
-                            style="
-                                font-size: 9px;
-                                background: rgba(34, 211, 238, 0.1);
-                                border: 1px solid rgba(34, 211, 238, 0.2);
-                                color: #22d3ee;
-                                padding: 1px 5px;
-                                border-radius: 10px;
-                                font-weight: 700;
-                                letter-spacing: 0.05em;
-                                text-transform: uppercase;
-                                margin-left: 2px;
-                            "
-                            >Free</span
-                        ></span
-                    >
-                </a>
-                <a href="/request-key" class="mobile-link">
-                    <i class="fas fa-key w-5 text-center text-xs"></i>
-                    <span>Request API Key</span>
-                </a>
-                <a
-                    href="https://api.runflix.name.ng"
-                    target="_blank"
-                    class="mobile-link"
-                >
-                    <i
-                        class="fas fa-external-link-alt w-5 text-center text-xs"
-                    ></i>
-                    <span>More APIs</span>
-                </a>
-
-                <a
-                    href="https://wa.me/+2348100785677"
-                    target="_blank"
-                    class="mobile-link text-emerald-400"
-                >
-                    <i class="fab fa-whatsapp w-5 text-center text-xs"></i>
-                    <span>WhatsApp Support</span>
-                </a>
+                <a href="/changelog" class="m-link"><i class="fas fa-scroll w-5 text-center text-[10px] text-orange-400"></i>Changelog</a>
+                <a href="/try" class="m-link text-blue-400"><i class="fas fa-flask w-5 text-center text-[10px]"></i>Try API <span style="font-size:9px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);color:#60a5fa;padding:1px 5px;border-radius:10px;font-weight:700;text-transform:uppercase;margin-left:4px;">Free</span></a>
+                <a href="/request-key" class="m-link"><i class="fas fa-key w-5 text-center text-[10px]"></i>Request API Key</a>
+                <a href="https://wa.me/+2348100785677" target="_blank" class="m-link text-emerald-400"><i class="fab fa-whatsapp w-5 text-center text-[10px]"></i>WhatsApp Support</a>
             </div>
         </header>
 
-        <main class="pt-24 pb-16 px-4 sm:px-6 max-w-6xl mx-auto">
-            <!-- Hero -->
-            <section class="mb-20 relative">
-                <div class="diagonal-lines opacity-50"></div>
-                <div class="max-w-3xl">
-                    <div class="flex items-center gap-3 mb-6">
-                        <span
-                            class="mono-label tag-cyan px-3 py-1.5 rounded-full"
-                            >v3.0.0</span
-                        >
-                        <span class="mono-label text-slate-500"
-                            >Latest Release</span
-                        >
-                    </div>
-                    <h1
-                        class="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.1] mb-6 tracking-tight"
-                    >
-                        Media Data<br />
-                        <span
-                            class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400 glow-text"
-                            >Infrastructure</span
-                        >
-                    </h1>
-                    <p
-                        class="text-slate-400 text-lg sm:text-xl max-w-xl leading-relaxed mb-8"
-                    >
-                        High-throughput movie and series metadata API. Built for
-                        developers who need reliable, structured entertainment
-                        data at scale.
-                    </p>
-                    <div class="flex flex-wrap items-center gap-4">
-                        <a
-                            href="/docs"
-                            class="btn-primary px-6 py-3 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2"
-                        >
-                            <span>Read Documentation</span>
-                            <i class="fas fa-arrow-right text-xs"></i>
-                        </a>
-                        <a
-                            href="/request-key"
-                            class="btn-whatsapp px-6 py-3 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2"
-                        >
-                            <i class="fas fa-key"></i>
-                            <span>Request API Key</span>
-                        </a>
-                        <a
-                            href="/try"
-                            class="btn-ghost px-5 py-3 rounded-lg font-semibold text-sm text-slate-300 hover:text-cyan-400 inline-flex items-center gap-2"
-                        >
-                            <i class="fas fa-flask text-cyan-400"></i>
-                            <span>Try Free</span>
-                        </a>
-                    </div>
+        <main class="pt-28 pb-20 px-4 sm:px-6 max-w-6xl mx-auto">
+
+            <!-- ── Hero ── -->
+            <section class="mb-24 text-center max-w-4xl mx-auto">
+                <div class="flex justify-center mb-6">
+                    <img src="/assets/logo.png" alt="DevAfeez" class="w-20 h-20 rounded-2xl shadow-2xl shadow-blue-500/20" />
+                </div>
+
+                <div class="flex items-center justify-center gap-3 mb-5">
+                    <span class="label tag-blue px-3 py-1.5 rounded-full">v3.0.0</span>
+                    <span class="label text-slate-500">Latest Release</span>
+                </div>
+
+                <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-[1.1] mb-5 tracking-tight hero-text-glow">
+                    Movie &amp; TV Data<br />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-blue-400 to-orange-400">for Developers</span>
+                </h1>
+
+                <p class="text-slate-400 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
+                    High-throughput streaming metadata API. Search, filter, and fetch sources for movies, series, anime, and live TV — all in clean, consistent JSON.
+                </p>
+
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    <a href="/docs" class="btn-blue px-7 py-3.5 rounded-xl font-semibold text-sm text-white inline-flex items-center gap-2">
+                        <i class="fas fa-book-open text-xs"></i>
+                        <span>Read Documentation</span>
+                    </a>
+                    <a href="/request-key" class="btn-orange px-7 py-3.5 rounded-xl font-semibold text-sm text-white inline-flex items-center gap-2">
+                        <i class="fas fa-key text-xs"></i>
+                        <span>Request API Key</span>
+                    </a>
+                    <a href="/try" class="btn-ghost px-6 py-3.5 rounded-xl font-semibold text-sm text-slate-300 hover:text-blue-400 inline-flex items-center gap-2">
+                        <i class="fas fa-flask text-blue-400 text-xs"></i>
+                        <span>Try Free</span>
+                    </a>
                 </div>
             </section>
 
-            <!-- Quick Integration Workflow -->
-            <section class="mb-20">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="h-px flex-1 bg-gradient-to-r from-edge to-transparent"></div>
-                    <span class="mono-label text-slate-500">Quick Integration</span>
-                    <div class="h-px flex-1 bg-gradient-to-l from-edge to-transparent"></div>
+            <!-- ── Quick Start ── -->
+            <section class="mb-24">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-1 h-8 rounded-full bg-gradient-to-b from-blue-500 to-blue-500/0"></div>
+                    <h2 class="font-display font-semibold text-lg text-white">Quick Integration</h2>
                 </div>
 
-                <!-- Steps -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div class="panel rounded-xl p-5 border-t-2 border-cyan-500/40">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-7 h-7 rounded-full bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-black text-xs shrink-0">1</div>
-                            <span class="text-sm font-bold text-white">Get your API key</span>
-                        </div>
-                        <p class="text-xs text-slate-400 leading-relaxed">Fill in the request form — keys are issued within minutes. Or hit <a href="/try" class="text-cyan-400 hover:underline">/try</a> for 50 free searches per day with no key.</p>
-                        <a href="/request-key" class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="w-8 h-8 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-400 font-black text-sm mb-4">1</div>
+                        <h3 class="font-display font-semibold text-white text-sm mb-2">Get your API key</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">Fill in the request form — keys are issued within minutes. Or use <a href="/try" class="text-blue-400 hover:underline">/try</a> for 50 free searches per day.</p>
+                        <a href="/request-key" class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors">
                             <i class="fas fa-key text-[10px]"></i> Request Key →
                         </a>
                     </div>
-                    <div class="panel rounded-xl p-5 border-t-2 border-violet-500/40">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-7 h-7 rounded-full bg-violet-500/15 border border-violet-500/30 flex items-center justify-center text-violet-400 font-black text-xs shrink-0">2</div>
-                            <span class="text-sm font-bold text-white">Set the auth header</span>
-                        </div>
-                        <p class="text-xs text-slate-400 leading-relaxed">Every request needs your key in the <code class="font-mono text-slate-300 text-[11px] bg-surface px-1 rounded">Authorization</code> header as a Bearer token.</p>
-                        <div class="mt-3 font-mono text-[11px] text-violet-300 bg-void/60 rounded px-2.5 py-1.5 border border-edge">Authorization: Bearer &lt;key&gt;</div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="w-8 h-8 rounded-xl bg-orange-500/15 border border-orange-500/25 flex items-center justify-center text-orange-400 font-black text-sm mb-4">2</div>
+                        <h3 class="font-display font-semibold text-white text-sm mb-2">Set the auth header</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed mb-3">Every request needs your key as a Bearer token in the <code class="font-mono text-slate-300 text-[11px] bg-surface px-1 rounded">Authorization</code> header.</p>
+                        <div class="font-mono text-[11px] text-orange-300 bg-bg/70 rounded-lg px-3 py-2 border border-border">Authorization: Bearer &lt;key&gt;</div>
                     </div>
-                    <div class="panel rounded-xl p-5 border-t-2 border-emerald-500/40">
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-7 h-7 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-black text-xs shrink-0">3</div>
-                            <span class="text-sm font-bold text-white">Call any endpoint</span>
-                        </div>
-                        <p class="text-xs text-slate-400 leading-relaxed">15 endpoints — movies, series, anime, live TV, captions and more. All return clean, consistent JSON.</p>
-                        <a href="/docs" class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors">
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="w-8 h-8 rounded-xl bg-green-500/15 border border-green-500/25 flex items-center justify-center text-green-400 font-black text-sm mb-4">3</div>
+                        <h3 class="font-display font-semibold text-white text-sm mb-2">Call any endpoint</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed">15 endpoints — movies, series, anime, live TV, captions and more. All return clean, consistent JSON.</p>
+                        <a href="/docs" class="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-green-400 hover:text-green-300 transition-colors">
                             <i class="fas fa-book-open text-[10px]"></i> View all endpoints →
                         </a>
                     </div>
                 </div>
 
-                <!-- Code window with tabs -->
-                <div class="panel rounded-xl overflow-hidden">
-                    <div class="flex items-center justify-between px-4 py-3 border-b border-edge">
+                <!-- Code window -->
+                <div class="code-win">
+                    <div class="code-win-bar flex items-center justify-between">
                         <div class="flex items-center gap-3">
                             <div class="flex gap-1.5">
-                                <div class="dot dot-red"></div>
-                                <div class="dot dot-yellow"></div>
-                                <div class="dot dot-green"></div>
+                                <div class="dot" style="background:#f87171"></div>
+                                <div class="dot" style="background:#fbbf24"></div>
+                                <div class="dot" style="background:#34d399"></div>
                             </div>
                             <div class="flex gap-1" id="qiTabs">
-                                <button onclick="switchQI('js')" id="qi-js" class="qi-tab active px-3 py-1 rounded text-xs font-semibold text-white bg-white/[0.06]">JavaScript</button>
-                                <button onclick="switchQI('curl')" id="qi-curl" class="qi-tab px-3 py-1 rounded text-xs font-semibold text-slate-400 hover:text-white transition-colors">cURL</button>
-                                <button onclick="switchQI('python')" id="qi-python" class="qi-tab px-3 py-1 rounded text-xs font-semibold text-slate-400 hover:text-white transition-colors">Python</button>
+                                <button onclick="switchQI('js')" id="qi-js" class="qi-tab active px-3 py-1 rounded-lg text-xs font-semibold text-white bg-blue-500/15 border border-blue-500/20">JavaScript</button>
+                                <button onclick="switchQI('curl')" id="qi-curl" class="qi-tab px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-colors">cURL</button>
+                                <button onclick="switchQI('python')" id="qi-python" class="qi-tab px-3 py-1 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-colors">Python</button>
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
@@ -817,11 +394,10 @@
                             <span class="text-[10px] text-emerald-400 font-mono uppercase tracking-wider font-semibold">Operational</span>
                         </div>
                     </div>
-
-                    <div class="p-5 overflow-x-auto">
+                    <div class="p-6 overflow-x-auto">
                         <pre id="qi-code-js" class="qi-panel font-mono text-xs text-slate-300 leading-relaxed"><code><span class="text-slate-500">// Search for a movie</span>
 const res = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/search/avengers",
+  "https://api.devafeez.com/api/v3/search/avengers",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await res.json();
@@ -829,43 +405,40 @@ const data = await res.json();
 
 <span class="text-slate-500">// Get streaming sources for a title</span>
 const sources = await fetch(
-  `https://movieapi.runflix.name.ng/api/v3/sources/${data.results.items[0].subjectId}`,
+  `https://api.devafeez.com/api/v3/sources/${data.results.items[0].subjectId}`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const { results } = await sources.json();
-<span class="text-slate-500">// results is a direct array of source objects
-// results[0].stream_url        → proxied HLS/MP4 stream URL
-// results[0].quality           → "1080p" | "720p" | "480p" | "360p"
-// results[0].browserCompatible → false (HEVC) / true (H.264)</span>
+<span class="text-slate-500">// results[0].stream_url  → proxied HLS/MP4 stream URL
+// results[0].quality     → "1080p" | "720p" | "480p"</span>
 
 <span class="text-slate-500">// Live TV — get kids channels</span>
 const live = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/live?category=kids",
+  "https://api.devafeez.com/api/v3/live?category=kids",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
-const channels = await live.json();
-<span class="text-slate-500">// channels.results.results[0].streams[0].url → HLS m3u8</span></code></pre>
+const channels = await live.json();</code></pre>
 
                         <pre id="qi-code-curl" class="qi-panel hidden font-mono text-xs text-slate-300 leading-relaxed"><code><span class="text-slate-500"># Search for a movie</span>
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/search/avengers" \
+curl -X GET "https://api.devafeez.com/api/v3/search/avengers" \
      -H "Authorization: Bearer YourApiKey"
 
 <span class="text-slate-500"># Get streaming sources</span>
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/sources/{id}" \
+curl -X GET "https://api.devafeez.com/api/v3/sources/{id}" \
      -H "Authorization: Bearer YourApiKey"
 
 <span class="text-slate-500"># Trending titles</span>
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/trending" \
+curl -X GET "https://api.devafeez.com/api/v3/trending" \
      -H "Authorization: Bearer YourApiKey"
 
-<span class="text-slate-500"># Live TV — search Nickelodeon</span>
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/live/search/nickelodeon" \
+<span class="text-slate-500"># Live TV search</span>
+curl -X GET "https://api.devafeez.com/api/v3/live/search/nickelodeon" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
 
                         <pre id="qi-code-python" class="qi-panel hidden font-mono text-xs text-slate-300 leading-relaxed"><code>import requests
 
 API_KEY = "YourApiKey"
-BASE    = "https://movieapi.runflix.name.ng/api/v3"
+BASE    = "https://api.devafeez.com/api/v3"
 HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 <span class="text-slate-500"># Search for a movie</span>
@@ -874,187 +447,120 @@ item = res["results"]["items"][0]
 
 <span class="text-slate-500"># Get streaming sources</span>
 src  = requests.get(f"{BASE}/sources/{item['id']}", headers=HEADERS).json()
-url  = src["results"]["sources"][0]["url"]   <span class="text-slate-500"># stream URL</span>
+url  = src["results"]["sources"][0]["url"]
 
-<span class="text-slate-500"># Live TV — kids channels</span>
-live = requests.get(f"{BASE}/live", headers=HEADERS, params={"category":"kids"}).json()
-stream = live["results"]["results"][0]["streams"][0]["url"]  <span class="text-slate-500"># HLS m3u8</span></code></pre>
+<span class="text-slate-500"># Live TV</span>
+live = requests.get(f"{BASE}/live", headers=HEADERS, params={"category":"kids"}).json()</code></pre>
                     </div>
                 </div>
-
-                <div class="mt-4 flex items-center gap-6 px-1">
-                    <div class="flex items-start gap-2">
-                        <i class="fas fa-shield-alt text-cyan-500 mt-0.5 text-xs"></i>
-                        <p class="text-xs text-slate-500">All endpoints need <code class="font-mono text-slate-300 bg-surface px-1 py-0.5 rounded text-[11px]">Authorization: Bearer &lt;key&gt;</code></p>
+                <div class="mt-4 flex items-center gap-4 px-1">
+                    <div class="flex items-center gap-2">
+                        <i class="fas fa-shield-alt text-blue-500 text-xs"></i>
+                        <p class="text-xs text-slate-500">All endpoints require <code class="font-mono text-slate-300 bg-surface px-1 py-0.5 rounded text-[11px]">Authorization: Bearer &lt;key&gt;</code></p>
                     </div>
-                    <a href="/docs" class="text-xs text-slate-500 hover:text-cyan-400 transition-colors shrink-0 flex items-center gap-1.5">
+                    <a href="/docs" class="text-xs text-slate-500 hover:text-blue-400 transition-colors shrink-0 flex items-center gap-1.5 ml-auto">
                         <i class="fas fa-book-open text-[10px]"></i> Full docs →
                     </a>
                 </div>
             </section>
 
-            <!-- Bento Features -->
-            <section class="mb-20">
-                <div class="flex items-center gap-3 mb-8">
-                    <div
-                        class="h-px flex-1 bg-gradient-to-r from-edge to-transparent"
-                    ></div>
-                    <span class="mono-label text-slate-500"
-                        >Core Capabilities</span
-                    >
-                    <div
-                        class="h-px flex-1 bg-gradient-to-l from-edge to-transparent"
-                    ></div>
+            <!-- ── Features ── -->
+            <section class="mb-24">
+                <div class="flex items-center gap-4 mb-8">
+                    <div class="w-1 h-8 rounded-full bg-gradient-to-b from-orange-500 to-orange-500/0"></div>
+                    <h2 class="font-display font-semibold text-lg text-white">Core Capabilities</h2>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="bento-card rounded-xl p-6 md:col-span-2">
-                        <div class="flex items-start justify-between mb-4">
-                            <div
-                                class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400"
-                            >
+                    <div class="glass-card rounded-2xl p-6 md:col-span-2">
+                        <div class="flex items-start justify-between mb-5">
+                            <div class="w-11 h-11 rounded-xl bg-blue-500/12 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
                                 <i class="fas fa-bolt"></i>
                             </div>
-                            <span class="mono-label tag-cyan px-2 py-1 rounded"
-                                >Edge Cached</span
-                            >
+                            <span class="label tag-blue px-2 py-1 rounded-lg">Edge Cached</span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-2">
-                            High Performance
-                        </h3>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Sub-100ms response times powered by Cloudflare's
-                            global edge network. Content is cached and served
-                            from 300+ locations worldwide for minimal latency.
-                        </p>
+                        <h3 class="font-display font-bold text-white text-base mb-2">High Performance</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">Sub-100ms response times powered by Cloudflare's global edge network. Content is cached and served from 300+ locations worldwide for minimal latency.</p>
                     </div>
 
-                    <div class="bento-card rounded-xl p-6">
-                        <div
-                            class="w-10 h-10 rounded-lg bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 mb-4"
-                        >
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="w-11 h-11 rounded-xl bg-orange-500/12 border border-orange-500/20 flex items-center justify-center text-orange-400 text-lg mb-5">
                             <i class="fas fa-shield-alt"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-2">
-                            Secure
-                        </h3>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Enterprise-grade bearer token authentication with
-                            automated threat detection and DDoS mitigation.
-                        </p>
+                        <h3 class="font-display font-bold text-white text-base mb-2">Secure Auth</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">Enterprise-grade bearer token authentication with automated threat detection and DDoS mitigation.</p>
                     </div>
 
-                    <div class="bento-card rounded-xl p-6">
-                        <div
-                            class="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4"
-                        >
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="w-11 h-11 rounded-xl bg-green-500/12 border border-green-500/20 flex items-center justify-center text-green-400 text-lg mb-5">
                             <i class="fas fa-database"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-2">
-                            Comprehensive
-                        </h3>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Full metadata coverage including posters, trailers,
-                            ratings, cast, and multi-quality streaming sources.
-                        </p>
+                        <h3 class="font-display font-bold text-white text-base mb-2">Rich Metadata</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">Full coverage: posters, trailers, ratings, cast, multi-quality stream sources, captions, and more.</p>
                     </div>
 
-                    <div class="bento-card rounded-xl p-6 md:col-span-2">
-                        <div class="flex items-start justify-between mb-4">
-                            <div
-                                class="w-10 h-10 rounded-lg bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center text-fuchsia-400"
-                            >
+                    <div class="glass-card rounded-2xl p-6 md:col-span-2">
+                        <div class="flex items-start justify-between mb-5">
+                            <div class="w-11 h-11 rounded-xl bg-blue-500/12 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
                                 <i class="fas fa-code"></i>
                             </div>
-                            <span
-                                class="mono-label tag-violet px-2 py-1 rounded"
-                                >REST + JSON</span
-                            >
+                            <span class="label tag-orange px-2 py-1 rounded-lg">REST + JSON</span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-2">
-                            Developer First
-                        </h3>
-                        <p class="text-sm text-slate-400 leading-relaxed">
-                            Clean REST architecture with predictable JSON
-                            schemas. Ready-to-use code examples in Node.js and
-                            Python. Standard HTTP response codes and intuitive
-                            endpoint naming.
-                        </p>
+                        <h3 class="font-display font-bold text-white text-base mb-2">Developer First</h3>
+                        <p class="text-sm text-slate-400 leading-relaxed">Clean REST architecture with predictable JSON schemas. Ready-to-use code examples in JavaScript, Python, and cURL. Standard HTTP response codes and intuitive endpoint naming.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Stats -->
-            <section class="mb-20">
+            <!-- ── Stats ── -->
+            <section class="mb-24">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="panel rounded-xl p-5 text-center">
-                        <div class="text-2xl font-black text-white mb-1">
-                            99.9%
-                        </div>
-                        <div class="mono-label text-slate-500">Uptime</div>
+                    <div class="glass-card rounded-2xl p-6 text-center">
+                        <div class="font-display text-3xl font-bold text-white mb-1">99.9%</div>
+                        <div class="label text-slate-500">Uptime</div>
                     </div>
-                    <div class="panel rounded-xl p-5 text-center">
-                        <div class="text-2xl font-black text-white mb-1">
-                            &lt;100ms
-                        </div>
-                        <div class="mono-label text-slate-500">Latency</div>
+                    <div class="glass-card rounded-2xl p-6 text-center">
+                        <div class="font-display text-3xl font-bold text-white mb-1">&lt;100ms</div>
+                        <div class="label text-slate-500">Latency</div>
                     </div>
-                    <div class="panel rounded-xl p-5 text-center">
-                        <div class="text-2xl font-black text-white mb-1">15</div>
-                        <div class="mono-label text-slate-500">Endpoints</div>
+                    <div class="glass-card rounded-2xl p-6 text-center">
+                        <div class="font-display text-3xl font-bold text-white mb-1">15</div>
+                        <div class="label text-slate-500">Endpoints</div>
                     </div>
-                    <div class="panel rounded-xl p-5 text-center">
-                        <div class="text-2xl font-black text-white mb-1">
-                            v3
-                        </div>
-                        <div class="mono-label text-slate-500">Version</div>
+                    <div class="glass-card rounded-2xl p-6 text-center">
+                        <div class="font-display text-3xl font-bold text-white mb-1">v3</div>
+                        <div class="label text-slate-500">Version</div>
                     </div>
                 </div>
             </section>
 
-            <!-- CTA -->
+            <!-- ── CTA ── -->
             <section class="mb-12">
-                <div
-                    class="panel rounded-2xl p-8 sm:p-12 relative overflow-hidden"
-                >
-                    <div
-                        class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/10 to-violet-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"
-                    ></div>
-                    <div
-                        class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
-                    >
+                <div class="glass-card rounded-3xl p-8 sm:p-14 relative overflow-hidden">
+                    <div class="absolute inset-0 pointer-events-none">
+                        <div class="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-blue-500/12 to-orange-500/08 rounded-full blur-3xl -translate-y-1/3 translate-x-1/3"></div>
+                        <div class="absolute bottom-0 left-0 w-60 h-60 bg-gradient-to-tr from-blue-500/08 to-transparent rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
+                    </div>
+                    <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
                         <div>
-                            <h2
-                                class="text-2xl sm:text-3xl font-black text-white mb-2"
-                            >
-                                Ready to integrate?
-                            </h2>
-                            <p class="text-slate-400 text-sm max-w-md">
-                                Get your API credentials and start building in
-                                minutes. Our team is available for integration
-                                support.
-                            </p>
+                            <div class="flex items-center gap-2 mb-3">
+                                <img src="/assets/logo.png" alt="DevAfeez" class="w-8 h-8 rounded-lg" />
+                                <span class="label tag-blue px-2.5 py-1 rounded-full">DevAfeez API</span>
+                            </div>
+                            <h2 class="font-display text-2xl sm:text-3xl font-bold text-white mb-2">Ready to start building?</h2>
+                            <p class="text-slate-400 text-sm max-w-md">Get your API credentials and start integrating in minutes. Support is available via WhatsApp.</p>
                         </div>
-                        <div class="flex flex-wrap gap-3">
-                            <a
-                                href="/docs"
-                                class="btn-primary px-6 py-3 rounded-lg font-semibold text-sm text-white inline-flex items-center gap-2"
-                            >
+                        <div class="flex flex-wrap gap-3 shrink-0">
+                            <a href="/docs" class="btn-blue px-6 py-3 rounded-xl font-semibold text-sm text-white inline-flex items-center gap-2">
                                 <span>View Docs</span>
                                 <i class="fas fa-arrow-right text-xs"></i>
                             </a>
-                            <a
-                                href="/request-key"
-                                class="btn-ghost px-6 py-3 rounded-lg font-semibold text-sm text-slate-300 hover:text-white inline-flex items-center gap-2"
-                            >
-                                <i class="fas fa-key text-violet-400"></i>
+                            <a href="/request-key" class="btn-orange px-6 py-3 rounded-xl font-semibold text-sm text-white inline-flex items-center gap-2">
+                                <i class="fas fa-key text-xs"></i>
                                 <span>Request Key</span>
                             </a>
-                            <a
-                                href="/try"
-                                class="btn-ghost px-5 py-3 rounded-lg font-semibold text-sm text-slate-300 hover:text-cyan-400 inline-flex items-center gap-2"
-                            >
-                                <i class="fas fa-flask text-cyan-400"></i>
+                            <a href="/try" class="btn-ghost px-5 py-3 rounded-xl font-semibold text-sm text-slate-300 hover:text-blue-400 inline-flex items-center gap-2">
+                                <i class="fas fa-flask text-blue-400 text-xs"></i>
                                 <span>Try Free</span>
                             </a>
                         </div>
@@ -1063,109 +569,70 @@ stream = live["results"]["results"][0]["streams"][0]["url"]  <span class="text-s
             </section>
         </main>
 
-        <!-- Footer -->
-        <footer class="border-t border-edge bg-surface/50">
+        <!-- ── Footer ── -->
+        <footer class="border-t border-border bg-surface/40">
             <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-                <div
-                    class="flex flex-col md:flex-row justify-between items-center gap-6"
-                >
-                    <div class="flex items-center gap-3">
-                        <div
-                            class="w-7 h-7 rounded-md bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center"
-                        >
-                            <i class="fas fa-play text-white text-[10px]"></i>
-                        </div>
-                        <span
-                            class="font-bold text-sm text-white tracking-tight"
-                            >RUNFLIX
-                            <span class="text-slate-500 font-normal"
-                                >Movies API</span
-                            ></span
-                        >
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div class="flex items-center gap-2.5">
+                        <img src="/assets/logo.png" alt="DevAfeez" class="w-7 h-7 rounded-md object-cover" />
+                        <span class="font-display font-bold text-sm text-white">DevAfeez <span class="text-slate-500 font-normal">Movie API</span></span>
                     </div>
 
-                    <div
-                        class="flex items-center gap-6 text-xs font-semibold text-slate-500 uppercase tracking-wider"
-                    >
-                        <a href="/" class="hover:text-white transition-colors"
-                            >Home</a
-                        >
-                        <a
-                            href="/docs"
-                            class="hover:text-white transition-colors"
-                            >Docs</a
-                        >
-                        <a
-                            href="https://api.runflix.name.ng"
-                            target="_blank"
-                            class="hover:text-white transition-colors"
-                            >More APIs</a
-                        >
+                    <div class="flex items-center gap-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                        <a href="/" class="hover:text-white transition-colors">Home</a>
+                        <a href="/docs" class="hover:text-white transition-colors">Docs</a>
+                        <a href="/changelog" class="hover:text-white transition-colors">Changelog</a>
+                        <a href="/try" class="hover:text-white transition-colors">Try</a>
                     </div>
 
-                    <div class="flex items-center gap-3">
-                        <a
-                            href="https://wa.me/+2348100785677"
-                            target="_blank"
-                            class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all"
-                        >
+                    <div class="flex items-center gap-2.5">
+                        <a href="https://wa.me/+2348100785677" target="_blank"
+                           class="w-8 h-8 rounded-xl bg-panel border border-border flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all">
                             <i class="fab fa-whatsapp text-sm"></i>
                         </a>
-                        <a
-                            href="https://api.runflix.name.ng"
-                            target="_blank"
-                            class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all"
-                        >
-                            <i class="fas fa-external-link-alt text-sm"></i>
+                        <a href="/docs" class="w-8 h-8 rounded-xl bg-panel border border-border flex items-center justify-center text-slate-400 hover:text-blue-400 hover:border-blue-500/30 transition-all">
+                            <i class="fas fa-book-open text-xs"></i>
                         </a>
                     </div>
                 </div>
-                <div class="mt-8 pt-6 border-t border-edge text-center">
-                    <p class="text-[11px] text-slate-600 font-mono">
-                        Crafted by DaraTech
-                    </p>
+                <div class="mt-8 pt-6 border-t border-border text-center">
+                    <p class="text-[11px] text-slate-600 font-mono">Built by DevAfeez</p>
                 </div>
             </div>
         </footer>
 
         <script>
-            // Mobile panel toggle
+            // Mobile menu
             const menuBtn = document.getElementById("menuBtn");
             const mobilePanel = document.getElementById("mobilePanel");
             const menuIcon = document.getElementById("menuIcon");
-            let panelOpen = false;
-
+            let open = false;
             menuBtn.addEventListener("click", () => {
-                panelOpen = !panelOpen;
-                mobilePanel.classList.toggle("open", panelOpen);
-                menuIcon.className = panelOpen
-                    ? "fas fa-times text-lg"
-                    : "fas fa-bars text-lg";
+                open = !open;
+                mobilePanel.classList.toggle("open", open);
+                menuIcon.className = open ? "fas fa-times text-lg" : "fas fa-bars text-lg";
             });
 
-            // Mobile dropdown toggle
-            function toggleMobileDropdown(id) {
+            function toggleMDrop(id) {
                 const el = document.getElementById(id);
                 const icon = document.getElementById(id + "Icon");
                 el.classList.toggle("open");
-                if (icon) {
-                    icon.style.transform = el.classList.contains("open")
-                        ? "rotate(180deg)"
-                        : "rotate(0deg)";
-                }
+                if (icon) icon.style.transform = el.classList.contains("open") ? "rotate(180deg)" : "";
             }
 
-            // Quick Integration tab switcher
             function switchQI(lang) {
                 document.querySelectorAll('.qi-panel').forEach(p => p.classList.add('hidden'));
                 document.querySelectorAll('.qi-tab').forEach(t => {
-                    t.classList.remove('active', 'text-white', 'bg-white/[0.06]');
+                    t.classList.remove('text-white', 'bg-blue-500/15', 'border', 'border-blue-500/20');
                     t.classList.add('text-slate-400');
                 });
                 const panel = document.getElementById('qi-code-' + lang);
-                const tab   = document.getElementById('qi-' + lang);
+                const tab = document.getElementById('qi-' + lang);
                 if (panel) panel.classList.remove('hidden');
-                if (tab)   { tab.classList.add('text-white', 'bg-white/[0.06]'); tab.classList.remove('text-slate-400'); }
+                if (tab) {
+                    tab.classList.remove('text-slate-400');
+                    tab.classList.add('text-white', 'bg-blue-500/15', 'border', 'border-blue-500/20');
+                }
             }
         </script>
     </body>

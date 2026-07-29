@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RUNFLIX Movies API Docs | DaraTech</title>
-    <link rel="icon" type="image/x-icon" href="https://runflix.name.ng/favicon.png">
+    <title>DevAfeez Movie API Docs | DevAfeez</title>
+    <link rel="icon" type="image/x-icon" href="/assets/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -428,7 +428,7 @@
                     <i class="fas fa-play text-white text-xs"></i>
                 </div>
                 <div>
-                    <span class="font-bold text-sm tracking-tight text-white">RUNFLIX</span>
+                    <span class="font-bold text-sm tracking-tight text-white">DevAfeez</span>
                     <span class="text-slate-500 text-xs ml-1 font-mono">API</span>
                 </div>
             </a>
@@ -523,7 +523,7 @@
                 <a href="/request-key" class="nav-link">
                     <span>Request Key</span>
                 </a>
-                <a href="https://api.runflix.name.ng" target="_blank" class="nav-link">
+                <a href="https://api.devafeez.com" target="_blank" class="nav-link">
                     <span>More APIs</span>
                     <i class="fas fa-external-link-alt text-[10px] opacity-60"></i>
                 </a>
@@ -638,7 +638,7 @@
                 <i class="fas fa-key w-5 text-center text-xs"></i>
                 <span>Request API Key</span>
             </a>
-            <a href="https://api.runflix.name.ng" target="_blank" class="mobile-link">
+            <a href="https://api.devafeez.com" target="_blank" class="mobile-link">
                 <i class="fas fa-external-link-alt w-5 text-center text-xs"></i>
                 <span>More APIs</span>
             </a>
@@ -763,7 +763,7 @@
                         <span class="ml-2 text-xs text-slate-500 font-mono">Base URL</span>
                     </div>
                     <div class="p-4 flex items-center justify-between gap-4">
-                        <code class="font-mono text-sm text-slate-300 break-all">https://movieapi.runflix.name.ng/api/v3/</code>
+                        <code class="font-mono text-sm text-slate-300 break-all">https://movieapi.devafeez.com/api/v3/</code>
                         <button onclick="copyUrl()" id="copyBaseBtn" class="text-slate-500 hover:text-cyan-400 transition-colors shrink-0">
                             <i class="fas fa-copy"></i>
                         </button>
@@ -878,7 +878,7 @@
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/homepage" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/homepage" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -888,7 +888,7 @@
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/homepage",
+  "https://movieapi.devafeez.com/api/v3/homepage",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -945,7 +945,7 @@ console.log(data.results);</code></pre>
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/trending" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/trending" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -955,7 +955,7 @@ console.log(data.results);</code></pre>
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/trending",
+  "https://movieapi.devafeez.com/api/v3/trending",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1036,7 +1036,7 @@ console.log(data.results);</code></pre>
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/search/Black%20panther?page=1" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/search/Black%20panther?page=1" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1047,7 +1047,7 @@ console.log(data.results);</code></pre>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const query = encodeURIComponent("Black Panther");
 const response = await fetch(
-  `https://movieapi.runflix.name.ng/api/v3/search/${query}?page=1`,
+  `https://movieapi.devafeez.com/api/v3/search/${query}?page=1`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1144,15 +1144,15 @@ console.log(data.results);</code></pre>
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># Regional section filter (curated, most accurate)
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/filter?platform=bollywood&type=1" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/filter?platform=bollywood&type=1" \
      -H "Authorization: Bearer YourApiKey"
 
 # Streaming platform filter (keyword-based)
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/filter?platform=netflix" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/filter?platform=netflix" \
      -H "Authorization: Bearer YourApiKey"
 
 # Genre-only filter
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/filter?genre=action&type=2" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/filter?genre=action&type=2" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1162,7 +1162,7 @@ curl -X GET "https://movieapi.runflix.name.ng/api/v3/filter?genre=action&type=2"
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/filter?platform=bollywood&type=1",
+  "https://movieapi.devafeez.com/api/v3/filter?platform=bollywood&type=1",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1274,15 +1274,15 @@ console.log(data.results.items);</code></pre>
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># Today's anime airing schedule (Jikan/MAL)
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/schedule" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/schedule" \
      -H "Authorization: Bearer YourApiKey"
 
 # Weekly anime schedule starting from a specific date
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/schedule?period=weekly&date=2026-06-15" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/schedule?period=weekly&date=2026-06-15" \
      -H "Authorization: Bearer YourApiKey"
 
 # Monthly schedule filtered to action anime
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/schedule?period=monthly&genre=action" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/schedule?period=monthly&genre=action" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1292,7 +1292,7 @@ curl -X GET "https://movieapi.runflix.name.ng/api/v3/schedule?period=monthly&gen
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/schedule?period=weekly",
+  "https://movieapi.devafeez.com/api/v3/schedule?period=weekly",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1396,11 +1396,11 @@ for (const day of data.results.schedule) {
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># Top airing TV anime by MAL score
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/schedule/popular" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/schedule/popular" \
      -H "Authorization: Bearer YourApiKey"
 
 # Top airing action movies
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/schedule/popular?type=movie&genre=action&limit=10" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/schedule/popular?type=movie&genre=action&limit=10" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1410,7 +1410,7 @@ curl -X GET "https://movieapi.runflix.name.ng/api/v3/schedule/popular?type=movie
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/schedule/popular?limit=10",
+  "https://movieapi.devafeez.com/api/v3/schedule/popular?limit=10",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1539,19 +1539,19 @@ for (const anime of data.results.items) {
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># All anime and animation (series + movies)
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/anime" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/anime" \
      -H "Authorization: Bearer YourApiKey"
 
 # Anime series only with action genre filter
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/anime?type=2&genre=action" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/anime?type=2&genre=action" \
      -H "Authorization: Bearer YourApiKey"
 
 # Anime movies only
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/anime?type=1" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/anime?type=1" \
      -H "Authorization: Bearer YourApiKey"
 
 # Page 2, 30 results per page
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/anime?page=2&perPage=30" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/anime?page=2&perPage=30" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1561,7 +1561,7 @@ curl -X GET "https://movieapi.runflix.name.ng/api/v3/anime?page=2&perPage=30" \
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/anime?type=2&genre=action",
+  "https://movieapi.devafeez.com/api/v3/anime?type=2&genre=action",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1660,15 +1660,15 @@ for (const anime of data.results.items) {
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code># Full upcoming season lineup
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/seasons/upcoming" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/seasons/upcoming" \
      -H "Authorization: Bearer YourApiKey"
 
 # Upcoming TV series only
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/seasons/upcoming?type=tv" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/seasons/upcoming?type=tv" \
      -H "Authorization: Bearer YourApiKey"
 
 # Upcoming fantasy anime
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/seasons/upcoming?genre=fantasy" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/seasons/upcoming?genre=fantasy" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1678,7 +1678,7 @@ curl -X GET "https://movieapi.runflix.name.ng/api/v3/seasons/upcoming?genre=fant
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — fetch</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/seasons/upcoming?type=tv",
+  "https://movieapi.devafeez.com/api/v3/seasons/upcoming?type=tv",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1759,7 +1759,7 @@ for (const anime of data.results.items) {
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/info/5099284245269335848" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/info/5099284245269335848" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1770,7 +1770,7 @@ for (const anime of data.results.items) {
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const id = "5099284245269335848";
 const response = await fetch(
-  `https://movieapi.runflix.name.ng/api/v3/info/${id}`,
+  `https://movieapi.devafeez.com/api/v3/info/${id}`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1856,14 +1856,14 @@ console.log(data.results);</code></pre>
                                 <div class="code-window mb-3">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — Movie</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/sources/5099284245269335848" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/sources/5099284245269335848" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — TV Series Episode</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/sources/9028867555875774472?season=1&episode=1" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/sources/9028867555875774472?season=1&episode=1" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1873,7 +1873,7 @@ console.log(data.results);</code></pre>
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — Movie</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/sources/5099284245269335848",
+  "https://movieapi.devafeez.com/api/v3/sources/5099284245269335848",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1894,7 +1894,7 @@ for (const src of data.results) {
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">JavaScript — TV Series Episode</span></div>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>const response = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/sources/9028867555875774472?season=1&episode=1",
+  "https://movieapi.devafeez.com/api/v3/sources/9028867555875774472?season=1&episode=1",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -1983,7 +1983,7 @@ for (const src of data.results) {
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/captions/5099284245269335848/6511282988071157728?format=MP4" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/captions/5099284245269335848/6511282988071157728?format=MP4" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -1995,7 +1995,7 @@ for (const src of data.results) {
                                         <pre class="font-mono text-xs text-slate-300"><code>const subjectId = "5099284245269335848";
 const streamId  = "6511282988071157728";
 const response = await fetch(
-  `https://movieapi.runflix.name.ng/api/v3/captions/${subjectId}/${streamId}?format=MP4`,
+  `https://movieapi.devafeez.com/api/v3/captions/${subjectId}/${streamId}?format=MP4`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await response.json();
@@ -2013,7 +2013,7 @@ console.log(data.results.captions);</code></pre>
                                 <pre class="font-mono text-xs text-slate-300"><code>{
   "status": 200,
   "success": true,
-  "creator": "DaraTech",
+  "creator": "DevAfeez",
   "results": {
     "captions": [
       {
@@ -2156,28 +2156,28 @@ console.log(data.results.captions);</code></pre>
                                 <div class="code-window mb-3">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — Kids channels (page 1)</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/live?category=kids&limit=20" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/live?category=kids&limit=20" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
                                 <div class="code-window mb-3">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — Search Nickelodeon</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/live/search/nickelodeon" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/live/search/nickelodeon" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
                                 <div class="code-window mb-3">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — All categories</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/live/categories" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/live/categories" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
                                 <div class="code-window">
                                     <div class="code-window-header"><span class="text-[10px] text-slate-500 font-mono uppercase tracking-wider">cURL — Stream by channel ID</span></div>
                                     <div class="p-4 overflow-x-auto">
-                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.runflix.name.ng/api/v3/live/stream/Nickelodeon.de" \
+                                        <pre class="font-mono text-xs text-slate-300"><code>curl -X GET "https://movieapi.devafeez.com/api/v3/live/stream/Nickelodeon.de" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                                     </div>
                                 </div>
@@ -2188,7 +2188,7 @@ console.log(data.results.captions);</code></pre>
                                     <div class="p-4 overflow-x-auto">
                                         <pre class="font-mono text-xs text-slate-300"><code>// Search for Nickelodeon channels
 const res = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/live/search/nickelodeon",
+  "https://movieapi.devafeez.com/api/v3/live/search/nickelodeon",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await res.json();
@@ -2201,7 +2201,7 @@ for (const channel of data.results.results) {
 
 // Filter Nigerian channels
 const ng = await fetch(
-  "https://movieapi.runflix.name.ng/api/v3/live?country=NG&limit=50",
+  "https://movieapi.devafeez.com/api/v3/live?country=NG&limit=50",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const ngData = await ng.json();
@@ -2214,7 +2214,7 @@ console.log(ngData.results.total, "Nigerian channels");</code></pre>
                                         <pre class="font-mono text-xs text-slate-300"><code>// Fetch a single channel's HLS stream URLs by ID
 const channelId = "Nickelodeon.de";
 const res = await fetch(
-  `https://movieapi.runflix.name.ng/api/v3/live/stream/${encodeURIComponent(channelId)}`,
+  `https://movieapi.devafeez.com/api/v3/live/stream/${encodeURIComponent(channelId)}`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await res.json();
@@ -2237,7 +2237,7 @@ console.log(channel.name, channel.country);
                                 <pre class="font-mono text-xs text-slate-300"><code>{
   "status": 200,
   "success": true,
-  "creator": "DaraTech",
+  "creator": "DevAfeez",
   "results": {
     "total": 13,
     "page": 1,
@@ -2277,7 +2277,7 @@ console.log(channel.name, channel.country);
                                 <pre class="font-mono text-xs text-slate-300"><code>{
   "status": 200,
   "success": true,
-  "creator": "DaraTech",
+  "creator": "DevAfeez",
   "message": "Live channel stream",
   "results": {
     "id": "Nickelodeon.de",
@@ -2386,14 +2386,14 @@ console.log(channel.name, channel.country);
                             </div>
                             <div class="p-4 overflow-x-auto">
                                 <pre class="font-mono text-xs text-slate-300"><code># Step 1: Get sources for the original movie (audioTracks[] is included in response)
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/sources/5099284245269335848" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/sources/5099284245269335848" \
      -H "Authorization: Bearer YourApiKey"
 
 # Response includes audioTracks[]:
 # { "language": "French", "isOriginal": false, "subjectId": "5099284245269335849", ... }
 
 # Step 2: Get the French dub streams using that subjectId
-curl -X GET "https://movieapi.runflix.name.ng/api/v3/sources/5099284245269335849" \
+curl -X GET "https://movieapi.devafeez.com/api/v3/sources/5099284245269335849" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
                             </div>
                         </div>
@@ -2436,7 +2436,7 @@ curl -X GET "https://movieapi.runflix.name.ng/api/v3/sources/5099284245269335849
                             <pre class="font-mono text-[11px] text-slate-300 leading-relaxed"><code>// Search for movies
 async function searchMovies(query) {
   const response = await fetch(
-    `https://movieapi.runflix.name.ng/api/v3/search/${encodeURIComponent(query)}?page=1`,
+    `https://movieapi.devafeez.com/api/v3/search/${encodeURIComponent(query)}?page=1`,
     {
       headers: {
         'Authorization': 'Bearer YourApiKey'
@@ -2450,7 +2450,7 @@ async function searchMovies(query) {
 // Get movie info
 async function getMovieInfo(movieId) {
   const response = await fetch(
-    `https://movieapi.runflix.name.ng/api/v3/info/${movieId}`,
+    `https://movieapi.devafeez.com/api/v3/info/${movieId}`,
     {
       headers: {
         'Authorization': 'Bearer YourApiKey'
@@ -2463,7 +2463,7 @@ async function getMovieInfo(movieId) {
 
 // Get download sources
 async function getDownloadSources(movieId, season, episode) {
-  let url = `https://movieapi.runflix.name.ng/api/v3/sources/${movieId}`;
+  let url = `https://movieapi.devafeez.com/api/v3/sources/${movieId}`;
   if (season) {
     url += `?season=${season}`;
     if (episode) url += `&episode=${episode}`;
@@ -2481,7 +2481,7 @@ async function getLiveChannels({ category, country, q, page = 1 } = {}) {
   if (country)  params.set('country',  country);
   if (q)        params.set('q',        q);
   const response = await fetch(
-    `https://movieapi.runflix.name.ng/api/v3/live?${params}`,
+    `https://movieapi.devafeez.com/api/v3/live?${params}`,
     { headers: { 'Authorization': 'Bearer YourApiKey' } }
   );
   const data = await response.json();
@@ -2493,7 +2493,7 @@ async function getLiveChannels({ category, country, q, page = 1 } = {}) {
 // Search live channels by name
 async function searchLive(query) {
   const response = await fetch(
-    `https://movieapi.runflix.name.ng/api/v3/live/search/${encodeURIComponent(query)}`,
+    `https://movieapi.devafeez.com/api/v3/live/search/${encodeURIComponent(query)}`,
     { headers: { 'Authorization': 'Bearer YourApiKey' } }
   );
   return await response.json();
@@ -2511,7 +2511,7 @@ async function searchLive(query) {
 import json
 
 API_KEY = "YourApiKey"
-BASE_URL = "https://movieapi.runflix.name.ng/api/v3"
+BASE_URL = "https://movieapi.devafeez.com/api/v3"
 HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 # Search for movies
@@ -2594,7 +2594,7 @@ print(json.dumps(sources, indent=2))</code></pre>
                                 <i class="fas fa-arrow-right text-xs text-slate-600 group-hover:text-emerald-400 ml-auto"></i>
                             </a>
 
-                            <a href="https://api.runflix.name.ng" target="_blank" class="flex items-center gap-3 p-3 rounded-lg border border-edge hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all group">
+                            <a href="https://api.devafeez.com" target="_blank" class="flex items-center gap-3 p-3 rounded-lg border border-edge hover:border-cyan-500/30 hover:bg-cyan-500/5 transition-all group">
                                 <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 group-hover:text-cyan-300">
                                     <i class="fas fa-globe text-sm"></i>
                                 </div>
@@ -2732,26 +2732,26 @@ print(json.dumps(sources, indent=2))</code></pre>
                         <div class="w-7 h-7 rounded-md bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center">
                             <i class="fas fa-play text-white text-[8px]"></i>
                         </div>
-                        <span class="font-bold text-sm text-white">RUNFLIX <span class="text-slate-500 font-normal">Movies API</span></span>
+                        <span class="font-bold text-sm text-white">DevAfeez <span class="text-slate-500 font-normal">Movies API</span></span>
                     </div>
 
                     <div class="flex items-center gap-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                         <a href="/" class="hover:text-white transition-colors">Home</a>
                         <a href="/docs" class="hover:text-white transition-colors">Documentation</a>
-                        <a href="https://api.runflix.name.ng" target="_blank" class="hover:text-white transition-colors">More APIs</a>
+                        <a href="https://api.devafeez.com" target="_blank" class="hover:text-white transition-colors">More APIs</a>
                     </div>
 
                     <div class="flex items-center gap-3">
                         <a href="https://wa.me/+2348100785677" target="_blank" class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all">
                             <i class="fab fa-whatsapp text-sm"></i>
                         </a>
-                        <a href="https://api.runflix.name.ng" target="_blank" class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all">
+                        <a href="https://api.devafeez.com" target="_blank" class="w-8 h-8 rounded-lg bg-panel border border-edge flex items-center justify-center text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 transition-all">
                             <i class="fas fa-external-link-alt text-sm"></i>
                         </a>
                     </div>
                 </div>
                 <div class="mt-6 text-center">
-                    <p class="text-[11px] text-slate-600 font-mono">Crafted by DaraTech</p>
+                    <p class="text-[11px] text-slate-600 font-mono">Crafted by DevAfeez</p>
                 </div>
             </footer>
         </div>
@@ -2848,7 +2848,7 @@ print(json.dumps(sources, indent=2))</code></pre>
 
         // Copy base URL
         function copyUrl() {
-            navigator.clipboard.writeText('https://movieapi.runflix.name.ng/api/v3/');
+            navigator.clipboard.writeText('https://movieapi.devafeez.com/api/v3/');
             const btn = document.getElementById('copyBaseBtn');
             btn.innerHTML = '<i class="fas fa-check text-emerald-400"></i>';
             setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i>', 2000);
