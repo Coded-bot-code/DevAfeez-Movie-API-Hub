@@ -256,7 +256,6 @@
                         </div>
                     </div>
 
-                    <a href="/changelog" class="nav-pill">Changelog</a>
                     <a href="/try" class="nav-pill">
                         Try API
                         <span class="text-[9px] px-1.5 py-0.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 font-bold uppercase tracking-wider">Free</span>
@@ -265,7 +264,7 @@
                 </nav>
 
                 <div class="flex items-center gap-2.5">
-                    <a href="https://wa.me/+2348100785677" target="_blank"
+                    <a href="https://wa.me/+2348029214393" target="_blank"
                        class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border hover:border-emerald-500/30 text-slate-500 hover:text-emerald-400 transition-all text-xs font-medium">
                         <i class="fab fa-whatsapp"></i>
                         <span>Support</span>
@@ -297,10 +296,9 @@
                     <a href="/docs#examples" class="m-link"><i class="fas fa-code w-5 text-center text-[10px]"></i>Code Examples</a>
                 </div>
 
-                <a href="/changelog" class="m-link"><i class="fas fa-scroll w-5 text-center text-[10px] text-orange-400"></i>Changelog</a>
                 <a href="/try" class="m-link text-blue-400"><i class="fas fa-flask w-5 text-center text-[10px]"></i>Try API <span style="font-size:9px;background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);color:#60a5fa;padding:1px 5px;border-radius:10px;font-weight:700;text-transform:uppercase;margin-left:4px;">Free</span></a>
                 <a href="/request-key" class="m-link"><i class="fas fa-key w-5 text-center text-[10px]"></i>Request API Key</a>
-                <a href="https://wa.me/+2348100785677" target="_blank" class="m-link text-emerald-400"><i class="fab fa-whatsapp w-5 text-center text-[10px]"></i>WhatsApp Support</a>
+                <a href="https://wa.me/+2348029214393" target="_blank" class="m-link text-emerald-400"><i class="fab fa-whatsapp w-5 text-center text-[10px]"></i>WhatsApp Support</a>
             </div>
         </header>
 
@@ -313,7 +311,7 @@
                 </div>
 
                 <div class="flex items-center justify-center gap-3 mb-5">
-                    <span class="label tag-blue px-3 py-1.5 rounded-full">v3.0.0</span>
+                    <span class="label tag-blue px-3 py-1.5 rounded-full">v1.0.0</span>
                     <span class="label text-slate-500">Latest Release</span>
                 </div>
 
@@ -397,7 +395,7 @@
                     <div class="p-6 overflow-x-auto">
                         <pre id="qi-code-js" class="qi-panel font-mono text-xs text-slate-300 leading-relaxed"><code><span class="text-slate-500">// Search for a movie</span>
 const res = await fetch(
-  "https://api.devafeez.com/api/v3/search/avengers",
+  "https://movieapi.devafeez.name.ng/api/v3/search/avengers",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const data = await res.json();
@@ -405,7 +403,7 @@ const data = await res.json();
 
 <span class="text-slate-500">// Get streaming sources for a title</span>
 const sources = await fetch(
-  `https://api.devafeez.com/api/v3/sources/${data.results.items[0].subjectId}`,
+  `https://movieapi.devafeez.name.ng/api/v3/sources/${data.results.items[0].subjectId}`,
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const { results } = await sources.json();
@@ -414,31 +412,31 @@ const { results } = await sources.json();
 
 <span class="text-slate-500">// Live TV — get kids channels</span>
 const live = await fetch(
-  "https://api.devafeez.com/api/v3/live?category=kids",
+  "https://movieapi.devafeez.name.ng/api/v3/live?category=kids",
   { headers: { Authorization: "Bearer YourApiKey" } }
 );
 const channels = await live.json();</code></pre>
 
                         <pre id="qi-code-curl" class="qi-panel hidden font-mono text-xs text-slate-300 leading-relaxed"><code><span class="text-slate-500"># Search for a movie</span>
-curl -X GET "https://api.devafeez.com/api/v3/search/avengers" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v3/search/avengers" \
      -H "Authorization: Bearer YourApiKey"
 
 <span class="text-slate-500"># Get streaming sources</span>
-curl -X GET "https://api.devafeez.com/api/v3/sources/{id}" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v3/sources/{id}" \
      -H "Authorization: Bearer YourApiKey"
 
 <span class="text-slate-500"># Trending titles</span>
-curl -X GET "https://api.devafeez.com/api/v3/trending" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v3/trending" \
      -H "Authorization: Bearer YourApiKey"
 
 <span class="text-slate-500"># Live TV search</span>
-curl -X GET "https://api.devafeez.com/api/v3/live/search/nickelodeon" \
+curl -X GET "https://movieapi.devafeez.name.ng/api/v3/live/search/nickelodeon" \
      -H "Authorization: Bearer YourApiKey"</code></pre>
 
                         <pre id="qi-code-python" class="qi-panel hidden font-mono text-xs text-slate-300 leading-relaxed"><code>import requests
 
 API_KEY = "YourApiKey"
-BASE    = "https://api.devafeez.com/api/v3"
+BASE    = "https://movieapi.devafeez.name.ng/api/v3"
 HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 <span class="text-slate-500"># Search for a movie</span>
@@ -528,7 +526,7 @@ live = requests.get(f"{BASE}/live", headers=HEADERS, params={"category":"kids"})
                         <div class="label text-slate-500">Endpoints</div>
                     </div>
                     <div class="glass-card rounded-2xl p-6 text-center">
-                        <div class="font-display text-3xl font-bold text-white mb-1">v3</div>
+                        <div class="font-display text-3xl font-bold text-white mb-1">v1</div>
                         <div class="label text-slate-500">Version</div>
                     </div>
                 </div>
@@ -581,12 +579,11 @@ live = requests.get(f"{BASE}/live", headers=HEADERS, params={"category":"kids"})
                     <div class="flex items-center gap-6 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                         <a href="/" class="hover:text-white transition-colors">Home</a>
                         <a href="/docs" class="hover:text-white transition-colors">Docs</a>
-                        <a href="/changelog" class="hover:text-white transition-colors">Changelog</a>
                         <a href="/try" class="hover:text-white transition-colors">Try</a>
                     </div>
 
                     <div class="flex items-center gap-2.5">
-                        <a href="https://wa.me/+2348100785677" target="_blank"
+                        <a href="https://wa.me/+2348029214393" target="_blank"
                            class="w-8 h-8 rounded-xl bg-panel border border-border flex items-center justify-center text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all">
                             <i class="fab fa-whatsapp text-sm"></i>
                         </a>

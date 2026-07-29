@@ -731,7 +731,7 @@ function makeClId() {
 }
 
 // ─── Admin auth (local dev) ────────────────────────────────────────────────────
-const LOCAL_ADMIN_SECRET = process.env.ADMIN_SECRET || "dev-admin";
+const LOCAL_ADMIN_SECRET = process.env.ADMIN_SECRET || "DEVAFEEZ_MOVIEAPI";
 function checkLocalAdmin(req) {
     const auth = req.headers["authorization"] || "";
     return auth === `Bearer ${LOCAL_ADMIN_SECRET}`;
